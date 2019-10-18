@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class ItemWithImageTitleSub extends StatelessWidget {
 
-  String _title;
-  String _subTitle;
+  final String _title;
+  final String _subTitle;
 
   ItemWithImageTitleSub(this._title, this._subTitle);
 
@@ -18,7 +18,9 @@ class ItemWithImageTitleSub extends StatelessWidget {
           CircleAvatar(
             backgroundColor: Colors.grey,
           ),
-          Column(
+          Container(
+            padding: EdgeInsets.only(left: 16),
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Text(
@@ -26,14 +28,14 @@ class ItemWithImageTitleSub extends StatelessWidget {
                   style: TextStyle(fontSize: 16),
                 ),
                 Opacity(
-                  opacity: 0.54,
-                  child: Text(
-                    _subTitle,
-                    style: TextStyle(fontSize: 14)
+                    opacity: 0.54,
+                    child: Text(
+                        _subTitle,
+                        style: TextStyle(fontSize: 14)
                     )),
               ])
-        ],
-      ),
+          )],
+          ),
     );
   }
 
