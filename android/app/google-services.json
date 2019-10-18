@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "167581814446",
+    "firebase_url": "https://conte-conto.firebaseio.com",
+    "project_id": "conte-conto",
+    "storage_bucket": "conte-conto.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:167581814446:android:4870a8634c6f6f9d6ae73f",
+        "android_client_info": {
+          "package_name": "dev.raulsvilar.conteconto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "167581814446-j8s62e71o6srpp6htequkv34eu2bae03.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBV5r1Kj_mvvYFUM8_mTMwqKhbAQqKEMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "167581814446-j8s62e71o6srpp6htequkv34eu2bae03.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
