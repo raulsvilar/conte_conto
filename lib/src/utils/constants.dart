@@ -45,6 +45,7 @@ const DESCRIPTION_SUN = "DOM";
 /// ###################################################
 const DESCRIPTION_CLASSES_PAGE = 'ClassesPage';
 const DESCRIPTION_LOGIN_PAGE = 'LoginPage';
+const DESCRIPTION_REGISTER_PAGE = 'RegisterPage';
 
 /// ###################################################
 /// ASSETS

@@ -12,6 +12,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => TurmasPage());
       case DESCRIPTION_LOGIN_PAGE:
         return MaterialPageRoute(builder: (_) => LoginPage());
+      case DESCRIPTION_REGISTER_PAGE:
+        return MaterialPageRoute(builder: (_) => RegisterPage());
       default:
         return MaterialPageRoute(builder: (_) => TurmasPage());
     }

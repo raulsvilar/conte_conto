@@ -4,16 +4,16 @@ import 'package:flutter/services.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
 
 import 'package:conte_conto/src/utils/constants.dart';
-import 'package:conte_conto/src/blocs/login_bloc.dart';
+import 'package:conte_conto/src/blocs/register_bloc.dart';
 import 'package:conte_conto/src/utils/app_themes.dart';
 
-class LoginPage extends StatelessWidget {
+class RegisterPage extends StatelessWidget {
   final primaryColor5 = AppThemes.primaryColor[500];
   final primaryColor2 = AppThemes.primaryColor[200];
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.getBloc<LoginBloc>();
+    final bloc = BlocProvider.getBloc<RegisterBloc>();
     final _screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -34,13 +34,17 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Card buildCard(LoginBloc bloc, BuildContext context) {
+  Card buildCard(RegisterBloc bloc, BuildContext context) {
     return Card(
       child: Container(
         margin: EdgeInsets.all(15),
         child: Column(
           children: <Widget>[
-            emailField(bloc),
+            nameField(bloc),
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              child: emailField(bloc),
+            ),
             Container(
               margin: EdgeInsets.only(top: 10, bottom: 20),
               child: passwordField(bloc),
@@ -48,7 +52,7 @@ class LoginPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                registerButton(context),
+                loginButton(context),
                 submitButton(bloc, context),
               ],
             ),
@@ -69,7 +73,24 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget emailField(LoginBloc bloc) {
+  Widget nameField(RegisterBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.name,
+      builder: (context, snapshot) {
+        return TextField(
+          cursorColor: primaryColor2,
+          onChanged: bloc.changeName,
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(
+            labelText: DESCRIPTION_NAME,
+            errorText: snapshot.error,
+          ),
+        );
+      },
+    );
+  }
+
+  Widget emailField(RegisterBloc bloc) {
     return StreamBuilder(
       stream: bloc.email,
       builder: (context, snapshot) {
@@ -86,7 +107,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget passwordField(LoginBloc bloc) {
+  Widget passwordField(RegisterBloc bloc) {
     return StreamBuilder<String>(
       stream: bloc.password,
       builder: (context, snapshot) {
@@ -117,7 +138,7 @@ class LoginPage extends StatelessWidget {
   }
 
   void submit(
-      AsyncSnapshot snapshot, BuildContext context, LoginBloc bloc) async {
+      AsyncSnapshot snapshot, BuildContext context, RegisterBloc bloc) async {
     /* if (snapshot.hasData) {
       String result = await bloc.submit();
       if (result.contains("true")) {
@@ -127,19 +148,19 @@ class LoginPage extends StatelessWidget {
     Navigator.of(context).pushReplacementNamed(DESCRIPTION_CLASSES_PAGE);
   }
 
-  Widget registerButton(BuildContext context) {
+  Widget loginButton(BuildContext context) {
     return FlatButton(
       child: Text(
-        DESCRIPTION_REGISTER.toUpperCase(),
+        DESCRIPTION_ENTER.toUpperCase(),
       ),
       textColor: primaryColor5,
       onPressed: () {
-        Navigator.of(context).pushReplacementNamed(DESCRIPTION_REGISTER_PAGE);
+        Navigator.of(context).pushReplacementNamed(DESCRIPTION_LOGIN_PAGE);
       },
     );
   }
 
-  Widget submitButton(LoginBloc bloc, BuildContext context) {
+  Widget submitButton(RegisterBloc bloc, BuildContext context) {
     return StreamBuilder<Object>(
       stream: bloc.outLoading,
       builder: (_, snapshot) {
@@ -156,7 +177,7 @@ class LoginPage extends StatelessWidget {
             builder: (_, snapshot) {
               return RaisedButton(
                 child: Text(
-                  DESCRIPTION_ENTER.toUpperCase(),
+                  DESCRIPTION_REGISTER.toUpperCase(),
                 ),
                 textColor: Colors.white,
                 color: primaryColor5,
