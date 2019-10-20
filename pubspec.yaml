@@ -19,6 +19,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  rxdart: ^0.22.2
+  bloc_pattern: ^2.2.2+3
+  shared_preferences: ^0.5.3+4
   firebase_core: ^0.4.0+9  # add dependency for Firebase Core
   cloud_firestore: ^0.12.9+5
 
@@ -43,9 +46,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
-  #  - images/a_dot_ham.jpeg
+  assets:
+    - assets/images/app_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

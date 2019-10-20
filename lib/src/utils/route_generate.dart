@@ -1,0 +1,32 @@
+import 'package:flutter/material.dart';
+
+import 'routes.dart';
+import 'constants.dart';
+
+class RouteGenerator {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    //final args = settings.arguments;
+
+    switch (settings.name) {
+      case DESCRIPTION_CLASSES_PAGE:
+        return MaterialPageRoute(builder: (_) => TurmasPage());
+      case DESCRIPTION_LOGIN_PAGE:
+        return MaterialPageRoute(builder: (_) => LoginPage());
+      default:
+        return MaterialPageRoute(builder: (_) => TurmasPage());
+    }
+  }
+
+  static Route<dynamic> _errorRoute(String error) {
+    return MaterialPageRoute(builder: (_) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(DESCRIPTION_DIALOG_ERROR),
+        ),
+        body: Center(
+          child: Text(error),
+        ),
+      );
+    });
+  }
+}

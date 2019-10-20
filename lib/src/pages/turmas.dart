@@ -3,13 +3,13 @@ import 'package:conte_conto/src/models/turma.dart';
 import 'package:conte_conto/src/pages/base/items.dart';
 import 'package:flutter/material.dart';
 
-class Turmas extends StatefulWidget {
+class TurmasPage extends StatefulWidget {
   @override
-  _TurmasState createState() => _TurmasState();
+  _TurmasPageState createState() => _TurmasPageState();
 
 }
 
-class _TurmasState extends State<Turmas> {
+class _TurmasPageState extends State<TurmasPage> {
   final int count = 0;
   List<String> listaEscola = ['Escola A', 'Escola B', 'Escola C'];
   List<String> lista  = ['Turma 1', 'Turma 2',
