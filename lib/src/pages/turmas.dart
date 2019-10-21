@@ -1,4 +1,6 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:conte_conto/src/blocs/turmas_bloc.dart';
 import 'package:conte_conto/src/models/turma.dart';
 import 'package:conte_conto/src/pages/base/items.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +14,7 @@ class TurmasPage extends StatefulWidget {
 
 class _TurmasPageState extends State<TurmasPage> {
 
-  final db = Firestore.instance;
+  final _bloc = BlocProvider.getBloc<TurmasBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +33,9 @@ class _TurmasPageState extends State<TurmasPage> {
 
   Widget _buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('turmas').snapshots(),
+      stream: _bloc.turmasList(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
-
         return _buildList(context, snapshot.data.documents);
       },
     );
@@ -55,13 +56,9 @@ class _TurmasPageState extends State<TurmasPage> {
 
   _showDialogNovaTurma(BuildContext ctx) {
 
-    final nameController = TextEditingController();
-    final schoolController = TextEditingController();
-
     var _saveBtn = FlatButton(
       child: Text(DIALOG_SAVE),
       onPressed: () {
-        _addTurma(nameController.text, schoolController.text);
         Navigator.pop(ctx);
       },
     );
@@ -78,18 +75,8 @@ class _TurmasPageState extends State<TurmasPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                TextField(
-                  controller: nameController,
-                  decoration: InputDecoration (
-                    hintText: DESCRIPTION_CLASS_NAME,
-                  ),
-                ),
-                TextField(
-                  controller: schoolController,
-                  decoration: InputDecoration(
-                    hintText: DESCRIPTION_SCHOOL_NAME,
-                  ),
-                )
+                _turmaField(_bloc),
+                _schoolField(_bloc)
               ],
             ),
           ),
@@ -102,7 +89,29 @@ class _TurmasPageState extends State<TurmasPage> {
     );
   }
 
-  void _addTurma(name, school) async{
-    await db.collection('turmas').add({'name': name, 'school': school});
+  Widget _turmaField(TurmasBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.turmaName,
+      builder: (context, snapshot){
+        return TextField(
+          decoration: InputDecoration (
+            hintText: DESCRIPTION_CLASS_NAME,
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _schoolField(TurmasBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.schoolName,
+      builder: (context, snapshot) {
+        return TextField(
+          decoration: InputDecoration(
+            hintText: DESCRIPTION_SCHOOL_NAME,
+          ),
+        );
+      },
+    );
   }
 }

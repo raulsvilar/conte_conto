@@ -1,5 +1,6 @@
 import 'package:conte_conto/src/blocs/login_bloc.dart';
 import 'package:conte_conto/src/blocs/register_bloc.dart';
+import 'package:conte_conto/src/blocs/turmas_bloc.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
       blocs: [
         Bloc((i) => LoginBloc()),
         Bloc((i) => RegisterBloc()),
+        Bloc((i) => TurmasBloc()),
       ],
     );
   }
