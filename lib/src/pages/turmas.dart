@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conte_conto/src/models/turma.dart';
 import 'package:conte_conto/src/pages/base/items.dart';
 import 'package:flutter/material.dart';
+import 'package:conte_conto/src/utils/constants.dart';
 
 class TurmasPage extends StatefulWidget {
   @override
@@ -10,10 +11,8 @@ class TurmasPage extends StatefulWidget {
 }
 
 class _TurmasPageState extends State<TurmasPage> {
-  final int count = 0;
-  List<String> listaEscola = ['Escola A', 'Escola B', 'Escola C'];
-  List<String> lista  = ['Turma 1', 'Turma 2',
-    'Turma 3'];
+
+  final db = Firestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,7 @@ class _TurmasPageState extends State<TurmasPage> {
       ),
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton(
-        onPressed: null,//_incrementCounter,
+        onPressed: () => _showDialogNovaTurma(context),
         tooltip: 'Adicionar',
         child: Icon(Icons.add)
       ),
@@ -52,5 +51,58 @@ class _TurmasPageState extends State<TurmasPage> {
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Turma.fromSnapshot(data);
     return ItemWithImageTitleSub(record.name, record.school);
+  }
+
+  _showDialogNovaTurma(BuildContext ctx) {
+
+    final nameController = TextEditingController();
+    final schoolController = TextEditingController();
+
+    var _saveBtn = FlatButton(
+      child: Text(DIALOG_SAVE),
+      onPressed: () {
+        _addTurma(nameController.text, schoolController.text);
+        Navigator.pop(ctx);
+      },
+    );
+    var _cancelBtn = FlatButton(
+      child: Text(DIALOG_CANCEL),
+      onPressed: () => Navigator.pop(ctx),
+    );
+    return showDialog(
+      context: ctx,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(DIALOG_NEW_CLASS),
+          content: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                TextField(
+                  controller: nameController,
+                  decoration: InputDecoration (
+                    hintText: DESCRIPTION_CLASS_NAME,
+                  ),
+                ),
+                TextField(
+                  controller: schoolController,
+                  decoration: InputDecoration(
+                    hintText: DESCRIPTION_SCHOOL_NAME,
+                  ),
+                )
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            _cancelBtn,
+            _saveBtn
+          ],
+          );
+      }
+    );
+  }
+
+  void _addTurma(name, school) async{
+    await db.collection('turmas').add({'name': name, 'school': school});
   }
 }
