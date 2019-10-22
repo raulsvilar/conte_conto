@@ -9,11 +9,9 @@ import 'package:conte_conto/src/utils/constants.dart';
 class TurmasPage extends StatefulWidget {
   @override
   _TurmasPageState createState() => _TurmasPageState();
-
 }
 
 class _TurmasPageState extends State<TurmasPage> {
-
   final _bloc = BlocProvider.getBloc<TurmasBloc>();
 
   @override
@@ -24,10 +22,9 @@ class _TurmasPageState extends State<TurmasPage> {
       ),
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showDialogNovaTurma(context),
-        tooltip: 'Adicionar',
-        child: Icon(Icons.add)
-      ),
+          onPressed: () => _showDialogNovaTurma(context),
+          tooltip: 'Adicionar',
+          child: Icon(Icons.add)),
     );
   }
 
@@ -43,10 +40,11 @@ class _TurmasPageState extends State<TurmasPage> {
 
   Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
     return ListView.builder(
-        itemCount: snapshot.length,
-        itemBuilder: (BuildContext context, int index) {
-          return _buildListItem(context, snapshot[index]);
-        });
+      itemCount: snapshot.length,
+      itemBuilder: (BuildContext context, int index) {
+        return _buildListItem(context, snapshot[index]);
+      },
+    );
   }
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
@@ -55,10 +53,10 @@ class _TurmasPageState extends State<TurmasPage> {
   }
 
   _showDialogNovaTurma(BuildContext ctx) {
-
     var _saveBtn = FlatButton(
       child: Text(DIALOG_SAVE),
       onPressed: () {
+        _bloc.addTurma();
         Navigator.pop(ctx);
       },
     );
@@ -71,31 +69,33 @@ class _TurmasPageState extends State<TurmasPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(DIALOG_NEW_CLASS),
-          content: Container(
+          content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 _turmaField(_bloc),
-                _schoolField(_bloc)
+                _schoolField(_bloc),
               ],
             ),
           ),
           actions: <Widget>[
             _cancelBtn,
-            _saveBtn
+            _saveBtn,
           ],
-          );
-      }
+        );
+      },
     );
   }
 
   Widget _turmaField(TurmasBloc bloc) {
     return StreamBuilder(
       stream: bloc.turmaName,
-      builder: (context, snapshot){
+      builder: (context, snapshot) {
         return TextField(
-          decoration: InputDecoration (
+          onChanged: bloc.changeTurma,
+          decoration: InputDecoration(
             hintText: DESCRIPTION_CLASS_NAME,
+            errorText: snapshot.error,
           ),
         );
       },
@@ -107,8 +107,10 @@ class _TurmasPageState extends State<TurmasPage> {
       stream: bloc.schoolName,
       builder: (context, snapshot) {
         return TextField(
+          onChanged: bloc.changeSchool,
           decoration: InputDecoration(
             hintText: DESCRIPTION_SCHOOL_NAME,
+            errorText: snapshot.error,
           ),
         );
       },
