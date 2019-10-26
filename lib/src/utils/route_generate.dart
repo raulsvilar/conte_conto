@@ -1,3 +1,4 @@
+import 'package:conte_conto/src/pages/correction_page.dart';
 import 'package:flutter/material.dart';
 
 import 'routes.dart';
@@ -14,6 +15,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => LoginPage());
       case DESCRIPTION_REGISTER_PAGE:
         return MaterialPageRoute(builder: (_) => RegisterPage());
+      case DESCRIPTION_CORRECTION_PAGE:
+        return MaterialPageRoute(builder: (_) => CorrectionPage());
       default:
         return MaterialPageRoute(builder: (_) => TurmasPage());
     }
