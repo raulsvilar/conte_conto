@@ -2,6 +2,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conte_conto/src/blocs/turmas_bloc.dart';
 import 'package:conte_conto/src/models/turma.dart';
+import 'package:conte_conto/src/pages/base/bottom_navigation.dart';
 import 'package:conte_conto/src/pages/base/items.dart';
 import 'package:flutter/material.dart';
 import 'package:conte_conto/src/utils/constants.dart';
@@ -25,6 +26,9 @@ class _TurmasPageState extends State<TurmasPage> {
           onPressed: () => _showDialogNovaTurma(context),
           tooltip: 'Adicionar',
           child: Icon(Icons.add)),
+      bottomNavigationBar: BottomNavigation(
+          [Items.library, Items.favorites, Items.messages],
+          (index) => {}),
     );
   }
 
