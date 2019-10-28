@@ -16,7 +16,7 @@ class BottomNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       items: _createItems(),
-      onTap: _onTapCallback,
+      onTap: _onTapCallback(),
       type: BottomNavigationBarType.fixed,
       currentIndex: _currentIndex,
     );

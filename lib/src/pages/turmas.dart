@@ -53,7 +53,7 @@ class _TurmasPageState extends State<TurmasPage> {
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Turma.fromSnapshot(data);
-    return ItemWithImageTitleSub(record.name, record.school);
+    return ItemWithImageTitleSub(record.name, record.school, _onTapTurma);
   }
 
   _showDialogNovaTurma(BuildContext ctx) {
@@ -106,6 +106,8 @@ class _TurmasPageState extends State<TurmasPage> {
     );
   }
 
+
+
   Widget _schoolField(TurmasBloc bloc) {
     return StreamBuilder(
       stream: bloc.schoolName,
@@ -119,5 +121,9 @@ class _TurmasPageState extends State<TurmasPage> {
         );
       },
     );
+  }
+
+  _onTapTurma() {
+    Navigator.of(context).pushNamed(DESCRIPTION_CONTOS_LIST_PAGE);
   }
 }

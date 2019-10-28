@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class ItemWithImageTitleSub extends StatelessWidget {
   final String _title;
   final String _subTitle;
+  final _onTapCallback;
 
-  ItemWithImageTitleSub(this._title, this._subTitle);
+  ItemWithImageTitleSub(this._title, this._subTitle, this._onTapCallback);
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +13,7 @@ class ItemWithImageTitleSub extends StatelessWidget {
       color: Colors.white,
       height: 72,
       child: ListTile(
+        onTap: _onTapCallback(),
         leading: CircleAvatar(
           backgroundColor: Colors.grey,
         ),

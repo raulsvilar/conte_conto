@@ -56,6 +56,7 @@ const DESCRIPTION_CLASSES_PAGE = 'ClassesPage';
 const DESCRIPTION_LOGIN_PAGE = 'LoginPage';
 const DESCRIPTION_REGISTER_PAGE = 'RegisterPage';
 const DESCRIPTION_CORRECTION_PAGE = 'CorrectionPage';
+const DESCRIPTION_CONTOS_LIST_PAGE = 'ContosList';
 
 /// ###################################################
 /// ASSETS

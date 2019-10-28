@@ -1,3 +1,4 @@
+import 'package:conte_conto/src/pages/contos_list.dart';
 import 'package:conte_conto/src/pages/correction_page.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => RegisterPage());
       case DESCRIPTION_CORRECTION_PAGE:
         return MaterialPageRoute(builder: (_) => CorrectionPage());
+      case DESCRIPTION_CONTOS_LIST_PAGE:
+        return MaterialPageRoute(builder: (_) => ContosList());
       default:
         return MaterialPageRoute(builder: (_) => TurmasPage());
     }
