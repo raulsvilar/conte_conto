@@ -1,10 +1,12 @@
+import 'package:conte_conto/src/preferences/usuario_preference.dart';
+import 'package:conte_conto/src/resources/authentication.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
 
 import 'package:conte_conto/src/utils/validator.dart';
 
 class LoginBloc extends BlocBase with Validator {
-
+  final authentication = Authentication();
   final _hidePasswordController = BehaviorSubject<bool>.seeded(true);
   final _controllerLoading = BehaviorSubject<bool>.seeded(false);
   final _emailController = BehaviorSubject<String>();
@@ -15,9 +17,9 @@ class LoginBloc extends BlocBase with Validator {
   Stream<String> get email => _emailController.stream.transform(validateEmail);
   Stream<String> get password =>
       _passwordController.stream.transform(validatePassword);
-  
+
   Stream<bool> get outLoading => _controllerLoading.stream;
-  
+
   Stream<bool> get submitValid =>
       Observable.combineLatest2(email, password, (e, p) => true);
 
@@ -28,7 +30,9 @@ class LoginBloc extends BlocBase with Validator {
   Future<String> login(String email, String password) async {
     _controllerLoading.add(true);
     try {
-      //await UsuarioPreference.setUsuario(user);
+      var user = await authentication.signIn(email, password);
+      print(user.uid);
+      await UsuarioPreference.setUsuario(user.toString());
     } catch (e) {
       _controllerLoading.add(false);
       return e.toString();
@@ -37,12 +41,11 @@ class LoginBloc extends BlocBase with Validator {
     return "true";
   }
 
-  submit() {
+  Future<String> submit() async {
     final validEmail = _emailController.value.trim();
     final validPassword = _passwordController.value.trim();
-    
-    //login(validEmail, validPassword);
-    return "true";
+
+    return await login(validEmail, validPassword);
   }
 
   @override

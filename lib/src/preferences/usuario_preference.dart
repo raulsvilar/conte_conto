@@ -3,21 +3,17 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:conte_conto/src/models/usuario.dart';
-
 abstract class UsuarioPreference {
   static final String _usuario = "usuario";
 
-  static Future<bool> setUsuario(Usuario usuario) async {
+  static Future<bool> setUsuario(String usuario) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.setString(_usuario, json.encode(usuario.toJson()));
+    return prefs.setString(_usuario, json.encode(usuario));
   }
 
-  static Future<Usuario> getUsuario() async {
+  static Future<String> getUsuario() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String jsonPref = prefs.getString(_usuario) ?? null;
-    if (jsonPref != null) return Usuario.fromJson(json.decode(jsonPref), null);
-    return null;
+    return prefs.getString(_usuario);
   }
 
   static Future<bool> isAuthenticated() async {

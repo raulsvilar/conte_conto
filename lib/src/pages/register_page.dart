@@ -139,13 +139,12 @@ class RegisterPage extends StatelessWidget {
 
   void submit(
       AsyncSnapshot snapshot, BuildContext context, RegisterBloc bloc) async {
-    /* if (snapshot.hasData) {
+    if (snapshot.hasData) {
       String result = await bloc.submit();
       if (result.contains("true")) {
         Navigator.of(context).pushReplacementNamed(DESCRIPTION_CLASSES_PAGE);
       }
-    } */
-    Navigator.of(context).pushReplacementNamed(DESCRIPTION_CLASSES_PAGE);
+    }
   }
 
   Widget loginButton(BuildContext context) {

@@ -1,3 +1,5 @@
+import 'package:conte_conto/src/preferences/usuario_preference.dart';
+import 'package:conte_conto/src/resources/authentication.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
@@ -5,6 +7,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:conte_conto/src/utils/validator.dart';
 
 class RegisterBloc extends BlocBase with Validator {
+  final authentication = Authentication();
   final _hidePasswordController = BehaviorSubject<bool>.seeded(true);
   final _controllerLoading = BehaviorSubject<bool>.seeded(false);
   final _emailController = BehaviorSubject<String>();
@@ -31,7 +34,9 @@ class RegisterBloc extends BlocBase with Validator {
   Future<String> register(String email, String name, String password) async {
     _controllerLoading.add(true);
     try {
-      //await UsuarioPreference.setUsuario(user);
+      var user = await authentication.signUp(email, password);
+      print(user.uid);
+      await UsuarioPreference.setUsuario(user.toString());
     } catch (e) {
       _controllerLoading.add(false);
       return e.toString();
@@ -40,13 +45,12 @@ class RegisterBloc extends BlocBase with Validator {
     return "true";
   }
 
-  submit() {
+  Future<String> submit() async {
     final validEmail = _emailController.value.trim();
     final validName = _nameController.value.trim();
     final validPassword = _passwordController.value.trim();
 
-    //register(validEmail, validName, validPassword);
-    return "true";
+    return await register(validEmail, validName, validPassword);
   }
 
   @override

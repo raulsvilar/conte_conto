@@ -25,6 +25,7 @@ dependencies:
   firebase_core: ^0.4.0+9  # add dependency for Firebase Core
   cloud_firestore: ^0.12.9+5
   zefyr: ^0.8.0
+  firebase_auth: ^0.14.0+5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
