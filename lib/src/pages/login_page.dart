@@ -126,6 +126,8 @@ class LoginPage extends StatelessWidget {
             DESCRIPTION_CORRECTION_PAGE /*DESCRIPTION_CLASSES_PAGE*/);
       }
     }
+    Navigator.of(context).pushReplacementNamed(
+        DESCRIPTION_CLASSES_PAGE);
   }
 
   Widget registerButton(BuildContext context) {

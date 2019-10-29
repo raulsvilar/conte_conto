@@ -13,7 +13,7 @@ class ItemWithImageTitleSub extends StatelessWidget {
       color: Colors.white,
       height: 72,
       child: ListTile(
-        onTap: _onTapCallback(),
+        onTap: () => _onTapCallback(),
         leading: CircleAvatar(
           backgroundColor: Colors.grey,
         ),
