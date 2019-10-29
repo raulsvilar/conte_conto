@@ -10,4 +10,9 @@ class FirestoreProvider {
   Stream<QuerySnapshot> turmasList() {
     return _firestore.collection('turmas').snapshots();
   }
+
+  Stream<QuerySnapshot> contosList(turma_id) {
+    return _firestore.collection('contos').where('turma', isEqualTo: turma_id).snapshots();
+  }
+
 }
