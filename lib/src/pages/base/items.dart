@@ -4,8 +4,9 @@ class ItemWithImageTitleSub extends StatelessWidget {
   final String _title;
   final String _subTitle;
   final _onTapCallback;
+  final callbackArg;
 
-  ItemWithImageTitleSub(this._title, this._subTitle, this._onTapCallback);
+  ItemWithImageTitleSub(this._title, this._subTitle, this._onTapCallback, {this.callbackArg});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class ItemWithImageTitleSub extends StatelessWidget {
       color: Colors.white,
       height: 72,
       child: ListTile(
-        onTap: () => _onTapCallback(),
+        onTap: () => _onTapCallback(callbackArg),
         leading: CircleAvatar(
           backgroundColor: Colors.grey,
         ),

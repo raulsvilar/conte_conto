@@ -6,7 +6,9 @@ class ContosListBloc extends BlocBase {
 
   final _firestore = FirestoreProvider();
 
-  Stream<QuerySnapshot> contosList(turma_id) {
-    return _firestore.contosList(turma_id);
+  Stream<QuerySnapshot> contosList(turmaId) {
+    print(turmaId);
+    return _firestore.contosList(turmaId);
   }
+
 }

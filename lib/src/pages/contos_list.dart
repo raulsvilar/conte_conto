@@ -9,11 +9,12 @@ import 'package:flutter/material.dart';
 class ContosList extends StatelessWidget {
 
   final _bloc = BlocProvider.getBloc<ContosListBloc>();
-  var _turmaId;
+  final String _turmaId;
+
+  ContosList(this._turmaId);
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         title: Text("Contos"),

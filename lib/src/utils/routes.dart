@@ -1,3 +1,3 @@
-export 'package:conte_conto/src/pages/turmas.dart';
+export 'package:conte_conto/src/pages/turmas_page.dart';
 export 'package:conte_conto/src/pages/login_page.dart';
 export 'package:conte_conto/src/pages/register_page.dart';

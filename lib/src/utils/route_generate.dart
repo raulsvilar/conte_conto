@@ -7,7 +7,7 @@ import 'constants.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    //final args = settings.arguments;
+    final args = settings.arguments;
 
     switch (settings.name) {
       case DESCRIPTION_CLASSES_PAGE:
@@ -19,7 +19,9 @@ class RouteGenerator {
       case DESCRIPTION_CORRECTION_PAGE:
         return MaterialPageRoute(builder: (_) => CorrectionPage());
       case DESCRIPTION_CONTOS_LIST_PAGE:
-        return MaterialPageRoute(builder: (_) => ContosList());
+        if (args is String) {
+          return MaterialPageRoute(builder: (_) => ContosList(args));
+        } return _errorRoute("Tipo inválido no argumento de ContosList");
       default:
         return MaterialPageRoute(builder: (_) => TurmasPage());
     }
