@@ -6,6 +6,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:conte_conto/src/blocs/login_bloc.dart';
 import 'package:conte_conto/src/utils/app_themes.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatelessWidget {
   final primaryColor5 = AppThemes.primaryColor[500];
@@ -61,7 +62,7 @@ class LoginPage extends StatelessWidget {
   Container buildLogo() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 30),
-      child: Image.asset(
+      child: SvgPicture.asset(
         DESCRIPTION_APP_LOGO,
         fit: BoxFit.fitHeight,
         height: 150,

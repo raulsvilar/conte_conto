@@ -1,5 +1,5 @@
 import 'package:conte_conto/src/preferences/usuario_preference.dart';
-import 'package:conte_conto/src/resources/authentication.dart';
+import 'package:conte_conto/src/resources/fireauth_provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:bloc_pattern/bloc_pattern.dart';

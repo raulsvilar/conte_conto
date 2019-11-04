@@ -20,7 +20,11 @@ class ContosList extends StatelessWidget {
         title: Text("Contos"),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: null,
+        onPressed: null,
+        child: Icon(
+          Icons.edit,
+          color: Colors.white,
+        ),
       ),
         bottomNavigationBar: BottomNavigation(
         [Items.library, Items.favorites, Items.messages],

@@ -62,4 +62,4 @@ const DESCRIPTION_CONTOS_LIST_PAGE = 'ContosList';
 /// ASSETS
 /// ###################################################
 
-const DESCRIPTION_APP_LOGO = 'assets/images/app_logo.png';
+const DESCRIPTION_APP_LOGO = 'assets/images/app_logo.svg';

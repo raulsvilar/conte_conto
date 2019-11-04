@@ -25,7 +25,11 @@ class _TurmasPageState extends State<TurmasPage> {
       floatingActionButton: FloatingActionButton(
           onPressed: () => _showDialogNovaTurma(context),
           tooltip: 'Adicionar',
-          child: Icon(Icons.add)),
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+          )
+      ),
       bottomNavigationBar: BottomNavigation(
           [Items.library, Items.favorites, Items.messages],
           (index) => {}),
