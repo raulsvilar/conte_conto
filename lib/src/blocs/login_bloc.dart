@@ -6,26 +6,29 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:conte_conto/src/utils/validator.dart';
 
 class LoginBloc extends BlocBase with Validator {
-  final authentication = Authentication();
-  final _hidePasswordController = BehaviorSubject<bool>.seeded(true);
-  final _controllerLoading = BehaviorSubject<bool>.seeded(false);
-  final _emailController = BehaviorSubject<String>();
-  final _passwordController = BehaviorSubject<String>();
 
+
+  final authentication = Authentication();
+
+  final _hidePasswordController = BehaviorSubject<bool>.seeded(true);
+  Function(bool) get changeHidePassword => _hidePasswordController.sink.add;
   Observable<bool> get hidePassword => _hidePasswordController.stream;
 
+  final _controllerLoading = BehaviorSubject<bool>.seeded(false);
+  Stream<bool> get outLoading => _controllerLoading.stream;
+
+  final _emailController = BehaviorSubject<String>();
   Stream<String> get email => _emailController.stream.transform(validateEmail);
+  Function(String) get changeEmail => _emailController.sink.add;
+
+  final _passwordController = BehaviorSubject<String>();
+  Function(String) get changePassword => _passwordController.sink.add;
   Stream<String> get password =>
       _passwordController.stream.transform(validatePassword);
-
-  Stream<bool> get outLoading => _controllerLoading.stream;
 
   Stream<bool> get submitValid =>
       Observable.combineLatest2(email, password, (e, p) => true);
 
-  Function(String) get changeEmail => _emailController.sink.add;
-  Function(String) get changePassword => _passwordController.sink.add;
-  Function(bool) get changeHidePassword => _hidePasswordController.sink.add;
 
   Future<String> login(String email, String password) async {
     _controllerLoading.add(true);

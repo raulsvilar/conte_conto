@@ -6,6 +6,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:conte_conto/src/blocs/register_bloc.dart';
 import 'package:conte_conto/src/utils/app_themes.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class RegisterPage extends StatelessWidget {
   final primaryColor5 = AppThemes.primaryColor[500];
@@ -37,9 +38,10 @@ class RegisterPage extends StatelessWidget {
   Card buildCard(RegisterBloc bloc, BuildContext context) {
     return Card(
       child: Container(
-        margin: EdgeInsets.all(15),
+        margin: EdgeInsets.all(16),
         child: Column(
           children: <Widget>[
+            userTypeFields(bloc),
             nameField(bloc),
             Container(
               margin: EdgeInsets.only(top: 10),
@@ -65,7 +67,7 @@ class RegisterPage extends StatelessWidget {
   Container buildLogo() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 30),
-      child: Image.asset(
+      child: SvgPicture.asset(
         DESCRIPTION_APP_LOGO,
         fit: BoxFit.fitHeight,
         height: 150,
@@ -155,6 +157,30 @@ class RegisterPage extends StatelessWidget {
       textColor: primaryColor5,
       onPressed: () {
         Navigator.of(context).pushReplacementNamed(DESCRIPTION_LOGIN_PAGE);
+      },
+    );
+  }
+
+  Widget userTypeFields(RegisterBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.userType,
+      builder: (context, snapshot) {
+        return Column(
+          children: <Widget>[
+            RadioListTile(
+              title: Text(USER_TYPE_TEACHER),
+              groupValue: snapshot.data,
+              value: userTypes.teacher,
+              onChanged: (a) => bloc.changeUserType(a),
+            ),
+            RadioListTile(
+              title: Text(USER_TYPE_STUDENT),
+              groupValue: snapshot.data,
+              value: userTypes.student,
+              onChanged: (a) => bloc.changeUserType(a),
+            )
+          ],
+        );
       },
     );
   }

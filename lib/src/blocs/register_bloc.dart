@@ -6,30 +6,50 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 
 import 'package:conte_conto/src/utils/validator.dart';
 
+enum userTypes {
+  student,
+  teacher
+}
+
+
 class RegisterBloc extends BlocBase with Validator {
+
   final authentication = Authentication();
+
+  
   final _hidePasswordController = BehaviorSubject<bool>.seeded(true);
-  final _controllerLoading = BehaviorSubject<bool>.seeded(false);
-  final _emailController = BehaviorSubject<String>();
-  final _nameController = BehaviorSubject<String>();
-  final _passwordController = BehaviorSubject<String>();
-
   Observable<bool> get hidePassword => _hidePasswordController.stream;
-
+  Function(bool) get changeHidePassword => _hidePasswordController.sink.add;
+  
+  
+  final _controllerLoading = BehaviorSubject<bool>.seeded(false);
+  Stream<bool> get outLoading => _controllerLoading.stream;
+  
+  
+  final _emailController = BehaviorSubject<String>();
   Stream<String> get email => _emailController.stream.transform(validateEmail);
+  Function(String) get changeEmail => _emailController.sink.add;
+  
+  
+  final _nameController = BehaviorSubject<String>();
   Stream<String> get name => _emailController.stream.transform(validateField);
+  Function(String) get changeName => _nameController.sink.add;
+  
+  
+  final _passwordController = BehaviorSubject<String>();
+  Function(String) get changePassword => _passwordController.sink.add;
   Stream<String> get password =>
       _passwordController.stream.transform(validatePassword);
+  
 
-  Stream<bool> get outLoading => _controllerLoading.stream;
-
+  final _userTypeController = BehaviorSubject<userTypes>.seeded(userTypes.student);
+  Stream<userTypes> get userType => _userTypeController.stream;
+  Function(userTypes) get changeUserType => _userTypeController.sink.add;
+  
+  
   Stream<bool> get submitValid =>
       Observable.combineLatest3(email, password, name, (e, p, n) => true);
-
-  Function(String) get changeEmail => _emailController.sink.add;
-  Function(String) get changeName => _nameController.sink.add;
-  Function(String) get changePassword => _passwordController.sink.add;
-  Function(bool) get changeHidePassword => _hidePasswordController.sink.add;
+  
 
   Future<String> register(String email, String name, String password) async {
     _controllerLoading.add(true);
@@ -59,6 +79,7 @@ class RegisterBloc extends BlocBase with Validator {
     _nameController?.close();
     _passwordController?.close();
     _hidePasswordController?.close();
+    _userTypeController?.close();
     super.dispose();
   }
 }
