@@ -20,17 +20,17 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: DESCRIPTION_APP_TITLE,
         theme: ThemeData(
+          bottomAppBarColor: Colors.amber[700],
           brightness: Brightness.light,
           backgroundColor: Colors.grey[100],
-          primaryColor: AppThemes.primaryColor[500],
-          primarySwatch: MaterialColor(
-            0xffb8d7f1,
-            AppThemes.primaryColor,
+          primaryColor: Colors.blue[100],
+          accentColor: Colors.amber[700],
+          primaryColorDark: Color(0xff8aacc8),
+          primaryColorLight: Color(0xFFeeffff),
+          buttonTheme: ButtonThemeData(
+            buttonColor: Colors.amber[700],
+            textTheme: ButtonTextTheme.accent
           ),
-          accentColor: AppThemes.secondaryColor[500],
-          secondaryHeaderColor: AppThemes.secondaryColor[500],
-          appBarTheme: AppThemes.appBarTheme,
-          tabBarTheme: AppThemes.tabBarTheme,
         ),
         initialRoute: DESCRIPTION_LOGIN_PAGE,
         onGenerateRoute: RouteGenerator.generateRoute,

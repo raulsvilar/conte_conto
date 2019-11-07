@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppThemes {
-  static const Map<int, Color> primaryColor = {
+    static const MaterialColor primaryColor = MaterialColor (0xffb8d7f1, {
     50: Color(0xffdbebf8),
     100: Color(0xffd4e7f6),
     200: Color(0xffcde3f5),
@@ -12,7 +12,7 @@ class AppThemes {
     700: Color(0xff19946f),
     800: Color(0xff8dbfe9),
     900: Color(0xff78b3e4),
-  };
+  });
 
   static const Map<int, Color> secondaryColor = {
     50: Color(0xfff3cf9c),
@@ -26,6 +26,11 @@ class AppThemes {
     800: Color(0xff975b06),
     900: Color(0xff704304),
   };
+
+  static const buttonTheme = const ButtonThemeData(
+    buttonColor: primaryColor,
+
+  );
 
   static const appBarTheme = const AppBarTheme(
     brightness: Brightness.light,

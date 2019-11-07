@@ -7,10 +7,11 @@ import 'package:conte_conto/src/utils/constants.dart';
 import 'package:conte_conto/src/blocs/register_bloc.dart';
 import 'package:conte_conto/src/utils/app_themes.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:material_segmented_control/material_segmented_control.dart';
 
 class RegisterPage extends StatelessWidget {
-  final primaryColor5 = AppThemes.primaryColor[500];
-  final primaryColor2 = AppThemes.primaryColor[200];
+  //final primaryColor5 = AppThemes.primaryColor[500];
+  //final primaryColor2 = AppThemes.primaryColor[200];
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +81,7 @@ class RegisterPage extends StatelessWidget {
       stream: bloc.name,
       builder: (context, snapshot) {
         return TextField(
-          cursorColor: primaryColor2,
+      //    cursorColor: primaryColor2,
           onChanged: bloc.changeName,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
@@ -97,7 +98,7 @@ class RegisterPage extends StatelessWidget {
       stream: bloc.email,
       builder: (context, snapshot) {
         return TextField(
-          cursorColor: primaryColor2,
+     //     cursorColor: primaryColor2,
           onChanged: bloc.changeEmail,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
@@ -119,14 +120,14 @@ class RegisterPage extends StatelessWidget {
           builder: (context, hideSnapshot) {
             return TextField(
               obscureText: hideSnapshot.data,
-              cursorColor: primaryColor2,
+     //         cursorColor: primaryColor2,
               onChanged: bloc.changePassword,
               decoration: InputDecoration(
                 suffixIcon: IconButton(
                   onPressed: () => bloc.changeHidePassword(!hideSnapshot.data),
                   icon: Icon(
                     hideSnapshot.data ? Icons.visibility : Icons.visibility_off,
-                    color: primaryColor5,
+        //            color: primaryColor5,
                   ),
                 ),
                 labelText: DESCRIPTION_PASSWORD,
@@ -154,7 +155,7 @@ class RegisterPage extends StatelessWidget {
       child: Text(
         DESCRIPTION_ENTER.toUpperCase(),
       ),
-      textColor: primaryColor5,
+  //    textColor: primaryColor5,
       onPressed: () {
         Navigator.of(context).pushReplacementNamed(DESCRIPTION_LOGIN_PAGE);
       },
@@ -167,18 +168,20 @@ class RegisterPage extends StatelessWidget {
       builder: (context, snapshot) {
         return Column(
           children: <Widget>[
-            RadioListTile(
-              title: Text(USER_TYPE_TEACHER),
-              groupValue: snapshot.data,
-              value: userTypes.teacher,
-              onChanged: (a) => bloc.changeUserType(a),
+            MaterialSegmentedControl(
+              children:{
+                userTypes.student: Text(USER_TYPE_STUDENT),
+                userTypes.teacher: Text(USER_TYPE_TEACHER)
+              },
+              selectionIndex: snapshot.data,
+              borderColor: Colors.grey,
+              selectedColor: AppThemes.secondaryColor[500],
+              unselectedColor: Colors.white,
+              borderRadius: 20.0,
+              onSegmentChosen: (index) {
+                bloc.changeUserType(index);
+              },
             ),
-            RadioListTile(
-              title: Text(USER_TYPE_STUDENT),
-              groupValue: snapshot.data,
-              value: userTypes.student,
-              onChanged: (a) => bloc.changeUserType(a),
-            )
           ],
         );
       },
@@ -205,7 +208,7 @@ class RegisterPage extends StatelessWidget {
                   DESCRIPTION_REGISTER.toUpperCase(),
                 ),
                 textColor: Colors.white,
-                color: primaryColor5,
+       //         color: primaryColor5,
                 onPressed: () async {
                   submit(snapshot, context, bloc);
                 },

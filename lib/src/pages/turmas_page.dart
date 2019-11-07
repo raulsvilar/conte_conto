@@ -102,7 +102,7 @@ class _TurmasPageState extends State<TurmasPage> {
         return TextField(
           onChanged: bloc.changeTurma,
           decoration: InputDecoration(
-            hintText: DESCRIPTION_CLASS_NAME,
+            labelText: DESCRIPTION_CLASS_NAME,
             errorText: snapshot.error,
           ),
         );
@@ -119,7 +119,7 @@ class _TurmasPageState extends State<TurmasPage> {
         return TextField(
           onChanged: bloc.changeSchool,
           decoration: InputDecoration(
-            hintText: DESCRIPTION_SCHOOL_NAME,
+            labelText: DESCRIPTION_SCHOOL_NAME,
             errorText: snapshot.error,
           ),
         );

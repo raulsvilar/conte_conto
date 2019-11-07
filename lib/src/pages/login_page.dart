@@ -9,8 +9,6 @@ import 'package:conte_conto/src/utils/app_themes.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatelessWidget {
-  final primaryColor5 = AppThemes.primaryColor[500];
-  final primaryColor2 = AppThemes.primaryColor[200];
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +73,6 @@ class LoginPage extends StatelessWidget {
       stream: bloc.email,
       builder: (context, snapshot) {
         return TextField(
-          cursorColor: primaryColor2,
           onChanged: bloc.changeEmail,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
@@ -97,14 +94,12 @@ class LoginPage extends StatelessWidget {
           builder: (context, hideSnapshot) {
             return TextField(
               obscureText: hideSnapshot.data,
-              cursorColor: primaryColor2,
               onChanged: bloc.changePassword,
               decoration: InputDecoration(
                 suffixIcon: IconButton(
                   onPressed: () => bloc.changeHidePassword(!hideSnapshot.data),
                   icon: Icon(
                     hideSnapshot.data ? Icons.visibility : Icons.visibility_off,
-                    color: primaryColor5,
                   ),
                 ),
                 labelText: DESCRIPTION_PASSWORD,
@@ -136,7 +131,6 @@ class LoginPage extends StatelessWidget {
       child: Text(
         DESCRIPTION_REGISTER.toUpperCase(),
       ),
-      textColor: primaryColor5,
       onPressed: () {
         Navigator.of(context).pushReplacementNamed(DESCRIPTION_REGISTER_PAGE);
       },
@@ -163,7 +157,6 @@ class LoginPage extends StatelessWidget {
                   DESCRIPTION_ENTER.toUpperCase(),
                 ),
                 textColor: Colors.white,
-                color: primaryColor5,
                 onPressed: () async {
                   submit(snapshot, context, bloc);
                 },
