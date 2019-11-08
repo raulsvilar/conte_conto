@@ -5,7 +5,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:conte_conto/src/blocs/register_bloc.dart';
-import 'package:conte_conto/src/utils/app_themes.dart';
+import 'package:conte_conto/src/utils/app_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_segmented_control/material_segmented_control.dart';
 
@@ -175,7 +175,7 @@ class RegisterPage extends StatelessWidget {
               },
               selectionIndex: snapshot.data,
               borderColor: Colors.grey,
-              selectedColor: AppThemes.secondaryColor[500],
+              selectedColor: Theme.of(context).accentColor,
               unselectedColor: Colors.white,
               borderRadius: 20.0,
               onSegmentChosen: (index) {
@@ -208,7 +208,6 @@ class RegisterPage extends StatelessWidget {
                   DESCRIPTION_REGISTER.toUpperCase(),
                 ),
                 textColor: Colors.white,
-       //         color: primaryColor5,
                 onPressed: () async {
                   submit(snapshot, context, bloc);
                 },

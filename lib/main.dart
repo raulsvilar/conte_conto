@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
 
-import 'package:conte_conto/src/utils/app_themes.dart';
+import 'package:conte_conto/src/utils/app_theme.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:conte_conto/src/utils/route_generate.dart';
 
@@ -19,19 +19,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: DESCRIPTION_APP_TITLE,
-        theme: ThemeData(
-          bottomAppBarColor: Colors.amber[700],
-          brightness: Brightness.light,
-          backgroundColor: Colors.grey[100],
-          primaryColor: Colors.blue[100],
-          accentColor: Colors.amber[700],
-          primaryColorDark: Color(0xff8aacc8),
-          primaryColorLight: Color(0xFFeeffff),
-          buttonTheme: ButtonThemeData(
-            buttonColor: Colors.amber[700],
-            textTheme: ButtonTextTheme.accent
-          ),
-        ),
+        theme: AppTheme.theme,
         initialRoute: DESCRIPTION_LOGIN_PAGE,
         onGenerateRoute: RouteGenerator.generateRoute,
       ),
