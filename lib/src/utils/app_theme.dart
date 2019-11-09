@@ -11,21 +11,13 @@ class AppTheme {
       primaryColorDark: Color(0xff8aacc8),
       primaryColorLight: Color(0xFFeeffff),
       buttonTheme: buttonTheme,
-      iconTheme: IconThemeData(
-        color: Colors.amber[700]
-      ),
       inputDecorationTheme: InputDecorationTheme(
-        focusedBorder: UnderlineInputBorder(
+        border: OutlineInputBorder(),
+        enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: Colors.amber[700]
           )
-        ),
-//        fillColor: Colors.amber[700],
-        hintStyle: TextStyle(
-//          backgroundColor: Colors.amber[700],
-          color: Colors.amber[700],
- //         decorationColor: Colors.amber[700]
-       )
+        )
       )
     );
 
