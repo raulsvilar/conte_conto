@@ -65,12 +65,15 @@ class RegisterBloc extends BlocBase with Validator {
     return "true";
   }
 
-  Future<String> submit() async {
+  Future<String> submit(Function() navigate) async {
     final validEmail = _emailController.value.trim();
     final validName = _nameController.value.trim();
     final validPassword = _passwordController.value.trim();
 
-    return await register(validEmail, validName, validPassword);
+    String result =  await register(validEmail, validName, validPassword);
+    if (result.contains("true")) {
+      navigate();
+    }
   }
 
   @override

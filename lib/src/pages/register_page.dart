@@ -5,13 +5,10 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:conte_conto/src/blocs/register_bloc.dart';
-import 'package:conte_conto/src/utils/app_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_segmented_control/material_segmented_control.dart';
 
 class RegisterPage extends StatelessWidget {
-  //final primaryColor5 = AppThemes.primaryColor[500];
-  //final primaryColor2 = AppThemes.primaryColor[200];
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +42,11 @@ class RegisterPage extends StatelessWidget {
             userTypeFields(bloc),
             nameField(bloc),
             Container(
-              margin: EdgeInsets.only(top: 10),
+              margin: EdgeInsets.only(top: 8),
               child: emailField(bloc),
             ),
             Container(
-              margin: EdgeInsets.only(top: 10, bottom: 20),
+              margin: EdgeInsets.only(top: 8, bottom: 16),
               child: passwordField(bloc),
             ),
             Row(
@@ -120,14 +117,12 @@ class RegisterPage extends StatelessWidget {
           builder: (context, hideSnapshot) {
             return TextField(
               obscureText: hideSnapshot.data,
-     //         cursorColor: primaryColor2,
               onChanged: bloc.changePassword,
               decoration: InputDecoration(
                 suffixIcon: IconButton(
                   onPressed: () => bloc.changeHidePassword(!hideSnapshot.data),
                   icon: Icon(
                     hideSnapshot.data ? Icons.visibility : Icons.visibility_off,
-        //            color: primaryColor5,
                   ),
                 ),
                 labelText: DESCRIPTION_PASSWORD,
@@ -140,22 +135,11 @@ class RegisterPage extends StatelessWidget {
     );
   }
 
-  void submit(
-      AsyncSnapshot snapshot, BuildContext context, RegisterBloc bloc) async {
-    if (snapshot.hasData) {
-      String result = await bloc.submit();
-      if (result.contains("true")) {
-        Navigator.of(context).pushReplacementNamed(DESCRIPTION_CLASSES_PAGE);
-      }
-    }
-  }
-
   Widget loginButton(BuildContext context) {
     return FlatButton(
       child: Text(
         DESCRIPTION_ENTER.toUpperCase(),
       ),
-  //    textColor: primaryColor5,
       onPressed: () {
         Navigator.of(context).pushReplacementNamed(DESCRIPTION_LOGIN_PAGE);
       },
@@ -166,23 +150,22 @@ class RegisterPage extends StatelessWidget {
     return StreamBuilder(
       stream: bloc.userType,
       builder: (context, snapshot) {
-        return Column(
-          children: <Widget>[
-            MaterialSegmentedControl(
+        return Container(
+          child: MaterialSegmentedControl(
+              horizontalPadding: EdgeInsets.only(bottom: 8),
               children:{
-                userTypes.student: Text(USER_TYPE_STUDENT),
-                userTypes.teacher: Text(USER_TYPE_TEACHER)
+                userTypes.student: Text(USER_TYPE_STUDENT.toUpperCase()),
+                userTypes.teacher: Text("  $USER_TYPE_TEACHER  ".toUpperCase())
               },
               selectionIndex: snapshot.data,
               borderColor: Colors.grey,
               selectedColor: Theme.of(context).accentColor,
               unselectedColor: Colors.white,
-              borderRadius: 20.0,
+              borderRadius: 32.0,
               onSegmentChosen: (index) {
                 bloc.changeUserType(index);
               },
             ),
-          ],
         );
       },
     );
@@ -208,9 +191,8 @@ class RegisterPage extends StatelessWidget {
                   DESCRIPTION_REGISTER.toUpperCase(),
                 ),
                 textColor: Colors.white,
-                onPressed: () async {
-                  submit(snapshot, context, bloc);
-                },
+                onPressed: snapshot.hasData && snapshot.data ? () => bloc.submit(() => Navigator.of(context).pushReplacementNamed(DESCRIPTION_CLASSES_PAGE))
+                 : null,
               );
             },
           );
