@@ -1,23 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+enum userTypes {
+  student,
+  teacher
+}
+
 class User {
   String email;
-  String fullName;
+  String name;
   String password;
+  userTypes type;
+
   final DocumentReference reference;
 
   User.fromJson(Map<String, dynamic> json, this.reference) {
     email = json['email'];
-    fullName = json['fullName'];
+    name = json['name'];
     password = json['password'];
+    type = userTypes.values[json['type']];
   }
 
   User.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['email'] != null),
-        assert(map['fullName'] != null),
+        assert(map['name'] != null),
         assert(map['password'] != null),
+        assert(map['type'] != null),
         email = map['email'],
-        fullName = map['fullName'],
+        name = map['name'],
+        type = userTypes.values[map['type']],
         password = map['password'];
 
   User.fromSnapshot(DocumentSnapshot snapshot)
@@ -26,8 +36,9 @@ class User {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['email'] = email;
-    data['fullName'] = fullName;
+    data['name'] = name;
     data['password'] = password;
+    data['type'] = type.index;
     return data;
   }
 }

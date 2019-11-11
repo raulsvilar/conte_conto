@@ -1,20 +1,15 @@
-import 'package:conte_conto/src/preferences/usuario_preference.dart';
 import 'package:conte_conto/src/resources/fireauth_provider.dart';
+import 'package:conte_conto/src/models/user.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
 
 import 'package:conte_conto/src/utils/validator.dart';
 
-enum userTypes {
-  student,
-  teacher
-}
-
 
 class RegisterBloc extends BlocBase with Validator {
 
-  final authentication = Authentication();
+  final _authentication = Authentication();
 
   
   final _hidePasswordController = BehaviorSubject<bool>.seeded(true);
@@ -51,12 +46,17 @@ class RegisterBloc extends BlocBase with Validator {
       Observable.combineLatest3(email, password, name, (e, p, n) => true);
   
 
-  Future<String> register(String email, String name, String password) async {
+  Future<String> register(String email, String name, String password, int type) async {
     _controllerLoading.add(true);
     try {
-      var user = await authentication.signUp(email, password);
-      print(user.uid);
-      await UsuarioPreference.setUsuario(user.toString());
+      User userModel = User.fromMap({
+        'name': name,
+        'email': email,
+        'type': type,
+        'password': password
+      });
+      userModel = await _authentication.signUp(userModel);
+      print(userModel.reference.toString());
     } catch (e) {
       _controllerLoading.add(false);
       return e.toString();
@@ -65,12 +65,12 @@ class RegisterBloc extends BlocBase with Validator {
     return "true";
   }
 
-  Future<String> submit(Function() navigate) async {
+  submit(Function() navigate) async {
     final validEmail = _emailController.value.trim();
     final validName = _nameController.value.trim();
     final validPassword = _passwordController.value.trim();
-
-    String result =  await register(validEmail, validName, validPassword);
+    final userType = _userTypeController.value.index;
+    String result =  await register(validEmail, validName, validPassword, userType);
     if (result.contains("true")) {
       navigate();
     }

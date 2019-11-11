@@ -5,6 +5,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:conte_conto/src/blocs/register_bloc.dart';
+import 'package:conte_conto/src/models/user.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_segmented_control/material_segmented_control.dart';
 
@@ -191,7 +192,9 @@ class RegisterPage extends StatelessWidget {
                   DESCRIPTION_REGISTER.toUpperCase(),
                 ),
                 textColor: Colors.white,
-                onPressed: snapshot.hasData && snapshot.data ? () => bloc.submit(() => Navigator.of(context).pushReplacementNamed(DESCRIPTION_CLASSES_PAGE))
+                onPressed: snapshot.hasData && snapshot.data ? () =>
+                    bloc.submit(() => Navigator.of(context)
+                        .pushReplacementNamed(DESCRIPTION_CLASSES_PAGE))
                  : null,
               );
             },

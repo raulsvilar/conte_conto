@@ -5,7 +5,6 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:conte_conto/src/blocs/login_bloc.dart';
-import 'package:conte_conto/src/utils/app_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatelessWidget {

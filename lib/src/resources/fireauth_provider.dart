@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:conte_conto/src/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:conte_conto/src/resources/firestore_provider.dart';
 import 'dart:async';
@@ -14,12 +16,12 @@ class Authentication {
     return result?.user;
   }
 
-  Future<FirebaseUser> signUp(String email, String password) async {
-    AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    ).then((result) => _firestore.addUserToDatabase(result.user));
-    return result?.user;
+  Future<User> signUp(User user) async {
+    DocumentReference result = await _firebaseAuth.createUserWithEmailAndPassword(
+      email: user.email,
+      password: user.password,
+    ).then(((result) => _firestore.addUserToDatabase(user, result.user.uid)));
+    return User.fromJson(user.toJson(), result);
   }
 
   Future<FirebaseUser> getCurrentUser() async {

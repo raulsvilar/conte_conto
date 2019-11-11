@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:conte_conto/src/models/user.dart';
 
 class FirestoreProvider {
   final _firestore = Firestore.instance;
@@ -15,8 +15,10 @@ class FirestoreProvider {
   Stream<QuerySnapshot> contosList(turmaId) {
     return _firestore.collection("contos").where("turma", isEqualTo: turmaId).snapshots();
   }
-  
-  addUserToDatabase(FirebaseUser user) {
-    _firestore.collection("users").document(user.uid).setData({"email":user.email, "name": user.displayName});
+
+  //TODO Verificar uma forma de não efetuar duas requisições futuramente.
+  DocumentReference addUserToDatabase(User user, reference) {
+    _firestore.collection("users").document(reference).setData({"email":user.email, "name": user.name, "email":user.email});
+    return _firestore.collection("users").document(reference);
   }
 }
