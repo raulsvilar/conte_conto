@@ -81,7 +81,10 @@ class _TurmasPageState extends State<TurmasPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                _turmaField(_bloc),
+                Container(
+                  padding: EdgeInsets.only(top: 8, bottom: 8),
+                  child: _turmaField(_bloc),
+                ),
                 _schoolField(_bloc),
               ],
             ),

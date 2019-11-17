@@ -1,3 +1,5 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:conte_conto/src/blocs/bottom_navigation_bloc.dart';
 import 'package:flutter/material.dart';
 
 enum Items {
@@ -8,17 +10,24 @@ enum Items {
 
 class BottomNavigation extends StatelessWidget {
 
-  var _items, _onTapCallback, _currentIndex = 0;
+  final _bloc = BlocProvider.getBloc<BottomNavigationBloc>();
+  final List<Items> _items;
+  final _onTapCallback;
 
   BottomNavigation(this._items, this._onTapCallback);
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: _createItems(),
-      onTap: (i) => _onTapCallback(i),
-      type: BottomNavigationBarType.fixed,
-      currentIndex: _currentIndex,
+    return StreamBuilder(
+      stream: _bloc.tab,
+      builder: (context, snapshot) {
+        return BottomNavigationBar(
+          items: _createItems(),
+          onTap: (i) => _bloc.setTab(i),
+          type: BottomNavigationBarType.fixed,
+          currentIndex: snapshot.data,
+        );
+      }
     );
   }
 

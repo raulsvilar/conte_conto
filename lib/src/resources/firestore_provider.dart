@@ -18,7 +18,7 @@ class FirestoreProvider {
 
   //TODO Verificar uma forma de não efetuar duas requisições futuramente.
   DocumentReference addUserToDatabase(User user, reference) {
-    _firestore.collection("users").document(reference).setData({"email":user.email, "name": user.name, "email":user.email});
+    _firestore.collection("users").document(reference).setData({"email": user.email, "name": user.name, "email":user.email, "type": user.type});
     return _firestore.collection("users").document(reference);
   }
 }
