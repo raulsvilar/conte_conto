@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
 class ItemWithImageTitleSub extends StatelessWidget {
+  final String _itemID;
   final String _title;
   final String _subTitle;
   final _onTapCallback;
+  final setFavoriteCallback;
   final callbackArg;
+  final bool _withFavorites;
+  final bool isFavorited;
 
-  ItemWithImageTitleSub(this._title, this._subTitle, this._onTapCallback, {this.callbackArg});
+  ItemWithImageTitleSub(this._itemID, this._title, this._subTitle, this._withFavorites, this._onTapCallback, {this.callbackArg, this.setFavoriteCallback, this.isFavorited});
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +18,13 @@ class ItemWithImageTitleSub extends StatelessWidget {
       color: Colors.white,
       height: 72,
       child: ListTile(
-        onTap: () => _onTapCallback(callbackArg),
+        onTap: () => _onTapCallback(_itemID),
         leading: CircleAvatar(
           backgroundColor: Colors.grey,
         ),
+        trailing: !_withFavorites ? null : IconButton(
+            icon: isFavorited ? Icon(Icons.favorite, color: Colors.red,) : Icon(Icons.favorite_border),
+            onPressed: () => setFavoriteCallback(callbackArg[0], callbackArg[1])),
         title: Text(
           _title,
           style: TextStyle(fontSize: 16),

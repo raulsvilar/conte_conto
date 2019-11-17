@@ -23,7 +23,7 @@ dependencies:
   bloc_pattern: ^2.2.2+3
   shared_preferences: ^0.5.3+4
   firebase_core: ^0.4.0+9  # add dependency for Firebase Core
-  cloud_firestore: ^0.12.9+5
+  cloud_firestore: ^0.12.10
   zefyr: ^0.8.0
   firebase_auth: ^0.14.0+5
   flutter_svg: ^0.14.3

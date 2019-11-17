@@ -21,4 +21,12 @@ class FirestoreProvider {
     _firestore.collection("users").document(reference).setData({"email": user.email, "name": user.name, "email":user.email, "type": user.type});
     return _firestore.collection("users").document(reference);
   }
+
+  Stream<QuerySnapshot> getFavorites(turmaId) {
+    return _firestore.collection("contos").where("turma", isEqualTo: turmaId).where("favorited", isEqualTo: true).snapshots();
+  }
+  
+  setFavorite(String contoId, bool data) {
+    _firestore.collection("contos").document(contoId).updateData({"favorited": data});
+  }
 }

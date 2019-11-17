@@ -5,6 +5,7 @@ class Conto {
   final String author;
   final DocumentReference reference;
   final DocumentReference content;
+  final bool isFavorited;
   final String turma;
 
   Conto.fromSnapshot(DocumentSnapshot snapshot)
@@ -14,9 +15,11 @@ class Conto {
       : assert(map['title'] != null),
         assert(map['author'] != null),
         assert(map['turma'] != null),
+        assert(map['favorited'] != null),
         turma = map['turma'],
         author = map['author'],
         title = map['title'],
+        isFavorited = map['favorited'],
         content = map['content'];
 
 }

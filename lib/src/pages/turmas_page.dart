@@ -57,7 +57,7 @@ class _TurmasPageState extends State<TurmasPage> {
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Turma.fromSnapshot(data);
-    return ItemWithImageTitleSub(record.name, record.school, _onTapTurma, callbackArg: record.reference.documentID);
+    return ItemWithImageTitleSub(record.reference.documentID, record.name, record.school, false, _onTapTurma);
   }
 
   _showDialogNovaTurma(BuildContext ctx) {

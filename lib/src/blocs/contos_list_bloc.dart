@@ -11,4 +11,8 @@ class ContosListBloc extends BlocBase {
     return _firestore.contosList(turmaId);
   }
 
+  setFavorite(String contoId, bool data) {
+    _firestore.setFavorite(contoId, data);
+  }
+
 }

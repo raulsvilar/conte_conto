@@ -55,9 +55,21 @@ class ContosList extends StatelessWidget {
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Conto.fromSnapshot(data);
     print(record.toString());
-    return ItemWithImageTitleSub(record.title, record.author, _onTapConto);
+    return ItemWithImageTitleSub(
+      record.reference.documentID,
+      record.title, record.author,
+      true,
+      _onTapConto,
+      setFavoriteCallback:
+      _setFavorite,
+      isFavorited: record.isFavorited,
+      callbackArg: [record.reference.documentID, !record.isFavorited]);
   }
 
   _onTapConto() {}
+
+  _setFavorite(contoId, data) {
+    _bloc.setFavorite(contoId, data);
+  }
 
 }
