@@ -12,7 +12,7 @@ class LoginBloc extends BlocBase with Validator {
 
   final _hidePasswordController = BehaviorSubject<bool>.seeded(true);
   Function(bool) get changeHidePassword => _hidePasswordController.sink.add;
-  Observable<bool> get hidePassword => _hidePasswordController.stream;
+  Stream<bool> get hidePassword => _hidePasswordController.stream;
 
   final _controllerLoading = BehaviorSubject<bool>.seeded(false);
   Stream<bool> get outLoading => _controllerLoading.stream;
@@ -27,7 +27,7 @@ class LoginBloc extends BlocBase with Validator {
       _passwordController.stream.transform(validatePassword);
 
   Stream<bool> get submitValid =>
-      Observable.combineLatest2(email, password, (e, p) => true);
+      Rx.combineLatest2(email, password, (e, p) => true);
 
 
   Future<String> login(String email, String password) async {

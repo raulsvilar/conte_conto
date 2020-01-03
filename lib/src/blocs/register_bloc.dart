@@ -13,7 +13,7 @@ class RegisterBloc extends BlocBase with Validator {
 
   
   final _hidePasswordController = BehaviorSubject<bool>.seeded(true);
-  Observable<bool> get hidePassword => _hidePasswordController.stream;
+  Stream<bool> get hidePassword => _hidePasswordController.stream;
   Function(bool) get changeHidePassword => _hidePasswordController.sink.add;
   
   
@@ -43,7 +43,7 @@ class RegisterBloc extends BlocBase with Validator {
   
   
   Stream<bool> get submitValid =>
-      Observable.combineLatest3(email, password, name, (e, p, n) => true);
+      Rx.combineLatest3(email, password, name, (e, p, n) => true);
   
 
   Future<String> register(String email, String name, String password, int type) async {

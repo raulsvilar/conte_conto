@@ -19,15 +19,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  rxdart: ^0.22.2
-  bloc_pattern: ^2.2.2+3
-  shared_preferences: ^0.5.3+4
-  firebase_core: ^0.4.0+9  # add dependency for Firebase Core
-  cloud_firestore: ^0.12.10
+  rxdart: ^0.23.1
+  bloc_pattern: ^2.5.1
+  shared_preferences: ^0.5.6
+  firebase_core: ^0.4.3+1  # add dependency for Firebase Core
+  cloud_firestore: ^0.13.0+1
   zefyr: ^0.8.0
-  firebase_auth: ^0.14.0+5
-  flutter_svg: ^0.14.3
-  material_segmented_control: ^2.0.4
+  firebase_auth: ^0.15.3
+  flutter_svg: ^0.15.0
+  material_segmented_control: ^2.0.9
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
