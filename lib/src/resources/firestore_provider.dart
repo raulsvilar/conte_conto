@@ -4,22 +4,16 @@ import 'package:conte_conto/src/models/user.dart';
 class FirestoreProvider {
   final _firestore = Firestore.instance;
 
-  Future<DocumentReference> addTurma(name, school) async{
-    return  _firestore.collection("turmas").add({"name": name, "school": school});
+  Future<DocumentReference> addTurma(userID, name, school) async{
+    return  _firestore.collection("users").document(userID).collection("turmas").add({"name": name, "school": school});
   }
 
-  Stream<QuerySnapshot> turmasList() {
-    return _firestore.collection("turmas").snapshots();
+  Stream<QuerySnapshot> turmasList(userID) {
+    return _firestore.collection("users").document(userID).collection("turmas").snapshots();
   }
 
-  Stream<QuerySnapshot> contosList(turmaId) {
+  Stream<QuerySnapshot> contosListForTurma(turmaId) {
     return _firestore.collection("contos").where("turma", isEqualTo: turmaId).snapshots();
-  }
-
-  //TODO Verificar uma forma de não efetuar duas requisições futuramente.
-  DocumentReference addUserToDatabase(User user, reference) {
-    _firestore.collection("users").document(reference).setData({"email": user.email, "name": user.name, "email":user.email, "type": user.type});
-    return _firestore.collection("users").document(reference);
   }
 
   Stream<QuerySnapshot> getFavorites(turmaId) {
@@ -28,5 +22,11 @@ class FirestoreProvider {
   
   setFavorite(String contoId, bool data) {
     _firestore.collection("contos").document(contoId).updateData({"favorited": data});
+  }
+
+  createUser(User user, reference){
+    _firestore.runTransaction((Transaction tx) async {
+      await tx.set(_firestore.document("users/$reference"), user.toJson()).catchError((onError) => print("Erros aqui: $onError"));
+    });
   }
 }

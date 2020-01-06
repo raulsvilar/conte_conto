@@ -20,7 +20,7 @@ class Authentication {
     DocumentReference result = await _firebaseAuth.createUserWithEmailAndPassword(
       email: user.email,
       password: user.password,
-    ).then(((result) => _firestore.addUserToDatabase(user, result.user.uid)));
+    ).then(((result) => _firestore.createUser(user, result.user.uid)));
     return User.fromJson(user.toJson(), result);
   }
 
