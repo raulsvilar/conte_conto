@@ -4,7 +4,7 @@
 
 const DESCRIPTION_APP_TITLE = 'Conte Conto';
 
-const DIALOG_OK = 'Ok';
+const DIALOG_OK = 'OK';
 const DIALOG_CANCEL = 'CANCELAR';
 const DIALOG_SAVE = 'SALVAR';
 
@@ -25,8 +25,9 @@ const DESCRIPTION_INVALID_EMAIL = 'Formato de email inválido';
 const DESCRIPTION_PASSWORD = 'Senha';
 const DESCRIPTION_PASSWORD_HINT = 'Insira sua senha';
 const DESCRIPTION_INVALID_PASSWORD =
-    'Senha deve conter pelo menos 4 caracteres';
+    'Senha deve conter pelo menos 6 caracteres';
 const DESCRIPTION_DIALOG_ERROR = 'Ocorreu um erro';
+const DESCRIPTION_INVALID_USER_PASSWORD = 'Usuário ou senha informados são inválidos.';
 
 const DESCRIPTION_MONDAY = "SEGUNDA";
 const DESCRIPTION_TUESDAY = "TERÇA";
