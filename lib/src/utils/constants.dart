@@ -28,6 +28,8 @@ const DESCRIPTION_INVALID_PASSWORD =
     'Senha deve conter pelo menos 6 caracteres';
 const DESCRIPTION_DIALOG_ERROR = 'Ocorreu um erro';
 const DESCRIPTION_INVALID_USER_PASSWORD = 'Usuário ou senha informados são inválidos.';
+const DESCRIPTION_RESET_PASSWORD = "ESQUECI MINHA SENNHA";
+const DESCRIPTION_SEND_RESET_EMAIL = "Um email será enviado para";
 
 const DESCRIPTION_MONDAY = "SEGUNDA";
 const DESCRIPTION_TUESDAY = "TERÇA";

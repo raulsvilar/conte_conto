@@ -3,6 +3,7 @@ import 'package:conte_conto/src/resources/fireauth_provider.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
 
@@ -75,6 +76,18 @@ class LoginBloc extends BlocBase with Validator {
               ),
             ),
             actions: <Widget>[
+              FlatButton(
+                child: Text(DESCRIPTION_RESET_PASSWORD),
+                onPressed: () {
+                  _authentication.resetPassword(_emailController.value);
+                  Fluttertoast.showToast(
+                      msg: "$DESCRIPTION_SEND_RESET_EMAIL ${_emailController.value}",
+                      toastLength: Toast.LENGTH_LONG,
+                      gravity: ToastGravity.BOTTOM
+                  );
+                  Navigator.pop(context);
+                },
+              ),
               FlatButton(
                 child: Text(DIALOG_CANCEL),
                 onPressed: () => Navigator.pop(context),
