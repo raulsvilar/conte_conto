@@ -7,13 +7,14 @@ import 'package:conte_conto/src/pages/base/items.dart';
 import 'package:flutter/material.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 
-class TurmasPage extends StatefulWidget {
-  @override
-  _TurmasPageState createState() => _TurmasPageState();
-}
+class TurmasPage extends StatelessWidget {
 
-class _TurmasPageState extends State<TurmasPage> {
+  final String userUid;
   final _bloc = BlocProvider.getBloc<TurmasBloc>();
+
+  TurmasPage(this.userUid) {
+    _bloc.user = userUid;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +131,7 @@ class _TurmasPageState extends State<TurmasPage> {
     );
   }
 
-  _onTapTurma(String turmaId) {
-    Navigator.of(context).pushNamed(DESCRIPTION_CONTOS_LIST_PAGE,arguments: turmaId);
+  _onTapTurma(String turmaId, BuildContext context) {
+    Navigator.of(context).pushNamed(DESCRIPTION_CONTOS_LIST_PAGE, arguments: turmaId);
   }
 }

@@ -8,7 +8,7 @@ class ContosListBloc extends BlocBase {
 
   Stream<QuerySnapshot> contosList(turmaId) {
     print(turmaId);
-    return _firestore.contosList(turmaId);
+    return _firestore.contosListForTurma(turmaId);
   }
 
   setFavorite(String contoId, bool data) {

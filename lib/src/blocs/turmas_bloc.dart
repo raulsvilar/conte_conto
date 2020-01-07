@@ -6,6 +6,11 @@ import 'package:rxdart/rxdart.dart';
 
 class TurmasBloc extends BlocBase with Validator {
   final _firestore = FirestoreProvider();
+  String _userUid;
+
+  set user(String uid) {
+    _userUid = uid;
+  }
 
   final _schoolNameController = BehaviorSubject<String>();
   final _turmaNameController = BehaviorSubject<String>();
@@ -19,13 +24,13 @@ class TurmasBloc extends BlocBase with Validator {
   Function(String) get changeTurma => _turmaNameController.sink.add;
 
   Stream<QuerySnapshot> turmasList() {
-    return _firestore.turmasList();
+    return _firestore.turmasList(_userUid);
   }
 
   addTurma() {
     if (_schoolNameController?.value != null &&
         _turmaNameController?.value != null) {
-      _firestore.addTurma(
+      _firestore.addTurma(_userUid,
           _turmaNameController?.value, _schoolNameController?.value);
     }
   }

@@ -8,12 +8,12 @@ class Authentication {
   final _firebaseAuth = FirebaseAuth.instance;
   final _firestore = FirestoreProvider();
 
-  Future<FirebaseUser> signIn(String email, String password) async {
-    AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
+  Future<User> signIn(String email, String password) async {
+    DocumentSnapshot ds = await _firebaseAuth.signInWithEmailAndPassword(
       email: email,
       password: password,
-    );
-    return result?.user;
+    ).then((result) => _firestore.getUser(result.user.uid));
+    return User.fromSnapshot(ds);
   }
 
   Future<User> signUp(User user) async {

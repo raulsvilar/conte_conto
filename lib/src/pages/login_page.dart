@@ -1,3 +1,4 @@
+import 'package:conte_conto/src/resources/fireauth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -8,6 +9,10 @@ import 'package:conte_conto/src/blocs/login_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatelessWidget {
+
+  LoginPage() {
+    print(Authentication().getCurrentUser().then((value) => print(value.uid)));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,20 +116,6 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  void submit(
-      AsyncSnapshot snapshot, BuildContext context, LoginBloc bloc) async {
-    if (snapshot.hasData) {
-      String result = await bloc.submit();
-      print(result);
-      if (result.contains("true")) {
-        Navigator.of(context).pushReplacementNamed(
-            DESCRIPTION_CORRECTION_PAGE /*DESCRIPTION_CLASSES_PAGE*/);
-      }
-    }
-    Navigator.of(context).pushReplacementNamed(
-        DESCRIPTION_CLASSES_PAGE);
-  }
-
   Widget registerButton(BuildContext context) {
     return FlatButton(
 
@@ -132,7 +123,7 @@ class LoginPage extends StatelessWidget {
         DESCRIPTION_REGISTER.toUpperCase(),
       ),
       onPressed: () {
-        Navigator.of(context).pushReplacementNamed(DESCRIPTION_REGISTER_PAGE);
+        Navigator.of(context).pushNamed(DESCRIPTION_REGISTER_PAGE);
       },
     );
   }
@@ -157,9 +148,7 @@ class LoginPage extends StatelessWidget {
                   DESCRIPTION_ENTER.toUpperCase(),
                 ),
                 textColor: Colors.white,
-                onPressed: () async {
-                  submit(snapshot, context, bloc);
-                },
+                onPressed: () => bloc.submit(context)
               );
             },
           );

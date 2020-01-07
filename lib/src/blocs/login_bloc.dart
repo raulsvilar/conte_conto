@@ -1,5 +1,7 @@
-import 'package:conte_conto/src/preferences/usuario_preference.dart';
+import 'package:conte_conto/src/models/user.dart';
 import 'package:conte_conto/src/resources/fireauth_provider.dart';
+import 'package:conte_conto/src/utils/constants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
 
@@ -8,7 +10,7 @@ import 'package:conte_conto/src/utils/validator.dart';
 class LoginBloc extends BlocBase with Validator {
 
 
-  final authentication = Authentication();
+  final _authentication = Authentication();
 
   final _hidePasswordController = BehaviorSubject<bool>.seeded(true);
   Function(bool) get changeHidePassword => _hidePasswordController.sink.add;
@@ -30,25 +32,32 @@ class LoginBloc extends BlocBase with Validator {
       Rx.combineLatest2(email, password, (e, p) => true);
 
 
-  Future<String> login(String email, String password) async {
+  Future<User> login(String email, String password) async{
     _controllerLoading.add(true);
     try {
-      var user = await authentication.signIn(email, password);
-      print(user.uid);
-      await UsuarioPreference.setUsuario(user.toString());
+      return await _authentication.signIn(email, password);
     } catch (e) {
       _controllerLoading.add(false);
-      return e.toString();
+      print(e.toString());
+      return null;
     }
-    _controllerLoading.add(false);
-    return "true";
+    finally {
+      _controllerLoading.add(false);
+    }
   }
 
-  Future<String> submit() async {
+  submit(BuildContext context) async{
     final validEmail = _emailController.value.trim();
     final validPassword = _passwordController.value.trim();
-
-    return await login(validEmail, validPassword);
+    User user = await login(validEmail, validPassword);
+    switch (user.type) {
+      case userTypes.student:
+        Navigator.of(context).pushReplacementNamed(DESCRIPTION_CONTOS_LIST_PAGE, arguments: user.reference.documentID);
+        break;
+      case userTypes.teacher:
+        Navigator.of(context).pushReplacementNamed(DESCRIPTION_CLASS_NAME, arguments: user.reference.documentID);
+        break;
+    }
   }
 
   @override

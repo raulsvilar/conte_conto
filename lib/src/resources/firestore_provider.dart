@@ -29,4 +29,8 @@ class FirestoreProvider {
       await tx.set(_firestore.document("users/$reference"), user.toJson()).catchError((onError) => print("Erros aqui: $onError"));
     });
   }
+
+  Future<DocumentSnapshot> getUser(String uid) async {
+    return await _firestore.collection("users").document(uid).get();
+  }
 }
