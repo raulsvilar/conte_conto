@@ -78,7 +78,7 @@ class RegisterBloc extends BlocBase with Validator {
     if (user != null) {
       switch (user?.type) {
         case userTypes.student:
-          Navigator.of(context).pushNamedAndRemoveUntil(DESCRIPTION_CONTOS_LIST_PAGE, ModalRoute.withName(DESCRIPTION_CONTOS_LIST_PAGE), arguments: [user.reference.documentID, user.turmaID]);
+          Navigator.of(context).pushNamedAndRemoveUntil(DESCRIPTION_STUDENT_CONTOS_LIST_PAGE, ModalRoute.withName(DESCRIPTION_CONTOS_LIST_PAGE), arguments: [user.reference.documentID, user.turmaID]);
           break;
         case userTypes.teacher:
           Navigator.of(context).pushReplacementNamed(DESCRIPTION_CLASS_NAME, arguments: [user.reference.documentID]);

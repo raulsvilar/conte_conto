@@ -11,7 +11,9 @@ class RouteGenerator {
 
     switch (settings.name) {
       case DESCRIPTION_CLASSES_PAGE:
-        return MaterialPageRoute(builder: (_) => TurmasPage(args));
+        if (args is List) {
+          return MaterialPageRoute(builder: (_) => TurmasPage(args[0]));
+        } return _errorRoute("Tipo inválido no argumento de ContosList");
       case DESCRIPTION_LOGIN_PAGE:
         return MaterialPageRoute(builder: (_) => LoginPage());
       case DESCRIPTION_REGISTER_PAGE:
@@ -19,11 +21,13 @@ class RouteGenerator {
       case DESCRIPTION_CORRECTION_PAGE:
         return MaterialPageRoute(builder: (_) => CorrectionPage());
       case DESCRIPTION_CONTOS_LIST_PAGE:
-        if (args is String) {
-          return MaterialPageRoute(builder: (_) => ContosList(args));
+        if (args is List) {
+          return MaterialPageRoute(builder: (_) => ContosList(args[0]));
         } return _errorRoute("Tipo inválido no argumento de ContosList");
       default:
-        return MaterialPageRoute(builder: (_) => TurmasPage(args));
+        if (args is List) {
+          return MaterialPageRoute(builder: (_) => TurmasPage(args[0]));
+        } return _errorRoute("Tipo inválido no argumento de ContosList");
     }
   }
 

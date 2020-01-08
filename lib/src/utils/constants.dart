@@ -53,6 +53,7 @@ const DESCRIPTION_SUN = "DOM";
 
 const USER_TYPE_TEACHER = "Professor";
 const USER_TYPE_STUDENT = "Aluno";
+const DESCRIPTION_APPBAR_TITLE_CONTOS_STUDENT = "Meus Contos";
 /// ###################################################
 /// PAGES
 /// ###################################################
@@ -61,6 +62,7 @@ const DESCRIPTION_LOGIN_PAGE = 'LoginPage';
 const DESCRIPTION_REGISTER_PAGE = 'RegisterPage';
 const DESCRIPTION_CORRECTION_PAGE = 'CorrectionPage';
 const DESCRIPTION_CONTOS_LIST_PAGE = 'ContosList';
+const DESCRIPTION_STUDENT_CONTOS_LIST_PAGE = 'StudentContosList';
 
 /// ###################################################
 /// ASSETS
