@@ -1,5 +1,7 @@
 import 'package:conte_conto/src/resources/fireauth_provider.dart';
 import 'package:conte_conto/src/models/user.dart';
+import 'package:conte_conto/src/utils/constants.dart';
+import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
@@ -46,33 +48,42 @@ class RegisterBloc extends BlocBase with Validator {
       Rx.combineLatest3(email, password, name, (e, p, n) => true);
   
 
-  Future<String> register(String email, String name, String password, int type) async {
+  Future<User> register(String email, String name, String password, int type) async {
     _controllerLoading.add(true);
     try {
       User userModel = User.fromMap({
         'name': name,
         'email': email,
         'type': type,
-        'password': password
+        'password': password,
+        'turmaID': ""
       });
       userModel = await _authentication.signUp(userModel);
-      print(userModel.reference.toString());
+      return userModel;
     } catch (e) {
       _controllerLoading.add(false);
-      return e.toString();
+      return null;
     }
-    _controllerLoading.add(false);
-    return "true";
+    finally {
+      _controllerLoading.add(false);
+    }
   }
 
-  submit(Function() navigate) async {
+  submit(BuildContext context) async {
     final validEmail = _emailController.value.trim();
     final validName = _nameController.value.trim();
     final validPassword = _passwordController.value.trim();
     final userType = _userTypeController.value.index;
-    String result =  await register(validEmail, validName, validPassword, userType);
-    if (result.contains("true")) {
-      navigate();
+    User user =  await register(validEmail, validName, validPassword, userType);
+    if (user != null) {
+      switch (user?.type) {
+        case userTypes.student:
+          Navigator.of(context).pushNamedAndRemoveUntil(DESCRIPTION_CONTOS_LIST_PAGE, ModalRoute.withName(DESCRIPTION_CONTOS_LIST_PAGE), arguments: [user.reference.documentID, user.turmaID]);
+          break;
+        case userTypes.teacher:
+          Navigator.of(context).pushReplacementNamed(DESCRIPTION_CLASS_NAME, arguments: [user.reference.documentID]);
+          break;
+      }
     }
   }
 

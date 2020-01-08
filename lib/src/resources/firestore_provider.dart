@@ -24,10 +24,12 @@ class FirestoreProvider {
     _firestore.collection("contos").document(contoId).updateData({"favorited": data});
   }
 
-  createUser(User user, reference){
-    _firestore.runTransaction((Transaction tx) async {
-      await tx.set(_firestore.document("users/$reference"), user.toJson()).catchError((onError) => print("Erros aqui: $onError"));
+  Future<DocumentSnapshot> createUser(User user, reference) async{
+    await _firestore.runTransaction((Transaction tx) async {
+      await tx.set(_firestore.document("users/$reference"), user.toJson())
+          .catchError((onError) => print("Erros aqui: $onError"));
     });
+    return await getUser(reference);
   }
 
   Future<DocumentSnapshot> getUser(String uid) async {

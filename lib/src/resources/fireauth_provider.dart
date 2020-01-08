@@ -17,11 +17,12 @@ class Authentication {
   }
 
   Future<User> signUp(User user) async {
-    DocumentReference result = await _firebaseAuth.createUserWithEmailAndPassword(
+    DocumentSnapshot result = await _firebaseAuth.createUserWithEmailAndPassword(
       email: user.email,
-      password: user.password,
-    ).then(((result) => _firestore.createUser(user, result.user.uid)));
-    return User.fromJson(user.toJson(), result);
+      password: user.password,)
+        .catchError((error) => print(error.toString()))
+        .then(((result) => _firestore.createUser(user, result.user.uid)));
+    return User.fromSnapshot(result);
   }
 
   Future<FirebaseUser> getCurrentUser() async {

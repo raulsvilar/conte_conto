@@ -55,10 +55,10 @@ class LoginBloc extends BlocBase with Validator {
     if (user != null)
       switch (user?.type) {
         case userTypes.student:
-          Navigator.of(context).pushReplacementNamed(DESCRIPTION_CONTOS_LIST_PAGE, arguments: user.reference.documentID);
+          Navigator.of(context).pushReplacementNamed(DESCRIPTION_CONTOS_LIST_PAGE, arguments: [user.reference.documentID, user.turmaID]);
           break;
         case userTypes.teacher:
-          Navigator.of(context).pushReplacementNamed(DESCRIPTION_CLASS_NAME, arguments: user.reference.documentID);
+          Navigator.of(context).pushReplacementNamed(DESCRIPTION_CLASS_NAME, arguments: [user.reference.documentID]);
           break;
       }
     else

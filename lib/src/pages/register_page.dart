@@ -142,7 +142,7 @@ class RegisterPage extends StatelessWidget {
         DESCRIPTION_ENTER.toUpperCase(),
       ),
       onPressed: () {
-        Navigator.of(context).pushReplacementNamed(DESCRIPTION_LOGIN_PAGE);
+        Navigator.of(context).pop();
       },
     );
   }
@@ -193,8 +193,7 @@ class RegisterPage extends StatelessWidget {
                 ),
                 textColor: Colors.white,
                 onPressed: snapshot.hasData && snapshot.data ? () =>
-                    bloc.submit(() => Navigator.of(context)
-                        .pushReplacementNamed(DESCRIPTION_CLASSES_PAGE))
+                    bloc.submit(context)
                  : null,
               );
             },

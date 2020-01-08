@@ -9,6 +9,7 @@ class User {
   String email;
   String name;
   String password;
+  String turmaID;
   userTypes type;
 
   final DocumentReference reference;
@@ -17,6 +18,7 @@ class User {
     email = json['email'];
     name = json['name'];
     password = json['password'];
+    turmaID = json['turmaID'];
     type = userTypes.values[json['type']];
   }
 
@@ -24,9 +26,11 @@ class User {
       : assert(map['email'] != null),
         assert(map['name'] != null),
         assert(map['password'] != null),
+        assert(map['turmaID'] != null),
         assert(map['type'] != null),
         email = map['email'],
         name = map['name'],
+        turmaID = map['turmaID'],
         type = userTypes.values[map['type']],
         password = map['password'];
 
@@ -38,6 +42,7 @@ class User {
     data['email'] = email;
     data['name'] = name;
     data['password'] = password;
+    data['turmaID'] = turmaID;
     data['type'] = type.index;
     return data;
   }
