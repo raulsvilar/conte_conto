@@ -13,7 +13,9 @@ class StudentContosList extends StatelessWidget {
   final String _turmaId;
   final userID;
 
-  StudentContosList(this.userID, this._turmaId);
+  StudentContosList(this.userID, this._turmaId) {
+    _bloc.changeTurma(_turmaId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,19 +23,38 @@ class StudentContosList extends StatelessWidget {
       appBar: AppBar(
         title: Text(DESCRIPTION_APPBAR_TITLE_CONTOS_STUDENT),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: null,
-        child: Icon(
-          Icons.edit,
-          color: Colors.white,
-        ),
+      floatingActionButton: StreamBuilder<String>(
+        stream: _bloc.turma,
+        builder: (_, snapshot) {
+          if (snapshot.hasData && snapshot.data.isNotEmpty) {
+            return FloatingActionButton(
+              onPressed: () => _showDialogNewConto(context),
+              child: Icon(
+                Icons.edit,
+                color: Colors.white,
+              ),
+            );
+          } else {
+            return Container();
+          }
+        }
       ),
         bottomNavigationBar: BottomNavigation([
           Items.library,
           Items.favorites,
           Items.messages
         ], (index) => {}),
-      body: _turmaId.isNotEmpty ? _buildBody(context) : _buildBodyNoClass(context),
+      body:
+        StreamBuilder<String>(
+          stream: _bloc.turma,
+          builder: (_, snapshot) {
+            if (snapshot.hasData && snapshot.data.isNotEmpty) {
+              return _buildBody(context);
+            } else {
+              return  _buildBodyNoClass(context);
+            }
+          }
+        )
     );
   }
 

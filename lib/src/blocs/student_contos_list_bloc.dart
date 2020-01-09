@@ -16,6 +16,11 @@ class StudentContosListBloc extends BlocBase with Validator{
       _contoNameController.stream.transform(validateField);
   Function(String) get changeContoName => _contoNameController.sink.add;
 
+  final _turmaController = BehaviorSubject<String>();
+  Stream<String> get turma =>
+      _turmaController.stream.transform(validateField);
+  Function(String) get changeTurma => _turmaController.sink.add;
+
   final _codeTurmaController = BehaviorSubject<String>();
   Stream<String> get codeTurma =>
       _codeTurmaController.stream.transform(validateField);
@@ -47,7 +52,10 @@ class StudentContosListBloc extends BlocBase with Validator{
   void enterTurma(userID, BuildContext context) async {
     _controllerLoading.add(true);
     await _firestore.enterStudentOnTurma(_codeTurmaController.value, userID)
-        .then((_) => Navigator.of(context).pop())
+        .then((_) {
+          Navigator.of(context).pop();
+          changeTurma(_codeTurmaController.value);
+        })
         .catchError((e) {
           _controllerLoading.add(false);
           _codeTurmaController.sink.addError(DESCRIPTION_ENTER_TURMA_ERROR);
@@ -58,6 +66,7 @@ class StudentContosListBloc extends BlocBase with Validator{
   void dispose() {
     _contoNameController.close();
     _codeTurmaController.close();
+    _turmaController.close();
     super.dispose();
   }
 
