@@ -1,15 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:conte_conto/src/models/conto.dart';
+import 'package:conte_conto/src/models/turma.dart';
 import 'package:conte_conto/src/models/user.dart';
 
 class FirestoreProvider {
   final _firestore = Firestore.instance;
 
-  Future<DocumentReference> addTurma(userID, name, school) async{
-    return  _firestore.collection("users").document(userID).collection("turmas").add({"name": name, "school": school});
+  Future<DocumentReference> addTurma(Turma turma) async{
+    return  _firestore.collection("turmas").add(turma.toJson());
   }
 
   Stream<QuerySnapshot> turmasList(userID) {
-    return _firestore.collection("users").document(userID).collection("turmas").snapshots();
+    return _firestore.collection("turmas").where("owner", isEqualTo: userID).snapshots();
+
   }
 
   Stream<QuerySnapshot> contosListForTurma(turmaId) {
@@ -34,5 +37,25 @@ class FirestoreProvider {
 
   Future<DocumentSnapshot> getUser(String uid) async {
     return await _firestore.collection("users").document(uid).get();
+  }
+
+  void addConto(Conto conto) {
+    _firestore.collection("contos").add(conto.toJson());
+  }
+
+  Future<dynamic> enterStudentOnTurma(code, userID) async{
+    return _firestore.runTransaction((Transaction tx) async {
+      DocumentReference userRef = _firestore.document("users/$userID");
+      DocumentReference turmaRef = _firestore.document("turmas/$code");
+      DocumentSnapshot userDS = await tx.get(userRef);
+      DocumentSnapshot turmaDS = await tx.get(turmaRef);
+      print("${turmaRef.documentID} Existe: ${turmaDS.exists}");
+      if (userDS.exists && turmaDS.exists) {
+        List<String> newMembers = List.from(turmaDS.data["members"]);
+        newMembers.add(userID);
+        await tx.update(userRef, {"turmaID": code});
+        await tx.update(turmaRef, {"members": newMembers});
+      }
+    });
   }
 }

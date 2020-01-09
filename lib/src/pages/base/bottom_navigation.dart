@@ -10,6 +10,7 @@ enum Items {
 
 class BottomNavigation extends StatelessWidget {
 
+  final _bloc = BlocProvider.getBloc<BottomNavigationBloc>();
 
   final List<Items> _items;
   final _onTapCallback;
@@ -18,7 +19,6 @@ class BottomNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _bloc = BlocProvider.getBloc<BottomNavigationBloc>();
     return StreamBuilder(
       stream: _bloc.tab,
       builder: (context, snapshot) {

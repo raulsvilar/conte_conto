@@ -55,7 +55,7 @@ class LoginBloc extends BlocBase with Validator {
     if (user != null)
       switch (user?.type) {
         case userTypes.student:
-          Navigator.of(context).pushReplacementNamed(DESCRIPTION_CONTOS_LIST_PAGE, arguments: [user.reference.documentID, user.turmaID]);
+          Navigator.of(context).pushReplacementNamed(DESCRIPTION_STUDENT_CONTOS_LIST_PAGE, arguments: [user.reference.documentID, user.turmaID]);
           break;
         case userTypes.teacher:
           Navigator.of(context).pushReplacementNamed(DESCRIPTION_CLASS_NAME, arguments: [user.reference.documentID]);
@@ -89,7 +89,7 @@ class LoginBloc extends BlocBase with Validator {
                 },
               ),
               FlatButton(
-                child: Text(DIALOG_CANCEL),
+                child: Text(DIALOG_BUTTON_CANCEL),
                 onPressed: () => Navigator.pop(context),
               )
             ],

@@ -1,5 +1,6 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:conte_conto/src/models/turma.dart';
 import 'package:conte_conto/src/resources/firestore_provider.dart';
 import 'package:conte_conto/src/utils/validator.dart';
 import 'package:rxdart/rxdart.dart';
@@ -30,8 +31,11 @@ class TurmasBloc extends BlocBase with Validator {
   addTurma() {
     if (_schoolNameController?.value != null &&
         _turmaNameController?.value != null) {
-      _firestore.addTurma(_userUid,
-          _turmaNameController?.value, _schoolNameController?.value);
+      _firestore.addTurma(Turma.newTurma(
+          _turmaNameController?.value,
+          _schoolNameController?.value,
+          _userUid)
+      );
     }
   }
 

@@ -63,14 +63,14 @@ class TurmasPage extends StatelessWidget {
 
   _showDialogNovaTurma(BuildContext ctx) {
     var _saveBtn = FlatButton(
-      child: Text(DIALOG_SAVE),
+      child: Text(DIALOG_BUTTON_SAVE),
       onPressed: () {
         _bloc.addTurma();
         Navigator.pop(ctx);
       },
     );
     var _cancelBtn = FlatButton(
-      child: Text(DIALOG_CANCEL),
+      child: Text(DIALOG_BUTTON_CANCEL),
       onPressed: () => Navigator.pop(ctx),
     );
     return showDialog(
@@ -84,9 +84,9 @@ class TurmasPage extends StatelessWidget {
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(top: 8, bottom: 8),
-                  child: _turmaField(_bloc),
+                  child: _turmaField(),
                 ),
-                _schoolField(_bloc),
+                _schoolField(),
               ],
             ),
           ),
@@ -99,12 +99,12 @@ class TurmasPage extends StatelessWidget {
     );
   }
 
-  Widget _turmaField(TurmasBloc bloc) {
+  Widget _turmaField() {
     return StreamBuilder(
-      stream: bloc.turmaName,
+      stream: _bloc.turmaName,
       builder: (context, snapshot) {
         return TextField(
-          onChanged: bloc.changeTurma,
+          onChanged: _bloc.changeTurma,
           decoration: InputDecoration(
             labelText: DESCRIPTION_CLASS_NAME,
             errorText: snapshot.error,
@@ -116,12 +116,12 @@ class TurmasPage extends StatelessWidget {
 
 
 
-  Widget _schoolField(TurmasBloc bloc) {
+  Widget _schoolField() {
     return StreamBuilder(
-      stream: bloc.schoolName,
+      stream: _bloc.schoolName,
       builder: (context, snapshot) {
         return TextField(
-          onChanged: bloc.changeSchool,
+          onChanged: _bloc.changeSchool,
           decoration: InputDecoration(
             labelText: DESCRIPTION_SCHOOL_NAME,
             errorText: snapshot.error,

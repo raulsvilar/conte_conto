@@ -11,8 +11,9 @@ class StudentContosList extends StatelessWidget {
 
   final _bloc = BlocProvider.getBloc<StudentContosListBloc>();
   final String _turmaId;
+  final userID;
 
-  StudentContosList(this._turmaId);
+  StudentContosList(this.userID, this._turmaId);
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +28,12 @@ class StudentContosList extends StatelessWidget {
           color: Colors.white,
         ),
       ),
-        bottomNavigationBar: BottomNavigation(
-        [Items.library, Items.favorites, Items.messages],
-            (index) => {}),
-      body: _buildBody(context),
+        bottomNavigationBar: BottomNavigation([
+          Items.library,
+          Items.favorites,
+          Items.messages
+        ], (index) => {}),
+      body: _turmaId.isNotEmpty ? _buildBody(context) : _buildBodyNoClass(context),
     );
   }
 
@@ -71,6 +74,139 @@ class StudentContosList extends StatelessWidget {
 
   _setFavorite(contoId, data) {
     _bloc.setFavorite(contoId, data);
+  }
+
+  _buildBodyNoClass(BuildContext context) {
+    return InkWell(
+      onTap: () => _showDialogEnterTurma(context),
+      child: Center(
+        child: Text(
+          NO_CLASS_TEXT,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+      ),
+    );
+  }
+
+  _showDialogNewConto(BuildContext ctx) {
+    var _saveBtn = FlatButton(
+      child: Text(DIALOG_BUTTON_SAVE),
+      onPressed: () {
+        _bloc.addConto(_turmaId, userID);
+        Navigator.pop(ctx);
+      },
+    );
+    var _cancelBtn = FlatButton(
+      child: Text(DIALOG_BUTTON_CANCEL),
+      onPressed: () => Navigator.pop(ctx),
+    );
+    return showDialog(
+      context: ctx,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(DIALOG_NEW_CONTO),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(top: 8, bottom: 8),
+                  child: _contoNameField(),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            _cancelBtn,
+            _saveBtn,
+          ],
+        );
+      },
+    );
+  }
+
+  _showDialogEnterTurma(BuildContext ctx) {
+    var _enterBtn = FlatButton(
+      child: Text(DIALOG_BUTTON_ENTER),
+      onPressed: () {
+        _bloc.enterTurma(userID, ctx);
+      },
+    );
+    var _cancelBtn = FlatButton(
+      child: Text(DIALOG_BUTTON_CANCEL),
+      onPressed: () => Navigator.pop(ctx),
+    );
+    return showDialog(
+      context: ctx,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(DIALOG_ENTER_CLASS),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(top: 8, bottom: 8),
+                  child: _codeTurmaField(),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            _cancelBtn,
+            StreamBuilder<Object>(
+                stream: _bloc.outLoading,
+                builder: (_, snapshot) {
+                  if (snapshot.hasData && snapshot.data) {
+                    return Container(
+                      height: 50,
+                      width: 50,
+                      alignment: Alignment.center,
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  else{
+                    return _enterBtn;
+                  }
+                }
+                )
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _contoNameField() {
+    return StreamBuilder(
+      stream: _bloc.contoName,
+      builder: (context, snapshot) {
+        return TextField(
+          onChanged: _bloc.changeContoName,
+          decoration: InputDecoration(
+            labelText: DESCRIPTION_CLASS_NAME,
+            errorText: snapshot.error,
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _codeTurmaField() {
+    return StreamBuilder(
+      stream: _bloc.codeTurma,
+      builder: (context, snapshot) {
+        return TextField(
+          onChanged: _bloc.changeCode,
+          decoration: InputDecoration(
+            labelText: DESCRIPTION_CODE,
+            errorText: snapshot.error,
+          ),
+        );
+      },
+    );
   }
 
 }
