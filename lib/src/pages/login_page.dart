@@ -6,12 +6,22 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:conte_conto/src/blocs/login_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _LoginPageState();
+  }
+}
+
+class _LoginPageState extends State<LoginPage> {
+
+  final _bloc = BlocProvider.getBloc<LoginBloc>();
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.getBloc<LoginBloc>();
+
     final _screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -23,7 +33,7 @@ class LoginPage extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 buildLogo(),
-                buildCard(bloc, context),
+                buildCard(),
               ],
             ),
           ),
@@ -32,22 +42,22 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Card buildCard(LoginBloc bloc, BuildContext context) {
+  Card buildCard() {
     return Card(
       child: Container(
         margin: EdgeInsets.all(15),
         child: Column(
           children: <Widget>[
-            emailField(bloc),
+            emailField(),
             Container(
               margin: EdgeInsets.only(top: 10, bottom: 20),
-              child: passwordField(bloc),
+              child: passwordField(_bloc),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 registerButton(context),
-                submitButton(bloc, context),
+                submitButton(),
               ],
             ),
           ],
@@ -67,12 +77,12 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget emailField(LoginBloc bloc) {
+  Widget emailField() {
     return StreamBuilder(
-      stream: bloc.email,
+      stream: _bloc.email,
       builder: (context, snapshot) {
         return TextField(
-          onChanged: bloc.changeEmail,
+          onChanged: _bloc.changeEmail,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             labelText: DESCRIPTION_EMAIL,
@@ -123,9 +133,9 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget submitButton(LoginBloc bloc, BuildContext context) {
+  Widget submitButton() {
     return StreamBuilder<Object>(
-      stream: bloc.outLoading,
+      stream: _bloc.outLoading,
       builder: (_, snapshot) {
         if (snapshot.hasData && snapshot.data) {
           return Container(
@@ -136,14 +146,14 @@ class LoginPage extends StatelessWidget {
           );
         } else {
           return StreamBuilder(
-            stream: bloc.submitValid,
+            stream: _bloc.submitValid,
             builder: (_, snapshot) {
               return RaisedButton(
                 child: Text(
                   DESCRIPTION_ENTER.toUpperCase(),
                 ),
                 textColor: Colors.white,
-                onPressed: () => bloc.submit(context)
+                onPressed: () => _bloc.submit(lostPasswordDialog, navigationAfterLogin)
               );
             },
           );
@@ -151,4 +161,51 @@ class LoginPage extends StatelessWidget {
       },
     );
   }
+
+  lostPasswordDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(DESCRIPTION_DIALOG_ERROR),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(DESCRIPTION_INVALID_USER_PASSWORD)
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            StreamBuilder<String>(
+              stream: _bloc.email,
+              builder: (_, snapshot) {
+                return FlatButton(
+                  child: Text(DESCRIPTION_RESET_PASSWORD),
+                  onPressed: () {
+                    _bloc.resetPassword(snapshot.data);
+                    Fluttertoast.showToast(
+                        msg: "$DESCRIPTION_SEND_RESET_EMAIL ${snapshot.data}",
+                        toastLength: Toast.LENGTH_LONG,
+                        gravity: ToastGravity.BOTTOM
+                    );
+                    Navigator.pop(context);
+                    },
+                );
+              },
+            ),
+            FlatButton(
+              child: Text(DIALOG_BUTTON_CANCEL),
+              onPressed: () => Navigator.pop(context),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  navigationAfterLogin(namedRoute, args) {
+    Navigator.of(context).pushReplacementNamed(namedRoute, arguments: args);
+  }
+
 }

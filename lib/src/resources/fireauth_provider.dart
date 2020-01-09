@@ -25,8 +25,9 @@ class Authentication {
     return User.fromSnapshot(result);
   }
 
-  Future<FirebaseUser> getCurrentUser() async {
-    FirebaseUser user = await _firebaseAuth.currentUser();
+  Future<User> getCurrentUser() async {
+    User user = User.fromSnapshot(await _firebaseAuth.currentUser()
+        .then( (userResult) => _firestore.getUser(userResult.uid)));
     return user;
   }
 

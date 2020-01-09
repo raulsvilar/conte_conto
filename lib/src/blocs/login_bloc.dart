@@ -1,9 +1,6 @@
 import 'package:conte_conto/src/models/user.dart';
 import 'package:conte_conto/src/resources/fireauth_provider.dart';
 import 'package:conte_conto/src/utils/constants.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
 
@@ -48,54 +45,28 @@ class LoginBloc extends BlocBase with Validator {
     }
   }
 
-  submit(BuildContext context) async{
+  getLoggedUser(Function(String, List<String>) navigationCallback) async{
+    User user = await _authentication.getCurrentUser();
+    if (user != null)
+      routeByUser(user, navigationCallback);
+  }
+
+  submit(Function failCallback, Function(String, List<String>) navigationCallback) async{
     final validEmail = _emailController.value.trim();
     final validPassword = _passwordController.value.trim();
     User user = await login(validEmail, validPassword);
-    if (user != null)
-      switch (user?.type) {
+    user != null ? routeByUser(user, navigationCallback) : failCallback();
+  }
+
+  routeByUser(User user, Function(String, List<String>) navigationCallback) {
+      switch (user.type) {
         case userTypes.student:
-          Navigator.of(context).pushReplacementNamed(DESCRIPTION_STUDENT_CONTOS_LIST_PAGE, arguments: [user.reference.documentID, user.turmaID]);
+          navigationCallback(DESCRIPTION_STUDENT_CONTOS_LIST_PAGE, [user.reference.documentID, user.turmaID]);
           break;
         case userTypes.teacher:
-          Navigator.of(context).pushReplacementNamed(DESCRIPTION_CLASS_NAME, arguments: [user.reference.documentID]);
+          navigationCallback(DESCRIPTION_CLASS_NAME, [user.reference.documentID]);
           break;
       }
-    else
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(DESCRIPTION_DIALOG_ERROR),
-            content: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(DESCRIPTION_INVALID_USER_PASSWORD)
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text(DESCRIPTION_RESET_PASSWORD),
-                onPressed: () {
-                  _authentication.resetPassword(_emailController.value);
-                  Fluttertoast.showToast(
-                      msg: "$DESCRIPTION_SEND_RESET_EMAIL ${_emailController.value}",
-                      toastLength: Toast.LENGTH_LONG,
-                      gravity: ToastGravity.BOTTOM
-                  );
-                  Navigator.pop(context);
-                },
-              ),
-              FlatButton(
-                child: Text(DIALOG_BUTTON_CANCEL),
-                onPressed: () => Navigator.pop(context),
-              )
-            ],
-          );
-        },
-      );
   }
 
   @override
@@ -105,4 +76,9 @@ class LoginBloc extends BlocBase with Validator {
     _hidePasswordController?.close();
     super.dispose();
   }
+
+  void resetPassword(String email) {
+    _authentication.resetPassword(email);
+  }
+
 }
