@@ -63,7 +63,7 @@ class EditorPageState extends State<EditorPage> {
       final contents = await file.readAsString();
       return NotusDocument.fromJson(jsonDecode(contents));
     }
-    final Delta delta = Delta()..insert("Zefyr Quick Start\n");
+    final Delta delta = Delta()..insert("Era uma vez...\n");
     return NotusDocument.fromDelta(delta);
   }
 

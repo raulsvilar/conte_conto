@@ -83,20 +83,12 @@ class StudentContosList extends StatelessWidget {
     return ItemWithImageTitleSub(
       record.reference.documentID,
       record.title, record.author,
-      true,
-      _onTapConto,
-      setFavoriteCallback:
-      _setFavorite,
-      isFavorited: record.isFavorited,
-      callbackArg: [record.reference.documentID, !record.isFavorited]);
+      false,
+      _onTapConto);
   }
 
-  _onTapConto() {
-
-  }
-
-  _setFavorite(contoId, data) {
-    _bloc.setFavorite(contoId, data);
+  _onTapConto(_, BuildContext context) {
+    Navigator.of(context).pushNamed(DESCRIPTION_EDITOR_PAGE);
   }
 
   _buildBodyNoClass(BuildContext context) {
