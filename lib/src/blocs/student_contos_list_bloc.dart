@@ -31,9 +31,9 @@ class StudentContosListBloc extends BlocBase with Validator{
 
 
 
-  Stream<QuerySnapshot> contosList(turmaId) {
+  Stream<QuerySnapshot> contosList(userID, turmaId) {
     print(turmaId);
-    return _firestore.contosListForTurma(turmaId);
+    return _firestore.contosListForStudent(userID, turmaId);
   }
 
   setFavorite(String contoId, bool data) {

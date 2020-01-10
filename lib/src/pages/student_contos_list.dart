@@ -11,9 +11,9 @@ class StudentContosList extends StatelessWidget {
 
   final _bloc = BlocProvider.getBloc<StudentContosListBloc>();
   final String _turmaId;
-  final userID;
+  final _userID;
 
-  StudentContosList(this.userID, this._turmaId) {
+  StudentContosList(this._userID, this._turmaId) {
     _bloc.changeTurma(_turmaId);
   }
 
@@ -60,7 +60,7 @@ class StudentContosList extends StatelessWidget {
 
   Widget _buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _bloc.contosList(_turmaId),
+      stream: _bloc.contosList(_userID, _turmaId),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
         return _buildList(context, snapshot.data.documents);
@@ -91,7 +91,9 @@ class StudentContosList extends StatelessWidget {
       callbackArg: [record.reference.documentID, !record.isFavorited]);
   }
 
-  _onTapConto() {}
+  _onTapConto() {
+
+  }
 
   _setFavorite(contoId, data) {
     _bloc.setFavorite(contoId, data);
@@ -116,7 +118,7 @@ class StudentContosList extends StatelessWidget {
     var _saveBtn = FlatButton(
       child: Text(DIALOG_BUTTON_SAVE),
       onPressed: () {
-        _bloc.addConto(_turmaId, userID);
+        _bloc.addConto(_turmaId, _userID);
         Navigator.pop(ctx);
       },
     );
@@ -153,7 +155,7 @@ class StudentContosList extends StatelessWidget {
     var _enterBtn = FlatButton(
       child: Text(DIALOG_BUTTON_ENTER),
       onPressed: () {
-        _bloc.enterTurma(userID, ctx);
+        _bloc.enterTurma(_userID, ctx);
       },
     );
     var _cancelBtn = FlatButton(
@@ -207,7 +209,7 @@ class StudentContosList extends StatelessWidget {
         return TextField(
           onChanged: _bloc.changeContoName,
           decoration: InputDecoration(
-            labelText: DESCRIPTION_CLASS_NAME,
+            labelText: DESCRIPTION_CONTO_NAME,
             errorText: snapshot.error,
           ),
         );

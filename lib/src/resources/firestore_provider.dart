@@ -7,24 +7,47 @@ class FirestoreProvider {
   final _firestore = Firestore.instance;
 
   Future<DocumentReference> addTurma(Turma turma) async{
-    return  _firestore.collection("turmas").add(turma.toJson());
+    return  _firestore
+        .collection("turmas")
+        .add(turma.toJson());
   }
 
   Stream<QuerySnapshot> turmasList(userID) {
-    return _firestore.collection("turmas").where("owner", isEqualTo: userID).snapshots();
+    return _firestore
+        .collection("turmas")
+        .where("owner", isEqualTo: userID)
+        .snapshots();
 
   }
 
   Stream<QuerySnapshot> contosListForTurma(turmaId) {
-    return _firestore.collection("contos").where("turma", isEqualTo: turmaId).snapshots();
+    return _firestore
+        .collection("contos")
+        .where("turma", isEqualTo: turmaId)
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot> contosListForStudent(userID, turmaId) {
+    return _firestore
+        .collection("contos")
+        .where("turmaID", isEqualTo: turmaId)
+        .where("author", isEqualTo: userID)
+        .snapshots();
   }
 
   Stream<QuerySnapshot> getFavorites(turmaId) {
-    return _firestore.collection("contos").where("turma", isEqualTo: turmaId).where("favorited", isEqualTo: true).snapshots();
+    return _firestore
+        .collection("contos")
+        .where("turma", isEqualTo: turmaId)
+        .where("favorited", isEqualTo: true)
+        .snapshots();
   }
   
   setFavorite(String contoId, bool data) {
-    _firestore.collection("contos").document(contoId).updateData({"favorited": data});
+    _firestore
+        .collection("contos")
+        .document(contoId)
+        .updateData({"favorited": data});
   }
 
   Future<DocumentSnapshot> createUser(User user, reference) async{

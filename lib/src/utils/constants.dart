@@ -14,6 +14,7 @@ const DIALOG_NEW_CONTO = "Novo Conto";
 const DIALOG_ENTER_CLASS = "Digite o código para entrar";
 
 const DESCRIPTION_CLASS_NAME = 'Nome da Turma';
+const DESCRIPTION_CONTO_NAME = 'Nome do Conto';
 const DESCRIPTION_SCHOOL_NAME = 'Nome da Escola';
 
 const DESCRIPTION_ERROR_DEFAULT = 'Favor verificar sua conexão com a internet';

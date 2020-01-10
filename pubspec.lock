@@ -255,7 +255,7 @@ packages:
     source: hosted
     version: "1.0.1"
   quill_delta:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: quill_delta
       url: "https://pub.dartlang.org"
