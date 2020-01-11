@@ -23,7 +23,7 @@ class FirestoreProvider {
   Stream<QuerySnapshot> contosListForTurma(turmaId) {
     return _firestore
         .collection("contos")
-        .where("turma", isEqualTo: turmaId)
+        .where("turmaID", isEqualTo: turmaId)
         .snapshots();
   }
 

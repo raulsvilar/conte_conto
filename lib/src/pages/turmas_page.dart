@@ -21,6 +21,26 @@ class TurmasPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Turmas"),
+        actions: <Widget>[
+          PopupMenuButton(
+            itemBuilder: (context) =>
+            [
+              PopupMenuItem(
+                value: 1,
+                child: Text("Sair"),
+              )
+            ],
+            onSelected: (value) {
+              switch(value) {
+                case 1:
+                  _bloc.logout()
+                      .then((_) => Navigator.of(context)
+                      .pushReplacementNamed(DESCRIPTION_LOGIN_PAGE));
+
+              }
+            },
+          )
+        ],
       ),
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton(
@@ -136,6 +156,6 @@ class TurmasPage extends StatelessWidget {
   }
 
   _onTapTurma(String turmaId, BuildContext context) {
-    Navigator.of(context).pushNamed(DESCRIPTION_CONTOS_LIST_PAGE, arguments: turmaId);
+    Navigator.of(context).pushNamed(DESCRIPTION_CONTOS_LIST_PAGE, arguments: [turmaId]);
   }
 }

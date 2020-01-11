@@ -1,6 +1,7 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conte_conto/src/models/turma.dart';
+import 'package:conte_conto/src/resources/fireauth_provider.dart';
 import 'package:conte_conto/src/resources/firestore_provider.dart';
 import 'package:conte_conto/src/utils/validator.dart';
 import 'package:rxdart/rxdart.dart';
@@ -8,6 +9,8 @@ import 'package:rxdart/rxdart.dart';
 class TurmasBloc extends BlocBase with Validator {
   final _firestore = FirestoreProvider();
   String _userUid;
+
+  final _authentication = Authentication();
 
   set user(String uid) {
     _userUid = uid;
@@ -44,5 +47,9 @@ class TurmasBloc extends BlocBase with Validator {
     _turmaNameController?.close();
     _schoolNameController?.close();
     super.dispose();
+  }
+
+  Future<void> logout() async{
+    return await _authentication.singOut();
   }
 }
