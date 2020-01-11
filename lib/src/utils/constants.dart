@@ -60,6 +60,8 @@ const USER_TYPE_TEACHER = "Professor";
 const USER_TYPE_STUDENT = "Aluno";
 const NO_CLASS_TEXT = "Você ainda não está em uma turma,\nclique aqui para entrar!";
 const DESCRIPTION_CODE = "Código";
+const DESCRIPTION_EMPTY_CONTO = "\n";
+const DESCRIPTION_SAVED = "Salvo!";
 
 /// ###################################################
 /// PAGES

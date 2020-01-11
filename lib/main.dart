@@ -1,5 +1,6 @@
 import 'package:conte_conto/src/blocs/bottom_navigation_bloc.dart';
 import 'package:conte_conto/src/blocs/contos_list_bloc.dart';
+import 'package:conte_conto/src/blocs/editor_bloc.dart';
 import 'package:conte_conto/src/blocs/login_bloc.dart';
 import 'package:conte_conto/src/blocs/register_bloc.dart';
 import 'package:conte_conto/src/blocs/student_contos_list_bloc.dart';
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
         Bloc((i) => TurmasBloc()),
         Bloc((i) => ContosListBloc()),
         Bloc((i) => BottomNavigationBloc()),
-        Bloc((i) => StudentContosListBloc())
+        Bloc((i) => StudentContosListBloc()),
+        Bloc((i) => EditorBloc())
       ],
     );
   }

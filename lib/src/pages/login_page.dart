@@ -20,24 +20,29 @@ class _LoginPageState extends State<LoginPage> {
   final _bloc = BlocProvider.getBloc<LoginBloc>();
 
   @override
+  void initState() {
+    _bloc.getLoggedUser(navigationAfterLogin);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
-    final _screenSize = MediaQuery.of(context).size;
+
 
     return Scaffold(
-      body: Center(
-        child: Container(
-          width: _screenSize.width * .8,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: <Widget>[
-                buildLogo(),
-                buildCard(),
-              ],
-            ),
-          ),
-        ),
+      body: StreamBuilder<bool>(
+        stream: _bloc.isLogged,
+        builder: (_, snapshot) {
+          if (snapshot.hasData && snapshot.data) {
+            _bloc.getLoggedUser(navigationAfterLogin);
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          else
+            return _buildBody();
+        },
       ),
     );
   }
@@ -206,6 +211,24 @@ class _LoginPageState extends State<LoginPage> {
 
   navigationAfterLogin(namedRoute, args) {
     Navigator.of(context).pushReplacementNamed(namedRoute, arguments: args);
+  }
+
+  _buildBody() {
+    final _screenSize = MediaQuery.of(context).size;
+    return Center(
+      child: Container(
+        width: _screenSize.width * .8,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: <Widget>[
+              buildLogo(),
+              buildCard(),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
 }

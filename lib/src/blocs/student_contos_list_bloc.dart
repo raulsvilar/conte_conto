@@ -1,6 +1,7 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conte_conto/src/models/conto.dart';
+import 'package:conte_conto/src/resources/fireauth_provider.dart';
 import 'package:conte_conto/src/resources/firestore_provider.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:conte_conto/src/utils/validator.dart';
@@ -10,6 +11,7 @@ import 'package:rxdart/rxdart.dart';
 class StudentContosListBloc extends BlocBase with Validator{
 
   final _firestore = FirestoreProvider();
+  final _authentication = Authentication();
 
   final _contoNameController = BehaviorSubject<String>();
   Stream<String> get contoName =>
@@ -39,10 +41,12 @@ class StudentContosListBloc extends BlocBase with Validator{
     _firestore.setFavorite(contoId, data);
   }
 
-  void addConto(turmaID, userID) {
+  void addConto(turmaID, userID) async {
+    String userName = await _firestore.getUser(userID).then((user) => user.name);
     Conto conto = Conto.newConto(
       title: _contoNameController.value,
-      author: userID,
+      author: userName,
+      owner: userID,
       turmaID: turmaID
     );
     _firestore.addConto(conto);
@@ -67,6 +71,10 @@ class StudentContosListBloc extends BlocBase with Validator{
     _codeTurmaController.close();
     _turmaController.close();
     super.dispose();
+  }
+
+  Future<void> logout() async{
+    return await _authentication.singOut();
   }
 
 }

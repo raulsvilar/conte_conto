@@ -22,6 +22,26 @@ class StudentContosList extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(DESCRIPTION_APPBAR_TITLE_CONTOS_STUDENT),
+        actions: <Widget>[
+          PopupMenuButton(
+            itemBuilder: (context) =>
+            [
+              PopupMenuItem(
+                value: 1,
+                child: Text("Sair"),
+              )
+            ],
+            onSelected: (value) {
+              switch(value) {
+                case 1:
+                  _bloc.logout()
+                      .then((_) => Navigator.of(context)
+                        .pushReplacementNamed(DESCRIPTION_LOGIN_PAGE));
+
+              }
+            },
+          )
+        ],
       ),
       floatingActionButton: StreamBuilder<String>(
         stream: _bloc.turma,
@@ -82,13 +102,13 @@ class StudentContosList extends StatelessWidget {
     print(record.toString());
     return ItemWithImageTitleSub(
       record.reference.documentID,
-      record.title, record.author,
+      record.title,
       false,
       _onTapConto);
   }
 
-  _onTapConto(_, BuildContext context) {
-    Navigator.of(context).pushNamed(DESCRIPTION_EDITOR_PAGE);
+  _onTapConto(contoID, BuildContext context) {
+    Navigator.of(context).pushNamed(DESCRIPTION_EDITOR_PAGE, arguments: [contoID]);
   }
 
   _buildBodyNoClass(BuildContext context) {

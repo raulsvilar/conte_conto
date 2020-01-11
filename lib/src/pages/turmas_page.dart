@@ -58,7 +58,11 @@ class TurmasPage extends StatelessWidget {
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Turma.fromSnapshot(data);
-    return ItemWithImageTitleSub(record.reference.documentID, record.name, record.school, false, _onTapTurma);
+    return ItemWithImageTitleSub(
+        record.reference.documentID,
+        record.name, false, _onTapTurma,
+      subTitle: record.school,
+    );
   }
 
   _showDialogNovaTurma(BuildContext ctx) {

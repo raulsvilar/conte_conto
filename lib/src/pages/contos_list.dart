@@ -57,11 +57,12 @@ class ContosList extends StatelessWidget {
     print(record.toString());
     return ItemWithImageTitleSub(
       record.reference.documentID,
-      record.title, record.author,
+      record.title,
       true,
       _onTapConto,
       setFavoriteCallback:
       _setFavorite,
+      subTitle: record.author,
       isFavorited: record.isFavorited,
       callbackArg: [record.reference.documentID, !record.isFavorited]);
   }

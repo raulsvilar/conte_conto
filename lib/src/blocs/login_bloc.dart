@@ -30,6 +30,9 @@ class LoginBloc extends BlocBase with Validator {
   Stream<bool> get submitValid =>
       Rx.combineLatest2(email, password, (e, p) => true);
 
+  final _controllerLogged = BehaviorSubject<bool>.seeded(false);
+  Stream<bool> get isLogged => _controllerLogged.stream;
+
 
   Future<User> login(String email, String password) async{
     _controllerLoading.add(true);
@@ -74,6 +77,7 @@ class LoginBloc extends BlocBase with Validator {
     _emailController?.close();
     _passwordController?.close();
     _hidePasswordController?.close();
+    _controllerLogged.close();
     super.dispose();
   }
 

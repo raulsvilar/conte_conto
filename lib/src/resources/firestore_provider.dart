@@ -6,7 +6,7 @@ import 'package:conte_conto/src/models/user.dart';
 class FirestoreProvider {
   final _firestore = Firestore.instance;
 
-  Future<DocumentReference> addTurma(Turma turma) async{
+  Future<DocumentReference> addTurma(Turma turma) {
     return  _firestore
         .collection("turmas")
         .add(turma.toJson());
@@ -31,7 +31,7 @@ class FirestoreProvider {
     return _firestore
         .collection("contos")
         .where("turmaID", isEqualTo: turmaId)
-        .where("author", isEqualTo: userID)
+        .where("owner", isEqualTo: userID)
         .snapshots();
   }
 
@@ -50,16 +50,15 @@ class FirestoreProvider {
         .updateData({"favorited": data});
   }
 
-  Future<DocumentSnapshot> createUser(User user, reference) async{
+  Future<User> createUser(User user, reference) async{
     await _firestore.runTransaction((Transaction tx) async {
-      await tx.set(_firestore.document("users/$reference"), user.toJson())
-          .catchError((onError) => print("Erros aqui: $onError"));
+      await tx.set(_firestore.document("users/$reference"), user.toJson());
     });
     return await getUser(reference);
   }
 
-  Future<DocumentSnapshot> getUser(String uid) async {
-    return await _firestore.collection("users").document(uid).get();
+  Future<User> getUser(String uid) async {
+    return await _firestore.collection("users").document(uid).get().then((ds) => User.fromSnapshot(ds));
   }
 
   void addConto(Conto conto) {
@@ -80,5 +79,14 @@ class FirestoreProvider {
         await tx.update(turmaRef, {"members": newMembers});
       }
     });
+  }
+
+  saveConto(String contoID, String data) {
+    _firestore.collection("contos").document(contoID).updateData({"content": data});
+  }
+
+  Future<String> getContoContent(contoID) async{
+    return await _firestore.collection("contos").document(contoID).get()
+        .then((ds) => ds.data["content"]);
   }
 }
