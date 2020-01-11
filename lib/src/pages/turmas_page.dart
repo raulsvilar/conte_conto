@@ -52,7 +52,7 @@ class TurmasPage extends StatelessWidget {
           )
       ),
       bottomNavigationBar: BottomNavigation(
-          [BottomItems.library, BottomItems.favorites, BottomItems.messages],
+          [bottomItems.library, bottomItems.favorites, bottomItems.messages],
           (index) => {}),
     );
   }

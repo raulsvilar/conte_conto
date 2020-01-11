@@ -3,12 +3,13 @@ import 'dart:convert';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:conte_conto/src/resources/firestore_provider.dart';
 import 'package:conte_conto/src/utils/constants.dart';
+import 'package:get_it/get_it.dart';
 import 'package:quill_delta/quill_delta.dart';
 import 'package:zefyr/zefyr.dart';
 
 class EditorBloc extends BlocBase {
 
-  final _firestore = FirestoreProvider();
+  final _firestore = GetIt.I.get<FirestoreProvider>();
 
 
 

@@ -2,6 +2,7 @@ import 'package:conte_conto/src/resources/fireauth_provider.dart';
 import 'package:conte_conto/src/models/user.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
@@ -11,7 +12,7 @@ import 'package:conte_conto/src/utils/validator.dart';
 
 class RegisterBloc extends BlocBase with Validator {
 
-  final _authentication = Authentication();
+  final _authentication = GetIt.I.get<Authentication>();
 
   
   final _hidePasswordController = BehaviorSubject<bool>.seeded(true);

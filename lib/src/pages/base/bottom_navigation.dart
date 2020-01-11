@@ -2,7 +2,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:conte_conto/src/blocs/bottom_navigation_bloc.dart';
 import 'package:flutter/material.dart';
 
-enum BottomItems {
+enum bottomItems {
   favorites,
   library,
   messages,
@@ -13,7 +13,7 @@ class BottomNavigation extends StatelessWidget {
 
   final _bloc = BlocProvider.getBloc<BottomNavigationBloc>();
 
-  final List<BottomItems> _items;
+  final List<bottomItems> _items;
   final _onTapCallback;
 
   BottomNavigation(this._items, this._onTapCallback);
@@ -35,27 +35,27 @@ class BottomNavigation extends StatelessWidget {
 
   _createItems() {
     List<BottomNavigationBarItem> listItems = [];
-    for (BottomItems item in _items) {
+    for (bottomItems item in _items) {
       switch (item) {
-        case BottomItems.favorites:
+        case bottomItems.favorites:
           listItems.add(BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             title: Text('Favoritos')
           ));
           break;
-        case BottomItems.messages:
+        case bottomItems.messages:
           listItems.add(BottomNavigationBarItem(
               icon: Icon(Icons.message),
               title: Text('Mensagens')
           ));
           break;
-        case BottomItems.library:
+        case bottomItems.library:
           listItems.add(BottomNavigationBarItem(
               icon: Icon(Icons.book),
               title: Text('Turmas')
           ));
           break;
-        case BottomItems.help:
+        case bottomItems.help:
           listItems.add(BottomNavigationBarItem(
               icon: Icon(Icons.help),
               title: Text('Ajuda')

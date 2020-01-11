@@ -28,7 +28,7 @@ class ContosList extends StatelessWidget {
         ),
       ),
         bottomNavigationBar: BottomNavigation(
-        [BottomItems.library, BottomItems.favorites, BottomItems.messages],
+        [bottomItems.library, bottomItems.favorites, bottomItems.messages],
             (index) => {}),
       body: _buildBody(context),
     );
@@ -61,8 +61,7 @@ class ContosList extends StatelessWidget {
       record.title,
       true,
       _onTapConto,
-      setFavoriteCallback:
-      _setFavorite,
+      setFavoriteCallback: _setFavorite,
       subTitle: record.author,
       isFavorited: record.isFavorited,
       callbackArg: [record.reference.documentID, !record.isFavorited]);

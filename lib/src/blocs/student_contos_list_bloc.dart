@@ -6,13 +6,14 @@ import 'package:conte_conto/src/resources/fireauth_provider.dart';
 import 'package:conte_conto/src/resources/firestore_provider.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:conte_conto/src/utils/validator.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 
 class StudentContosListBloc extends BlocBase with Validator{
 
-  final _firestore = FirestoreProvider();
-  final _authentication = Authentication();
+  final _firestore =  GetIt.I.get<FirestoreProvider>();
+  final _authentication = GetIt.I.get<Authentication>();
 
   final _contoNameController = BehaviorSubject<String>();
   Stream<String> get contoName =>
@@ -78,16 +79,16 @@ class StudentContosListBloc extends BlocBase with Validator{
     return await _authentication.singOut();
   }
 
-  void bottomNavigation(BottomItems bottomBarListItem, BuildContext context, Function(BuildContext, String, List) bottomNavigationCallback) {
+  void bottomNavigation(bottomItems bottomBarListItem, BuildContext context, Function(BuildContext, String, List) bottomNavigationCallback) {
     switch(bottomBarListItem) {
 
-      case BottomItems.library:
+      case bottomItems.library:
         // TODO: Handle this case.
         break;
-      case BottomItems.messages:
+      case bottomItems.messages:
         // TODO: Handle this case.
         break;
-      case BottomItems.help:
+      case bottomItems.help:
         // TODO: Handle this case.
         break;
       default:

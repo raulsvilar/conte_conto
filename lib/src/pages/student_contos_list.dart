@@ -19,10 +19,10 @@ class StudentContosList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<BottomItems> bottomBarListItems = [
-      BottomItems.library,
-      BottomItems.messages,
-      BottomItems.help,
+    List<bottomItems> bottomBarListItems = [
+      bottomItems.library,
+      bottomItems.messages,
+      bottomItems.help,
     ];
 
     return Scaffold(

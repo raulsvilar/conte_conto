@@ -4,13 +4,13 @@ import 'package:conte_conto/src/models/turma.dart';
 import 'package:conte_conto/src/resources/fireauth_provider.dart';
 import 'package:conte_conto/src/resources/firestore_provider.dart';
 import 'package:conte_conto/src/utils/validator.dart';
+import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 
 class TurmasBloc extends BlocBase with Validator {
-  final _firestore = FirestoreProvider();
+  final _firestore =  GetIt.I.get<FirestoreProvider>();
+  final _authentication = GetIt.I.get<Authentication>();
   String _userUid;
-
-  final _authentication = Authentication();
 
   set user(String uid) {
     _userUid = uid;
