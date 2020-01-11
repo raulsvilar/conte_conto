@@ -156,6 +156,6 @@ class TurmasPage extends StatelessWidget {
   }
 
   _onTapTurma(String turmaId, BuildContext context) {
-    Navigator.of(context).pushNamed(DESCRIPTION_CONTOS_LIST_PAGE, arguments: [turmaId]);
+    Navigator.of(context).pushNamed(DESCRIPTION_TEACHER_CONTOS_LIST_PAGE, arguments: [turmaId]);
   }
 }

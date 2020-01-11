@@ -68,7 +68,7 @@ class LoginBloc extends BlocBase with Validator {
           navigationCallback(DESCRIPTION_STUDENT_CONTOS_LIST_PAGE, [user.reference.documentID, user.turmaID]);
           break;
         case userTypes.teacher:
-          navigationCallback(DESCRIPTION_CLASS_NAME, [user.reference.documentID]);
+          navigationCallback(DESCRIPTION_TEACHER_CONTOS_LIST_PAGE, [user.reference.documentID]);
           break;
       }
   }

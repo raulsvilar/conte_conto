@@ -1,5 +1,5 @@
 import 'package:conte_conto/src/pages/editor_page.dart';
-import 'package:conte_conto/src/pages/contos_list.dart';
+import 'package:conte_conto/src/pages/teacher_contos_list.dart';
 import 'package:conte_conto/src/pages/correction_page.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +29,7 @@ class RouteGenerator {
         if (args is List) {
           return MaterialPageRoute(builder: (_) => EditorPage(args[0], args[1]));
         } return _errorRoute("Tipo inválido no argumento de EditorPage");
-      case DESCRIPTION_CONTOS_LIST_PAGE:
+      case DESCRIPTION_TEACHER_CONTOS_LIST_PAGE:
         if (args is List) {
           return MaterialPageRoute(builder: (_) => ContosList(args[0]));
         } return _errorRoute("Tipo inválido no argumento de ContosList");

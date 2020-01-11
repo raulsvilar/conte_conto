@@ -1,5 +1,3 @@
-import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conte_conto/src/blocs/student_contos_list_bloc.dart';
 import 'package:conte_conto/src/models/conto.dart';
 import 'package:conte_conto/src/pages/base/bottom_navigation.dart';
@@ -7,114 +5,26 @@ import 'package:conte_conto/src/pages/base/items.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 
-class StudentContosList extends StatelessWidget {
+import 'base/contos_list.dart';
 
-  final _bloc = BlocProvider.getBloc<StudentContosListBloc>();
-  final String _turmaId;
-  final _userID;
+class StudentContosList extends ContosListBase<StudentContosListBloc> {
 
-  StudentContosList(this._userID, this._turmaId) {
-    _bloc.changeTurma(_turmaId);
+  StudentContosList(userID, turmaID) : super(turmaID, userId: userID, editorMode: true) {
+    bloc.changeTurma(turmaID);
   }
 
   @override
-  Widget build(BuildContext context) {
-    List<bottomItems> bottomBarListItems = [
-      bottomItems.library,
-      bottomItems.messages,
-      bottomItems.help,
-    ];
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(DESCRIPTION_APPBAR_TITLE_CONTOS_STUDENT),
-        actions: <Widget>[
-          PopupMenuButton(
-            itemBuilder: (context) =>
-            [
-              PopupMenuItem(
-                value: 1,
-                child: Text("Sair"),
-              )
-            ],
-            onSelected: (value) {
-              switch(value) {
-                case 1:
-                  _bloc.logout()
-                      .then((_) => Navigator.of(context)
-                        .pushReplacementNamed(DESCRIPTION_LOGIN_PAGE));
-
-              }
-            },
-          )
-        ],
-      ),
-      floatingActionButton: StreamBuilder<String>(
-        stream: _bloc.turma,
+  Widget buildBody(BuildContext context) {
+    return StreamBuilder<String>(
+        stream: bloc.turma,
         builder: (_, snapshot) {
           if (snapshot.hasData && snapshot.data.isNotEmpty) {
-            return FloatingActionButton(
-              onPressed: () => _showDialogNewConto(context),
-              child: Icon(
-                Icons.edit,
-                color: Colors.white,
-              ),
-            );
+            return super.buildBody(context);
           } else {
-            return Container();
+            return  _buildBodyNoClass(context);
           }
         }
-      ),
-
-        bottomNavigationBar: BottomNavigation(bottomBarListItems, (index) {
-          _bloc.bottomNavigation(bottomBarListItems[index],
-              context, bottomNavigationCallback);
-        }),
-      body:
-        StreamBuilder<String>(
-          stream: _bloc.turma,
-          builder: (_, snapshot) {
-            if (snapshot.hasData && snapshot.data.isNotEmpty) {
-              return _buildBody(context);
-            } else {
-              return  _buildBodyNoClass(context);
-            }
-          }
-        )
     );
-  }
-
-  Widget _buildBody(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: _bloc.contosList(_userID, _turmaId),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) return LinearProgressIndicator();
-        return _buildList(context, snapshot.data.documents);
-      },
-    );
-  }
-
-  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
-    return ListView.builder(
-      itemCount: snapshot.length,
-      itemBuilder: (BuildContext context, int index) {
-        return _buildListItem(context, snapshot[index]);
-      },
-    );
-  }
-
-  Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
-    final record = Conto.fromSnapshot(data);
-    print(record.toString());
-    return ItemWithImageTitleSub(
-      record.reference.documentID,
-      record.title,
-      false,
-      _onTapConto);
-  }
-
-  _onTapConto(contoID, BuildContext context) {
-    Navigator.of(context).pushNamed(DESCRIPTION_EDITOR_PAGE, arguments: [contoID, true]);
   }
 
   _buildBodyNoClass(BuildContext context) {
@@ -136,7 +46,7 @@ class StudentContosList extends StatelessWidget {
     var _saveBtn = FlatButton(
       child: Text(DIALOG_BUTTON_SAVE),
       onPressed: () {
-        _bloc.addConto(_turmaId, _userID);
+        bloc.addConto(turmaId, userId);
         Navigator.pop(ctx);
       },
     );
@@ -173,7 +83,7 @@ class StudentContosList extends StatelessWidget {
     var _enterBtn = FlatButton(
       child: Text(DIALOG_BUTTON_ENTER),
       onPressed: () {
-        _bloc.enterTurma(_userID, ctx);
+        bloc.enterTurma(userId, ctx);
       },
     );
     var _cancelBtn = FlatButton(
@@ -199,7 +109,7 @@ class StudentContosList extends StatelessWidget {
           actions: <Widget>[
             _cancelBtn,
             StreamBuilder<Object>(
-                stream: _bloc.outLoading,
+                stream: bloc.outLoading,
                 builder: (_, snapshot) {
                   if (snapshot.hasData && snapshot.data) {
                     return Container(
@@ -222,10 +132,10 @@ class StudentContosList extends StatelessWidget {
 
   Widget _contoNameField() {
     return StreamBuilder(
-      stream: _bloc.contoName,
+      stream: bloc.contoName,
       builder: (context, snapshot) {
         return TextField(
-          onChanged: _bloc.changeContoName,
+          onChanged: bloc.changeContoName,
           decoration: InputDecoration(
             labelText: DESCRIPTION_CONTO_NAME,
             errorText: snapshot.error,
@@ -237,10 +147,10 @@ class StudentContosList extends StatelessWidget {
 
   Widget _codeTurmaField() {
     return StreamBuilder(
-      stream: _bloc.codeTurma,
+      stream: bloc.codeTurma,
       builder: (context, snapshot) {
         return TextField(
-          onChanged: _bloc.changeCode,
+          onChanged: bloc.changeCode,
           decoration: InputDecoration(
             labelText: DESCRIPTION_CODE,
             errorText: snapshot.error,
@@ -250,8 +160,51 @@ class StudentContosList extends StatelessWidget {
     );
   }
 
-  bottomNavigationCallback(BuildContext context, namedRoute, args) {
-    Navigator.of(context).pushReplacementNamed(namedRoute, arguments: args);
+  @override
+  ItemWithImageTitleSub configItem(Conto conto) {
+    return ItemWithImageTitleSub(
+        conto.reference.documentID,
+        conto.title,
+        false,
+        onTapConto);
+  }
+
+  @override
+  List<bottomItems> bottomNavigationItems() {
+    return [
+      bottomItems.library,
+      bottomItems.messages,
+      bottomItems.help,
+    ];
+  }
+
+  @override
+  List<Widget> appBarActions(BuildContext context) {
+    return <Widget>[
+      PopupMenuButton(
+        itemBuilder: (context) =>
+        [
+          PopupMenuItem(
+            value: 1,
+            child: Text("Sair"),
+          )
+        ],
+        onSelected: (value) {
+          switch(value) {
+            case 1:
+              bloc.logout()
+                  .then((_) => Navigator.of(context)
+                  .pushReplacementNamed(DESCRIPTION_LOGIN_PAGE));
+
+          }
+        },
+      )
+    ];
+  }
+
+  @override
+  onPressedFloatingActionButton(BuildContext context) {
+    _showDialogNewConto(context);
   }
 
 }

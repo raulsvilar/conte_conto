@@ -7,36 +7,51 @@ import 'package:conte_conto/src/pages/base/items.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 
-class ContosList extends StatelessWidget {
+abstract class ContosListBase<T extends ContosListBlocBase> extends StatelessWidget {
 
-  final _bloc = BlocProvider.getBloc<ContosListBloc>();
-  final String _turmaId;
+  final bloc = BlocProvider.getBloc<T>();
 
-  ContosList(this._turmaId);
+  final String turmaId;
+
+  final bool editorMode;
+
+  final String userId;
+
+  ContosListBase(this.turmaId, {this.userId, this.editorMode});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Contos"),
+        actions: appBarActions(context),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: null,
+        onPressed: () => onPressedFloatingActionButton(context),
         child: Icon(
           Icons.edit,
           color: Colors.white,
         ),
       ),
-        bottomNavigationBar: BottomNavigation(
-        [bottomItems.library, bottomItems.favorites, bottomItems.messages],
-            (index) => {}),
-      body: _buildBody(context),
+      bottomNavigationBar: BottomNavigation(bottomNavigationItems(),
+              (index) => {}),
+      body: buildBody(context),
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  onPressedFloatingActionButton(BuildContext context);
+
+  List<Widget> appBarActions(BuildContext context);
+
+  List<bottomItems> bottomNavigationItems();
+
+  bottomNavigationCallback(BuildContext context, namedRoute, args) {
+    Navigator.of(context).pushReplacementNamed(namedRoute, arguments: args);
+  }
+
+  Widget buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _bloc.contosList(_turmaId),
+      stream: bloc.contosList(userId, turmaId),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
         return _buildList(context, snapshot.data.documents);
@@ -56,23 +71,13 @@ class ContosList extends StatelessWidget {
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Conto.fromSnapshot(data);
     print(record.toString());
-    return ItemWithImageTitleSub(
-      record.reference.documentID,
-      record.title,
-      true,
-      _onTapConto,
-      setFavoriteCallback: _setFavorite,
-      subTitle: record.author,
-      isFavorited: record.isFavorited,
-      callbackArg: [record.reference.documentID, !record.isFavorited]);
+    return configItem(record);
   }
 
-  _onTapConto(contoID, BuildContext context) {
-    Navigator.of(context).pushNamed(DESCRIPTION_EDITOR_PAGE, arguments: [contoID, false]);
-  }
+  ItemWithImageTitleSub configItem(Conto conto);
 
-  _setFavorite(contoId, data) {
-    _bloc.setFavorite(contoId, data);
+  onTapConto(String contoID, BuildContext context) {
+    Navigator.of(context).pushNamed(DESCRIPTION_EDITOR_PAGE, arguments: [contoID, editorMode]);
   }
 
 }

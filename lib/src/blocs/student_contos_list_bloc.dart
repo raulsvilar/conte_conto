@@ -1,4 +1,3 @@
-import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conte_conto/src/models/conto.dart';
 import 'package:conte_conto/src/pages/base/bottom_navigation.dart';
@@ -10,7 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 
-class StudentContosListBloc extends BlocBase with Validator{
+import 'contos_list_bloc.dart';
+
+class StudentContosListBloc extends ContosListBlocBase with Validator{
 
   final _firestore =  GetIt.I.get<FirestoreProvider>();
   final _authentication = GetIt.I.get<Authentication>();
@@ -33,8 +34,7 @@ class StudentContosListBloc extends BlocBase with Validator{
   final _controllerLoading = BehaviorSubject<bool>.seeded(false);
   Stream<bool> get outLoading => _controllerLoading.stream;
 
-
-
+  @override
   Stream<QuerySnapshot> contosList(userID, turmaId) {
     return _firestore.contosListForStudent(userID, turmaId);
   }
