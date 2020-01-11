@@ -18,8 +18,8 @@ import 'package:get_it/get_it.dart';
 
 void main() {
   GetIt getIt = GetIt.I;
-  getIt.registerSingleton<FirestoreProvider>(FirestoreProvider());
-  getIt.registerSingleton<Authentication>(Authentication());
+  getIt.registerLazySingleton<FirestoreProvider>(() => FirestoreProvider());
+  getIt.registerLazySingleton<Authentication>(() => Authentication());
   runApp(MyApp());
 }
 
