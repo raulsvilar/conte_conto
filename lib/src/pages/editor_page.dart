@@ -2,22 +2,23 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:conte_conto/src/blocs/editor_bloc.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:quill_delta/quill_delta.dart';
 import 'package:zefyr/zefyr.dart';
-import 'dart:convert';
 
 class EditorPage extends StatefulWidget {
   final String _contoID;
+  final bool _canEdit;
 
-  EditorPage(this._contoID);
+  EditorPage(this._contoID, this._canEdit);
 
   @override
-  EditorPageState createState() => EditorPageState(_contoID);
+  EditorPageState createState() => EditorPageState(_contoID, _canEdit ?  ZefyrMode.edit : ZefyrMode.select, _canEdit);
 }
 
 class EditorPageState extends State<EditorPage> {
 
   final String _contoID;
+  final ZefyrMode _editorMode;
+  final _canSave;
 
   final _bloc = BlocProvider.getBloc<EditorBloc>();
 
@@ -27,13 +28,13 @@ class EditorPageState extends State<EditorPage> {
   /// Zefyr editor like any other input field requires a focus node.
   FocusNode _focusNode;
 
-  EditorPageState(this._contoID);
+  EditorPageState(this._contoID, this._editorMode, this._canSave);
 
   @override
   void initState() {
     super.initState();
     _focusNode = FocusNode();
-    _loadDocument().then((document) {
+    _bloc.loadDocument(_contoID).then((document) {
       setState(() {
         _controller = ZefyrController(document);
       });
@@ -47,44 +48,35 @@ class EditorPageState extends State<EditorPage> {
     final Widget body = (_controller == null)
         ? Center(child: CircularProgressIndicator())
         : ZefyrScaffold(
-      child: ZefyrEditor(
-        padding: EdgeInsets.all(16),
-        controller: _controller,
-        focusNode: _focusNode,
-      ),
+          child: ZefyrEditor(
+            mode: _editorMode,
+            padding: EdgeInsets.all(16),
+            controller: _controller,
+            focusNode: _focusNode,
+          ),
     );
 
+    final Widget canSave = _canSave
+        ? Builder(
+            builder: (context) => IconButton(
+            icon: Icon(Icons.save),
+            onPressed: () => _bloc.saveDocument(_contoID, _controller.document,
+                saveCallback),
+            ),
+          )
+        : Container();
     return Scaffold(
       appBar: AppBar(
         title: Text("Editor page"),
         actions: <Widget>[
-          Builder(
-            builder: (context) => IconButton(
-              icon: Icon(Icons.save),
-              onPressed: () => _saveDocument(context),
-            ),
-          )
+          canSave
         ],
       ),
       body: body,
     );
   }
 
-  Future<NotusDocument> _loadDocument() async {
-    String content = await _bloc.getContoContent(_contoID).catchError((e) => "");
-    if (content.isNotEmpty) {
-      return NotusDocument.fromJson(jsonDecode(content));
-    }
-    final Delta delta = Delta()..insert(DESCRIPTION_EMPTY_CONTO);
-    return NotusDocument.fromDelta(delta);
-  }
-
-  void _saveDocument(BuildContext context) {
-
-    final contents = jsonEncode(_controller.document);
-
-    _bloc.saveConto(_contoID, contents).then((_) {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text(DESCRIPTION_SAVED)));
-    });
+  void saveCallback() {
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text(DESCRIPTION_SAVED)));
   }
 }

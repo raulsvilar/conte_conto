@@ -108,7 +108,7 @@ class StudentContosList extends StatelessWidget {
   }
 
   _onTapConto(contoID, BuildContext context) {
-    Navigator.of(context).pushNamed(DESCRIPTION_EDITOR_PAGE, arguments: [contoID]);
+    Navigator.of(context).pushNamed(DESCRIPTION_EDITOR_PAGE, arguments: [contoID, true]);
   }
 
   _buildBodyNoClass(BuildContext context) {

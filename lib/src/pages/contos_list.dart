@@ -4,6 +4,7 @@ import 'package:conte_conto/src/blocs/contos_list_bloc.dart';
 import 'package:conte_conto/src/models/conto.dart';
 import 'package:conte_conto/src/pages/base/bottom_navigation.dart';
 import 'package:conte_conto/src/pages/base/items.dart';
+import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class ContosList extends StatelessWidget {
@@ -67,7 +68,9 @@ class ContosList extends StatelessWidget {
       callbackArg: [record.reference.documentID, !record.isFavorited]);
   }
 
-  _onTapConto() {}
+  _onTapConto(contoID, BuildContext context) {
+    Navigator.of(context).pushNamed(DESCRIPTION_EDITOR_PAGE, arguments: [contoID, false]);
+  }
 
   _setFavorite(contoId, data) {
     _bloc.setFavorite(contoId, data);
