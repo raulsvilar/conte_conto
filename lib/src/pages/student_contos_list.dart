@@ -19,6 +19,12 @@ class StudentContosList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<BottomItems> bottomBarListItems = [
+      BottomItems.library,
+      BottomItems.messages,
+      BottomItems.help,
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(DESCRIPTION_APPBAR_TITLE_CONTOS_STUDENT),
@@ -59,11 +65,11 @@ class StudentContosList extends StatelessWidget {
           }
         }
       ),
-        bottomNavigationBar: BottomNavigation([
-          Items.library,
-          Items.favorites,
-          Items.messages
-        ], (index) => {}),
+
+        bottomNavigationBar: BottomNavigation(bottomBarListItems, (index) {
+          _bloc.bottomNavigation(bottomBarListItems[index],
+              context, bottomNavigationCallback);
+        }),
       body:
         StreamBuilder<String>(
           stream: _bloc.turma,
@@ -242,6 +248,10 @@ class StudentContosList extends StatelessWidget {
         );
       },
     );
+  }
+
+  bottomNavigationCallback(BuildContext context, namedRoute, args) {
+    Navigator.of(context).pushReplacementNamed(namedRoute, arguments: args);
   }
 
 }

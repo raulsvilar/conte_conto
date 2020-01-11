@@ -1,6 +1,7 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conte_conto/src/models/conto.dart';
+import 'package:conte_conto/src/pages/base/bottom_navigation.dart';
 import 'package:conte_conto/src/resources/fireauth_provider.dart';
 import 'package:conte_conto/src/resources/firestore_provider.dart';
 import 'package:conte_conto/src/utils/constants.dart';
@@ -75,6 +76,23 @@ class StudentContosListBloc extends BlocBase with Validator{
 
   Future<void> logout() async{
     return await _authentication.singOut();
+  }
+
+  void bottomNavigation(BottomItems bottomBarListItem, BuildContext context, Function(BuildContext, String, List) bottomNavigationCallback) {
+    switch(bottomBarListItem) {
+
+      case BottomItems.library:
+        // TODO: Handle this case.
+        break;
+      case BottomItems.messages:
+        // TODO: Handle this case.
+        break;
+      case BottomItems.help:
+        // TODO: Handle this case.
+        break;
+      default:
+        break;
+    }
   }
 
 }
