@@ -27,21 +27,18 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
     return Scaffold(
       body: StreamBuilder<bool>(
         stream: _bloc.isLogged,
         builder: (_, snapshot) {
-          if (snapshot.hasData && snapshot.data) {
-            _bloc.getLoggedUser(navigationAfterLogin);
+          if (snapshot.hasData && !snapshot.data) {
+              return _buildBody();
+
+          }
+          else
             return Center(
               child: CircularProgressIndicator(),
             );
-          }
-          else
-            return _buildBody();
         },
       ),
     );

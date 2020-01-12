@@ -31,7 +31,7 @@ class LoginBloc extends BlocBase with Validator {
   Stream<bool> get submitValid =>
       Rx.combineLatest2(email, password, (e, p) => true);
 
-  final _controllerLogged = BehaviorSubject<bool>.seeded(false);
+  final _controllerLogged = BehaviorSubject<bool>();
   Stream<bool> get isLogged => _controllerLogged.stream;
 
 
@@ -68,7 +68,7 @@ class LoginBloc extends BlocBase with Validator {
           navigationCallback(DESCRIPTION_STUDENT_CONTOS_LIST_PAGE, [user.reference.documentID, user.turmaID]);
           break;
         case userTypes.teacher:
-          navigationCallback(DESCRIPTION_TEACHER_CONTOS_LIST_PAGE, [user.reference.documentID]);
+          navigationCallback(DESCRIPTION_CLASSES_PAGE, [user.reference.documentID]);
           break;
       }
   }
