@@ -50,9 +50,14 @@ class LoginBloc extends BlocBase with Validator {
   }
 
   getLoggedUser(Function(String, List<String>) navigationCallback) async{
-    User user = await _authentication.getCurrentUser();
-    if (user != null)
-      routeByUser(user, navigationCallback);
+    await _authentication.getCurrentUser()
+        .then((user) {
+          _controllerLogged.add(true);
+          routeByUser(user, navigationCallback);
+        })
+        .catchError((e) {
+          _controllerLogged.add(false);
+        });
   }
 
   submit(Function failCallback, Function(String, List<String>) navigationCallback) async{

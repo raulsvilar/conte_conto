@@ -33,7 +33,6 @@ class _LoginPageState extends State<LoginPage> {
         builder: (_, snapshot) {
           if (snapshot.hasData && !snapshot.data) {
               return _buildBody();
-
           }
           else
             return Center(
