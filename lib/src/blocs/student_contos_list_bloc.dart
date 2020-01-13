@@ -45,11 +45,9 @@ class StudentContosListBloc extends ContosListBlocBase with Validator{
 
   void addConto(turmaID, userID) async {
     String userName = await _firestore.getUser(userID).then((user) => user.name);
-    Conto conto = Conto.newConto(
-      title: _contoNameController.value,
-      author: userName,
-      owner: userID,
-      turmaID: turmaID
+    Conto conto = Conto.newConto(_contoNameController.value, userName, userID,
+      turmaID: turmaID,
+      teacherID: await _firestore.getTeacherIDFromTurma(turmaID),
     );
     _firestore.addConto(conto);
   }

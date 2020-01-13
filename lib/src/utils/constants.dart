@@ -67,6 +67,7 @@ const DESCRIPTION_SAVED = "Salvo!";
 /// PAGES
 /// ###################################################
 const DESCRIPTION_CLASSES_PAGE = 'ClassesPage';
+const DESCRIPTION_HOME_PAGE = 'HomePage';
 const DESCRIPTION_LOGIN_PAGE = 'LoginPage';
 const DESCRIPTION_REGISTER_PAGE = 'RegisterPage';
 const DESCRIPTION_CORRECTION_PAGE = 'CorrectionPage';

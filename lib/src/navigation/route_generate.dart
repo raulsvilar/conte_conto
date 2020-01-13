@@ -4,7 +4,7 @@ import 'package:conte_conto/src/pages/correction_page.dart';
 import 'package:flutter/material.dart';
 
 import 'routes.dart';
-import 'constants.dart';
+import '../utils/constants.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -31,7 +31,7 @@ class RouteGenerator {
         } return _errorRoute("Tipo inválido no argumento de EditorPage");
       case DESCRIPTION_TEACHER_CONTOS_LIST_PAGE:
         if (args is List) {
-          return MaterialPageRoute(builder: (_) => ContosList(args[0]));
+          return MaterialPageRoute(builder: (_) => TeacherContosList(args[0]));
         } return _errorRoute("Tipo inválido no argumento de ContosList");
       default:
         if (args is List) {

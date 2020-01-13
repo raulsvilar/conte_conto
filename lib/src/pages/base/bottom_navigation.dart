@@ -13,10 +13,10 @@ class BottomNavigation extends StatelessWidget {
 
   final _bloc = BlocProvider.getBloc<BottomNavigationBloc>();
 
-  final List<bottomItems> _items;
-  final _onTapCallback;
+  final List<bottomItems> items;
+  final onTapCallback;
 
-  BottomNavigation(this._items, this._onTapCallback);
+  BottomNavigation({@required this.items,@required this.onTapCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class BottomNavigation extends StatelessWidget {
 
   _createItems() {
     List<BottomNavigationBarItem> listItems = [];
-    for (bottomItems item in _items) {
+    for (bottomItems item in items) {
       switch (item) {
         case bottomItems.favorites:
           listItems.add(BottomNavigationBarItem(

@@ -35,10 +35,9 @@ class FirestoreProvider {
         .snapshots();
   }
 
-  Stream<QuerySnapshot> getFavorites(turmaId) {
-    return _firestore
-        .collection("contos")
-        .where("turma", isEqualTo: turmaId)
+  Stream<QuerySnapshot> getFavorites(String userId) {
+    return _firestore.collection("contos")
+        .where("teacherID", isEqualTo: userId)
         .where("favorited", isEqualTo: true)
         .snapshots();
   }
@@ -58,11 +57,22 @@ class FirestoreProvider {
   }
 
   Future<User> getUser(String uid) async {
-    return await _firestore.collection("users").document(uid).get().then((ds) => User.fromSnapshot(ds));
+    return await _firestore.collection("users")
+        .document(uid)
+        .get()
+        .then((ds) => User.fromSnapshot(ds));
+  }
+
+  Future<String> getTeacherIDFromTurma(String turmaID) {
+    return _firestore.collection("turmas").document(turmaID)
+        .get()
+        .then((ds) => Turma.fromSnapshot(ds).owner);
   }
 
   void addConto(Conto conto) {
-    _firestore.collection("contos").add(conto.toJson());
+    Map<String, dynamic> data = conto.toJson();
+    data["creationDate"] = FieldValue.serverTimestamp();
+    _firestore.collection("contos").add(data);
   }
 
   Future<dynamic> enterStudentOnTurma(code, userID) async{

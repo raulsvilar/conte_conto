@@ -33,8 +33,8 @@ abstract class ContosListBase<T extends ContosListBlocBase> extends StatelessWid
           color: Colors.white,
         ),
       ),
-      bottomNavigationBar: BottomNavigation(bottomNavigationItems(),
-              (index) => {}),
+      //bottomNavigationBar: BottomNavigation(bottomNavigationItems(),
+     //         (index) => {}),
       body: buildBody(context),
     );
   }

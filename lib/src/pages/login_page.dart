@@ -1,3 +1,5 @@
+import 'package:conte_conto/src/models/user.dart';
+import 'package:conte_conto/src/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -205,8 +207,11 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  navigationAfterLogin(namedRoute, args) {
-    Navigator.of(context).pushReplacementNamed(namedRoute, arguments: args);
+  navigationAfterLogin(User user) {
+    //Navigator.of(context).pushReplacementNamed(namedRoute, arguments: args);
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (BuildContext context) => HomePage(user)
+    ));
   }
 
   _buildBody() {

@@ -51,9 +51,9 @@ class TurmasPage extends StatelessWidget {
             color: Colors.white,
           )
       ),
-      bottomNavigationBar: BottomNavigation(
-          [bottomItems.library, bottomItems.favorites, bottomItems.messages],
-          (index) => {}),
+//      bottomNavigationBar: BottomNavigation(
+//          items: [bottomItems.library, bottomItems.favorites, bottomItems.messages],
+//          onTapCallback: (index) => {}),
     );
   }
 

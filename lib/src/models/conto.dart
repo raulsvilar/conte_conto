@@ -7,9 +7,13 @@ class Conto {
   final DocumentReference reference;
   final String content;
   final bool isFavorited;
+  final bool finished;
+  final String teacherID;
+  Timestamp creationDate;
   final String turmaID;
 
-  Conto.newConto({this.title, this.author, this.owner, this.reference, this.content, this.isFavorited=false, this.turmaID});
+  Conto.newConto(this.title, this.author, this.owner, {this.teacherID, this.reference,
+    this.content, this.isFavorited=false, this.turmaID, this.finished = false, this.creationDate});
 
   Conto.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
@@ -20,19 +24,27 @@ class Conto {
         assert(map['turmaID'] != null),
         assert(map['favorited'] != null),
         assert(map['author'] != null),
+        assert(map['teacherID'] != null),
         turmaID = map['turmaID'],
         author = map['author'],
         owner = map['owner'],
         title = map['title'],
         isFavorited = map['favorited'],
+        creationDate = map['creationDate'],
+        finished = map['finished'],
+        teacherID = map['teacherID'],
         content = map['content'];
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['title'] = title;
     data['owner'] = owner;
+    data['author'] = author;
     data['turmaID'] = turmaID;
+    data['creationDate'] = creationDate;
+    data['finished'] = finished;
     data['favorited'] = isFavorited;
+    data['teacherID'] = teacherID;
     data['content'] = content;
     return data;
   }

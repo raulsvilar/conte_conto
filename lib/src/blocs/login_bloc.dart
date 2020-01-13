@@ -49,7 +49,7 @@ class LoginBloc extends BlocBase with Validator {
     }
   }
 
-  getLoggedUser(Function(String, List<String>) navigationCallback) async{
+  getLoggedUser(Function(User)  navigationCallback) async{
     await _authentication.getCurrentUser()
         .then((user) {
           _controllerLogged.add(true);
@@ -60,22 +60,15 @@ class LoginBloc extends BlocBase with Validator {
         });
   }
 
-  submit(Function failCallback, Function(String, List<String>) navigationCallback) async{
+  submit(Function failCallback, Function(User) navigationCallback) async{
     final validEmail = _emailController.value.trim();
     final validPassword = _passwordController.value.trim();
     User user = await login(validEmail, validPassword);
     user != null ? routeByUser(user, navigationCallback) : failCallback();
   }
 
-  routeByUser(User user, Function(String, List<String>) navigationCallback) {
-      switch (user.type) {
-        case userTypes.student:
-          navigationCallback(DESCRIPTION_STUDENT_CONTOS_LIST_PAGE, [user.reference.documentID, user.turmaID]);
-          break;
-        case userTypes.teacher:
-          navigationCallback(DESCRIPTION_CLASSES_PAGE, [user.reference.documentID]);
-          break;
-      }
+  routeByUser(User user, Function(User) navigationCallback) {
+      navigationCallback(user);
   }
 
   @override

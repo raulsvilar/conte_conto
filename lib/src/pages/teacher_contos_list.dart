@@ -5,12 +5,12 @@ import 'package:conte_conto/src/pages/base/contos_list.dart';
 import 'package:conte_conto/src/pages/base/items.dart';
 import 'package:flutter/material.dart';
 
-class ContosList extends ContosListBase<TeacherContosListBloc> {
+class TeacherContosList extends ContosListBase<TeacherContosListBloc> {
 
-  ContosList(turmaID) : super( turmaID, canCreateConto: false);
+  TeacherContosList(turmaID) : super( turmaID, canCreateConto: false);
 
   _setFavorite(contoId, data) {
-    super.bloc.setFavorite(contoId, data);
+    bloc.setFavorite(contoId, data);
   }
 
   @override
@@ -19,7 +19,7 @@ class ContosList extends ContosListBase<TeacherContosListBloc> {
         conto.reference.documentID,
         conto.title,
         true,
-        super.onTapConto,
+        onTapConto,
         setFavoriteCallback: _setFavorite,
         subTitle: conto.author,
         isFavorited: conto.isFavorited,
