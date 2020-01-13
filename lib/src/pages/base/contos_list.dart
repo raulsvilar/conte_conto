@@ -13,11 +13,11 @@ abstract class ContosListBase<T extends ContosListBlocBase> extends StatelessWid
 
   final String turmaId;
 
-  final bool editorMode;
+  final bool canCreateConto;
 
   final String userId;
 
-  ContosListBase(this.turmaId, {this.userId, this.editorMode});
+  ContosListBase(this.turmaId, {this.userId, this.canCreateConto});
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +77,7 @@ abstract class ContosListBase<T extends ContosListBlocBase> extends StatelessWid
   ItemWithImageTitleSub configItem(Conto conto);
 
   onTapConto(String contoID, BuildContext context) {
-    Navigator.of(context).pushNamed(DESCRIPTION_EDITOR_PAGE, arguments: [contoID, editorMode]);
+    Navigator.of(context).pushNamed(DESCRIPTION_EDITOR_PAGE, arguments: [contoID, canCreateConto]);
   }
 
 }

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class ContosList extends ContosListBase<TeacherContosListBloc> {
 
-  ContosList(turmaID) : super( turmaID, editorMode: false);
+  ContosList(turmaID) : super( turmaID, canCreateConto: false);
 
   _setFavorite(contoId, data) {
     super.bloc.setFavorite(contoId, data);

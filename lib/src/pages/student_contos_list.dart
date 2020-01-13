@@ -9,7 +9,7 @@ import 'base/contos_list.dart';
 
 class StudentContosList extends ContosListBase<StudentContosListBloc> {
 
-  StudentContosList(userID, turmaID) : super(turmaID, userId: userID, editorMode: true) {
+  StudentContosList(userID, turmaID) : super(turmaID, userId: userID, canCreateConto: true) {
     bloc.changeTurma(turmaID);
   }
 

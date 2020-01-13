@@ -89,4 +89,8 @@ class FirestoreProvider {
     return await _firestore.collection("contos").document(contoID).get()
         .then((ds) => ds.data["content"]);
   }
+
+  saveContoCorrection(String contoID, String contents) {
+    _firestore.collection("contos").document(contoID).collection("corrections").add({"content": contents});
+  }
 }

@@ -27,13 +27,19 @@ class EditorBloc extends BlocBase {
         .then((value) => value == null ? "" : value);
   }
 
-  void saveDocument(contoID, document, Function onSaved) {
+  void saveDocument(contoID, document, Function onSaved, canCreate) {
 
     final contents = jsonEncode(document);
-
-    saveConto(contoID, contents).then((_) {
-      onSaved();
-    });
+    if (canCreate)
+      saveConto(contoID, contents)
+          .then((_) {
+            onSaved();
+          });
+    else
+      saveCorrection(contoID, contents)
+          .then((_) {
+        onSaved();
+      });
   }
 
   Future<NotusDocument> loadDocument(contoID) async {
@@ -43,5 +49,9 @@ class EditorBloc extends BlocBase {
     }
     final Delta delta = Delta()..insert(DESCRIPTION_EMPTY_CONTO);
     return NotusDocument.fromDelta(delta);
+  }
+
+  Future<void> saveCorrection(contoID, String contents) async {
+    return await _firestore.saveContoCorrection(contoID, contents);
   }
 }
