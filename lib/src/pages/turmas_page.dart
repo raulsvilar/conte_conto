@@ -86,17 +86,6 @@ class TurmasPage extends StatelessWidget {
   }
 
   _showDialogNovaTurma(BuildContext ctx) {
-    var _saveBtn = FlatButton(
-      child: Text(DIALOG_BUTTON_SAVE),
-      onPressed: () {
-        _bloc.addTurma();
-        Navigator.of(ctx).pop();
-      },
-    );
-    var _cancelBtn = FlatButton(
-      child: Text(DIALOG_BUTTON_CANCEL),
-      onPressed: () => Navigator.pop(ctx),
-    );
     return showDialog(
       context: ctx,
       builder: (BuildContext context) {
@@ -115,8 +104,17 @@ class TurmasPage extends StatelessWidget {
             ),
           ),
           actions: <Widget>[
-            _cancelBtn,
-            _saveBtn,
+            FlatButton(
+              child: Text(DIALOG_BUTTON_CANCEL),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            FlatButton(
+              child: Text(DIALOG_BUTTON_SAVE),
+              onPressed: () {
+                _bloc.addTurma();
+                Navigator.of(context).pop();
+              },
+            ),
           ],
         );
       },

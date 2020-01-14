@@ -77,16 +77,6 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
   }
 
   _showDialogEnterTurma(BuildContext ctx) {
-    var _enterBtn = FlatButton(
-      child: Text(DIALOG_BUTTON_ENTER),
-      onPressed: () {
-        bloc.enterTurma(user.reference.documentID, ctx);
-      },
-    );
-    var _cancelBtn = FlatButton(
-      child: Text(DIALOG_BUTTON_CANCEL),
-      onPressed: () => Navigator.pop(ctx),
-    );
     return showDialog(
       context: ctx,
       builder: (BuildContext context) {
@@ -104,7 +94,9 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
             ),
           ),
           actions: <Widget>[
-            _cancelBtn,
+            FlatButton(
+              child: Text(DIALOG_BUTTON_CANCEL),
+              onPressed: () => Navigator.pop(ctx),),
             StreamBuilder<Object>(
                 stream: bloc.outLoading,
                 builder: (_, snapshot) {
@@ -117,7 +109,12 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
                     );
                   }
                   else{
-                    return _enterBtn;
+                    return FlatButton(
+                      child: Text(DIALOG_BUTTON_ENTER),
+                      onPressed: () {
+                        bloc.enterTurma(user.reference.documentID, ctx);
+                      },
+                    );
                   }
                 }
             )
@@ -183,7 +180,6 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
               bloc.logout()
                   .then((_) => Navigator.of(context)
                   .pushReplacementNamed(DESCRIPTION_LOGIN_PAGE));
-
           }
         },
       )
