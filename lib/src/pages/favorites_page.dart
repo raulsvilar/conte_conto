@@ -17,9 +17,10 @@ class FavoritesPage extends ContosListBase<FavoritesBloc> {
   ItemWithImageTitleSub configItem(Conto conto) {
     return ItemWithImageTitleSub(conto.reference.documentID,
       conto.title,
-      conto.isFavorited,
+      true,
       onTapConto,
       subTitle: conto.author,
+      isFavorited: conto.isFavorited,
       setFavoriteCallback: bloc.setFavorite,
       callbackArg: [conto.reference.documentID, !conto.isFavorited]);
   }
