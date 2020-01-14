@@ -7,6 +7,7 @@ import 'package:conte_conto/src/blocs/register_bloc.dart';
 import 'package:conte_conto/src/blocs/student_contos_list_bloc.dart';
 import 'package:conte_conto/src/blocs/teacher_contos_list_bloc.dart';
 import 'package:conte_conto/src/blocs/turmas_bloc.dart';
+import 'package:conte_conto/src/navigation/route_generate.dart';
 import 'package:conte_conto/src/navigation/routes.dart';
 import 'package:conte_conto/src/resources/fireauth_provider.dart';
 import 'package:conte_conto/src/resources/firestore_provider.dart';
@@ -34,8 +35,7 @@ class MyApp extends StatelessWidget {
         title: DESCRIPTION_APP_TITLE,
         theme: AppTheme.theme,
         home: LoginPage(),
-        //initialRoute: DESCRIPTION_LOGIN_PAGE,
-        //onGenerateRoute: RouteGenerator.generateRoute,
+        onGenerateRoute: RouteGenerator.generateRoute,
       ),
       blocs: [
         Bloc((i) => LoginBloc()),

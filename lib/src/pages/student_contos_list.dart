@@ -178,8 +178,8 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
           switch(value) {
             case 1:
               bloc.logout()
-                  .then((_) => Navigator.of(context)
-                  .pushReplacementNamed(DESCRIPTION_LOGIN_PAGE));
+                  .then((_) => Navigator.of(context, rootNavigator: true)
+                  .pushNamed("home"));
           }
         },
       )

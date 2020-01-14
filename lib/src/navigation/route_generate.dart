@@ -15,6 +15,8 @@ class RouteGenerator {
           return MaterialPageRoute(builder: (_) => TurmasPage());
       case DESCRIPTION_LOGIN_PAGE:
         return MaterialPageRoute(builder: (_) => LoginPage());
+      case DESCRIPTION_HOME_PAGE:
+        return MaterialPageRoute(builder: (_) => HomePage());
       case DESCRIPTION_REGISTER_PAGE:
         return MaterialPageRoute(builder: (_) => RegisterPage());
       case DESCRIPTION_CORRECTION_PAGE:
@@ -34,7 +36,7 @@ class RouteGenerator {
           return MaterialPageRoute(builder: (_) => TeacherContosList(args[0]));
         } return _errorRoute("Tipo inválido no argumento de ContosList");
       default:
-          return MaterialPageRoute(builder: (_) => TurmasPage());
+          return _errorRoute("Rota não encontrada");
     }
   }
 

@@ -20,9 +20,8 @@ class HomePage extends StatelessWidget {
 
   final Map<bottomItems, String> initialRoutes = {
     bottomItems.favorites: DESCRIPTION_FAVORITES_PAGE,
-    //bottomItems.help: GlobalKey<NavigatorState>(),
+    bottomItems.contos: DESCRIPTION_STUDENT_CONTOS_LIST_PAGE,
     bottomItems.classes: DESCRIPTION_CLASSES_PAGE,
-    //bottomItems.messages: GlobalKey<NavigatorState>(),
   };
 
   @override
@@ -89,7 +88,9 @@ class HomePage extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Offstage(
-            offstage: _bloc.getNavitationItemsByUserType(user.type)[snapshot.data] != bottomItem,
+            offstage:
+                _bloc.getNavitationItemsByUserType(user.type)[snapshot.data] !=
+                    bottomItem,
             child: BottomNavigator(
               navigatorKey: navigatorKeys[bottomItem],
               initialRoute: initialRoutes[bottomItem],

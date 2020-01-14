@@ -26,6 +26,7 @@ abstract class ContosListBase<T extends ContosListBlocBase> extends StatelessWid
         actions: appBarActions(context),
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: "FloatContos",
         onPressed: () => onPressedFloatingActionButton(context),
         child: Icon(
           Icons.edit,

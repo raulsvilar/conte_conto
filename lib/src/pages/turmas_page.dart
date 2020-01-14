@@ -4,6 +4,7 @@ import 'package:conte_conto/src/blocs/turmas_bloc.dart';
 import 'package:conte_conto/src/models/turma.dart';
 import 'package:conte_conto/src/models/user.dart';
 import 'package:conte_conto/src/pages/base/items.dart';
+import 'package:conte_conto/src/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:get_it/get_it.dart';
@@ -31,9 +32,10 @@ class TurmasPage extends StatelessWidget {
             onSelected: (value) {
               switch(value) {
                 case 1:
-                  _bloc.logout()
-                      .then((_) => Navigator.of(context)
-                      .pushReplacementNamed(DESCRIPTION_LOGIN_PAGE));
+                  _bloc.logout().then((_) {
+                    Navigator.of(context, rootNavigator: true)
+                        .pushAndRemoveUntil(MaterialPageRoute(builder: (_) => LoginPage()), (Route<dynamic> route) => false);
+                  });
               }
             },
           )
@@ -41,16 +43,14 @@ class TurmasPage extends StatelessWidget {
       ),
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton(
-          onPressed: () => _showDialogNovaTurma(context),
-          tooltip: 'Adicionar',
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
+        heroTag: "FloatTurma",
+        onPressed: () => _showDialogNovaTurma(context),
+        tooltip: 'Adicionar',
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
-//      bottomNavigationBar: BottomNavigation(
-//          items: [bottomItems.library, bottomItems.favorites, bottomItems.messages],
-//          onTapCallback: (index) => {}),
     );
   }
 

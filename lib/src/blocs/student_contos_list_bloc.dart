@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conte_conto/src/models/conto.dart';
+import 'package:conte_conto/src/models/user.dart';
 import 'package:conte_conto/src/resources/fireauth_provider.dart';
 import 'package:conte_conto/src/resources/firestore_provider.dart';
 import 'package:conte_conto/src/utils/constants.dart';
@@ -73,6 +74,7 @@ class StudentContosListBloc extends ContosListBlocBase with Validator{
   }
 
   Future<void> logout() async{
+    GetIt.I.unregister<User>();
     return await _authentication.singOut();
   }
 }
