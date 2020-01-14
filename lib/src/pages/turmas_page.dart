@@ -9,7 +9,6 @@ import 'package:conte_conto/src/utils/constants.dart';
 import 'package:get_it/get_it.dart';
 
 class TurmasPage extends StatelessWidget {
-
   final _bloc = BlocProvider.getBloc<TurmasBloc>();
 
   TurmasPage() {
@@ -23,8 +22,7 @@ class TurmasPage extends StatelessWidget {
         title: Text("Turmas"),
         actions: <Widget>[
           PopupMenuButton(
-            itemBuilder: (context) =>
-            [
+            itemBuilder: (context) => [
               PopupMenuItem(
                 value: 1,
                 child: Text("Sair"),
@@ -36,7 +34,6 @@ class TurmasPage extends StatelessWidget {
                   _bloc.logout()
                       .then((_) => Navigator.of(context)
                       .pushReplacementNamed(DESCRIPTION_LOGIN_PAGE));
-
               }
             },
           )
@@ -49,7 +46,7 @@ class TurmasPage extends StatelessWidget {
           child: Icon(
             Icons.add,
             color: Colors.white,
-          )
+          ),
       ),
 //      bottomNavigationBar: BottomNavigation(
 //          items: [bottomItems.library, bottomItems.favorites, bottomItems.messages],
@@ -79,7 +76,7 @@ class TurmasPage extends StatelessWidget {
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Turma.fromSnapshot(data);
     return ItemWithImageTitleSub(
-        record.reference.documentID,
+      record.reference.documentID,
         record.name, false, _onTapTurma,
       subTitle: record.school,
     );
@@ -135,8 +132,6 @@ class TurmasPage extends StatelessWidget {
       },
     );
   }
-
-
 
   Widget _schoolField() {
     return StreamBuilder(

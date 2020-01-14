@@ -25,24 +25,23 @@ class HomePage extends StatelessWidget {
     //bottomItems.messages: GlobalKey<NavigatorState>(),
   };
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-          children: _bloc.getNavigatorsOffstageByUser(user.type, _buildOffstageNavigator)),
-      bottomNavigationBar: StreamBuilder(
-        stream: _bloc.tab,
-        builder: (context, snapshot) {
-          return BottomNavigationBar(
-            items: _createItems(_bloc.getNavitationItemsByUserType(user.type)),
-            type: BottomNavigationBarType.fixed,
-            onTap: (index) => _bloc.setTab(index),
-            currentIndex: snapshot.hasData ? snapshot.data : 0,
-          );
-        }
-      )
-    );
+        body: Stack(
+            children: _bloc.getNavigatorsOffstageByUser(
+                user.type, _buildOffstageNavigator)),
+        bottomNavigationBar: StreamBuilder(
+            stream: _bloc.tab,
+            builder: (context, snapshot) {
+              return BottomNavigationBar(
+                items:
+                    _createItems(_bloc.getNavitationItemsByUserType(user.type)),
+                type: BottomNavigationBarType.fixed,
+                onTap: (index) => _bloc.setTab(index),
+                currentIndex: snapshot.hasData ? snapshot.data : 0,
+              );
+            }));
   }
 
   List<BottomNavigationBarItem> _createItems(List<bottomItems> items) {
@@ -51,32 +50,32 @@ class HomePage extends StatelessWidget {
       switch (item) {
         case bottomItems.favorites:
           listItems.add(BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              title: Text('Favoritos')
+            icon: Icon(Icons.favorite),
+            title: Text('Favoritos'),
           ));
           break;
         case bottomItems.messages:
           listItems.add(BottomNavigationBarItem(
-              icon: Icon(Icons.message),
-              title: Text('Mensagens')
+            icon: Icon(Icons.message),
+            title: Text('Mensagens'),
           ));
           break;
         case bottomItems.classes:
           listItems.add(BottomNavigationBarItem(
-              icon: Icon(Icons.book),
-              title: Text('Turmas')
+            icon: Icon(Icons.book),
+            title: Text('Turmas'),
           ));
           break;
         case bottomItems.help:
           listItems.add(BottomNavigationBarItem(
-              icon: Icon(Icons.help),
-              title: Text('Ajuda')
+            icon: Icon(Icons.help),
+            title: Text('Ajuda'),
           ));
           break;
         case bottomItems.contos:
           listItems.add(BottomNavigationBarItem(
-              icon: Icon(Icons.note),
-              title: Text('Contos')
+            icon: Icon(Icons.note),
+            title: Text('Contos'),
           ));
           break;
       }
@@ -86,8 +85,9 @@ class HomePage extends StatelessWidget {
 
   Widget _buildOffstageNavigator(bottomItems bottomItem) {
     return StreamBuilder(
-        stream: _bloc.tab,
-        builder: (context, snapshot) {
+      stream: _bloc.tab,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
           return Offstage(
             offstage: _bloc.getNavitationItemsByUserType(user.type)[snapshot.data] != bottomItem,
             child: BottomNavigator(
@@ -96,6 +96,8 @@ class HomePage extends StatelessWidget {
             ),
           );
         }
+        return Container();
+      },
     );
   }
 }
