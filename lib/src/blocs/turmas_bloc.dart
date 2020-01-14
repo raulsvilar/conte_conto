@@ -1,6 +1,7 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conte_conto/src/models/turma.dart';
+import 'package:conte_conto/src/models/user.dart';
 import 'package:conte_conto/src/resources/fireauth_provider.dart';
 import 'package:conte_conto/src/resources/firestore_provider.dart';
 import 'package:conte_conto/src/utils/validator.dart';
@@ -50,6 +51,7 @@ class TurmasBloc extends BlocBase with Validator {
   }
 
   Future<void> logout() async{
+    GetIt.I.unregister<User>();
     return await _authentication.singOut();
   }
 }
