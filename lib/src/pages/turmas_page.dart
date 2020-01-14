@@ -2,18 +2,18 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conte_conto/src/blocs/turmas_bloc.dart';
 import 'package:conte_conto/src/models/turma.dart';
-import 'package:conte_conto/src/pages/base/bottom_navigation.dart';
+import 'package:conte_conto/src/models/user.dart';
 import 'package:conte_conto/src/pages/base/items.dart';
 import 'package:flutter/material.dart';
 import 'package:conte_conto/src/utils/constants.dart';
+import 'package:get_it/get_it.dart';
 
 class TurmasPage extends StatelessWidget {
 
-  final String userUid;
   final _bloc = BlocProvider.getBloc<TurmasBloc>();
 
-  TurmasPage(this.userUid) {
-    _bloc.user = userUid;
+  TurmasPage() {
+    _bloc.user = GetIt.I.get<User>().reference.documentID;
   }
 
   @override
@@ -90,7 +90,7 @@ class TurmasPage extends StatelessWidget {
       child: Text(DIALOG_BUTTON_SAVE),
       onPressed: () {
         _bloc.addTurma();
-        Navigator.pop(ctx);
+        Navigator.of(ctx).pop();
       },
     );
     var _cancelBtn = FlatButton(

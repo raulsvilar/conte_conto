@@ -1,6 +1,5 @@
 import 'package:conte_conto/src/models/user.dart';
 import 'package:conte_conto/src/resources/fireauth_provider.dart';
-import 'package:conte_conto/src/utils/constants.dart';
 import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
@@ -68,7 +67,8 @@ class LoginBloc extends BlocBase with Validator {
   }
 
   routeByUser(User user, Function(User) navigationCallback) {
-      navigationCallback(user);
+    GetIt.I.registerSingleton<User>(user);
+    navigationCallback(user);
   }
 
   @override

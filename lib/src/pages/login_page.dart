@@ -208,9 +208,11 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   navigationAfterLogin(User user) {
-    //Navigator.of(context).pushReplacementNamed(namedRoute, arguments: args);
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (BuildContext context) => HomePage(user)
+        builder: (BuildContext context) {
+          print("Criou a HomePage");
+          return HomePage();
+        }
     ));
   }
 

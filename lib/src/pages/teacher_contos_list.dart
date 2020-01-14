@@ -1,13 +1,12 @@
 import 'package:conte_conto/src/blocs/teacher_contos_list_bloc.dart';
 import 'package:conte_conto/src/models/conto.dart';
-import 'package:conte_conto/src/pages/base/bottom_navigation.dart';
 import 'package:conte_conto/src/pages/base/contos_list.dart';
 import 'package:conte_conto/src/pages/base/items.dart';
 import 'package:flutter/material.dart';
 
 class TeacherContosList extends ContosListBase<TeacherContosListBloc> {
 
-  TeacherContosList(turmaID) : super( turmaID, canCreateConto: false);
+  TeacherContosList(turmaID) : super(canCreateConto: false);
 
   _setFavorite(contoId, data) {
     bloc.setFavorite(contoId, data);
@@ -24,11 +23,6 @@ class TeacherContosList extends ContosListBase<TeacherContosListBloc> {
         subTitle: conto.author,
         isFavorited: conto.isFavorited,
         callbackArg: [conto.reference.documentID, !conto.isFavorited]);
-  }
-
-  @override
-  List<bottomItems> bottomNavigationItems() {
-    return [bottomItems.library, bottomItems.favorites, bottomItems.messages];
   }
 
   @override

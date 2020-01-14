@@ -3,7 +3,7 @@ import 'package:conte_conto/src/blocs/contos_list_bloc.dart';
 import 'package:conte_conto/src/resources/firestore_provider.dart';
 import 'package:get_it/get_it.dart';
 
-class FavoritiesBloc extends ContosListBlocBase {
+class FavoritesBloc extends ContosListBlocBase {
 
   final _firestore = GetIt.I.get<FirestoreProvider>();
 

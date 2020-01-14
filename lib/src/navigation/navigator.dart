@@ -13,6 +13,7 @@ class BottomNavigator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Navigator(
       key: navigatorKey,
+      initialRoute: initialRoute,
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }

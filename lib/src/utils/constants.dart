@@ -70,6 +70,7 @@ const DESCRIPTION_CLASSES_PAGE = 'ClassesPage';
 const DESCRIPTION_HOME_PAGE = 'HomePage';
 const DESCRIPTION_LOGIN_PAGE = 'LoginPage';
 const DESCRIPTION_REGISTER_PAGE = 'RegisterPage';
+const DESCRIPTION_FAVORITES_PAGE = 'FavoritesPage';
 const DESCRIPTION_CORRECTION_PAGE = 'CorrectionPage';
 const DESCRIPTION_TEACHER_CONTOS_LIST_PAGE = 'TeacherContosList';
 const DESCRIPTION_EDITOR_PAGE = 'EditorPage';

@@ -1,22 +1,16 @@
-import 'package:conte_conto/src/blocs/favorities_bloc.dart';
+import 'package:conte_conto/src/blocs/favorites_bloc.dart';
 import 'package:conte_conto/src/models/conto.dart';
-import 'package:conte_conto/src/pages/base/bottom_navigation.dart';
 import 'package:conte_conto/src/pages/base/contos_list.dart';
 import 'package:conte_conto/src/pages/base/items.dart';
 import 'package:flutter/material.dart';
 
-class FavoritiesPage extends ContosListBase<FavoritiesBloc> {
+class FavoritesPage extends ContosListBase<FavoritesBloc> {
 
-  FavoritiesPage(String turmaId) : super(turmaId);
+  FavoritesPage() : super(canCreateConto: false);
 
   @override
   List<Widget> appBarActions(BuildContext context) {
     return null;
-  }
-
-  @override
-  List<bottomItems> bottomNavigationItems() {
-    return [bottomItems.library, bottomItems.favorites, bottomItems.messages];
   }
 
   @override

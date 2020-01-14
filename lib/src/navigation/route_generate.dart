@@ -12,18 +12,18 @@ class RouteGenerator {
 
     switch (settings.name) {
       case DESCRIPTION_CLASSES_PAGE:
-        if (args is List) {
-          return MaterialPageRoute(builder: (_) => TurmasPage(args[0]));
-        } return _errorRoute("Tipo inválido no argumento de TurmasPage  ");
+          return MaterialPageRoute(builder: (_) => TurmasPage());
       case DESCRIPTION_LOGIN_PAGE:
         return MaterialPageRoute(builder: (_) => LoginPage());
       case DESCRIPTION_REGISTER_PAGE:
         return MaterialPageRoute(builder: (_) => RegisterPage());
       case DESCRIPTION_CORRECTION_PAGE:
         return MaterialPageRoute(builder: (_) => CorrectionPage());
+      case DESCRIPTION_FAVORITES_PAGE:
+        return MaterialPageRoute(builder: (_) => FavoritesPage());
       case DESCRIPTION_STUDENT_CONTOS_LIST_PAGE:
         if (args is List) {
-          return MaterialPageRoute(builder: (_) => StudentContosList(args[0], args[1]));
+          return MaterialPageRoute(builder: (_) => StudentContosList());
         } return _errorRoute("Tipo inválido no argumento de StudentContosList");
       case DESCRIPTION_EDITOR_PAGE:
         if (args is List) {
@@ -34,9 +34,7 @@ class RouteGenerator {
           return MaterialPageRoute(builder: (_) => TeacherContosList(args[0]));
         } return _errorRoute("Tipo inválido no argumento de ContosList");
       default:
-        if (args is List) {
-          return MaterialPageRoute(builder: (_) => TurmasPage(args[0]));
-        } return _errorRoute("Tipo inválido no argumento de TurmasPage");
+          return MaterialPageRoute(builder: (_) => TurmasPage());
     }
   }
 

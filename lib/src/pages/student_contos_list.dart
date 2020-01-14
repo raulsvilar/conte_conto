@@ -1,6 +1,5 @@
 import 'package:conte_conto/src/blocs/student_contos_list_bloc.dart';
 import 'package:conte_conto/src/models/conto.dart';
-import 'package:conte_conto/src/pages/base/bottom_navigation.dart';
 import 'package:conte_conto/src/pages/base/items.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +8,7 @@ import 'base/contos_list.dart';
 
 class StudentContosList extends ContosListBase<StudentContosListBloc> {
 
-  StudentContosList(userID, turmaID) : super(turmaID, userId: userID, canCreateConto: true) {
-    bloc.changeTurma(turmaID);
-  }
+  StudentContosList() : super(canCreateConto: true);
 
   @override
   Widget buildBody(BuildContext context) {
@@ -46,7 +43,7 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
     var _saveBtn = FlatButton(
       child: Text(DIALOG_BUTTON_SAVE),
       onPressed: () {
-        bloc.addConto(turmaId, userId);
+        bloc.addConto(user.turmaID, user.reference.documentID);
         Navigator.pop(ctx);
       },
     );
@@ -83,7 +80,7 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
     var _enterBtn = FlatButton(
       child: Text(DIALOG_BUTTON_ENTER),
       onPressed: () {
-        bloc.enterTurma(userId, ctx);
+        bloc.enterTurma(user.reference.documentID, ctx);
       },
     );
     var _cancelBtn = FlatButton(
@@ -123,7 +120,7 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
                     return _enterBtn;
                   }
                 }
-                )
+            )
           ],
         );
       },
@@ -170,15 +167,6 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
   }
 
   @override
-  List<bottomItems> bottomNavigationItems() {
-    return [
-      bottomItems.library,
-      bottomItems.messages,
-      bottomItems.help,
-    ];
-  }
-
-  @override
   List<Widget> appBarActions(BuildContext context) {
     return <Widget>[
       PopupMenuButton(
@@ -206,5 +194,4 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
   onPressedFloatingActionButton(BuildContext context) {
     _showDialogNewConto(context);
   }
-
 }
