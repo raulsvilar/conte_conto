@@ -23,6 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     _bloc.getLoggedUser(navigationAfterLogin);
+    print("Entrou no init");
     super.initState();
   }
 

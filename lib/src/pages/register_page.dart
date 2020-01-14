@@ -193,7 +193,7 @@ class RegisterPage extends StatelessWidget {
                 ),
                 textColor: Colors.white,
                 onPressed: snapshot.hasData && snapshot.data ? () =>
-                    bloc.submit(context)
+                    bloc.submit(context, navigationAfterRegister)
                  : null,
               );
             },
@@ -201,5 +201,9 @@ class RegisterPage extends StatelessWidget {
         }
       },
     );
+  }
+
+  navigationAfterRegister(BuildContext context) {
+    Navigator.of(context).pushReplacementNamed(DESCRIPTION_HOME_PAGE);
   }
 }

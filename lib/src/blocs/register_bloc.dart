@@ -1,6 +1,5 @@
 import 'package:conte_conto/src/resources/fireauth_provider.dart';
 import 'package:conte_conto/src/models/user.dart';
-import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
@@ -70,21 +69,23 @@ class RegisterBloc extends BlocBase with Validator {
     }
   }
 
-  submit(BuildContext context) async {
+  submit(BuildContext context, Function navigateCallback) async {
     final validEmail = _emailController.value.trim();
     final validName = _nameController.value.trim();
     final validPassword = _passwordController.value.trim();
     final userType = _userTypeController.value.index;
     User user =  await register(validEmail, validName, validPassword, userType);
     if (user != null) {
-      switch (user?.type) {
+      GetIt.I.registerSingleton<User>(user);
+      navigateCallback(context);
+      /*switch (user?.type) {
         case userTypes.student:
           Navigator.of(context).pushNamedAndRemoveUntil(DESCRIPTION_STUDENT_CONTOS_LIST_PAGE, ModalRoute.withName(DESCRIPTION_TEACHER_CONTOS_LIST_PAGE), arguments: [user.reference.documentID, user.turmaID]);
           break;
         case userTypes.teacher:
           Navigator.of(context).pushReplacementNamed(DESCRIPTION_CLASS_NAME, arguments: [user.reference.documentID]);
           break;
-      }
+      }*/
     }
   }
 
