@@ -8,7 +8,7 @@ import 'base/contos_list.dart';
 
 class StudentContosList extends ContosListBase<StudentContosListBloc> {
 
-  StudentContosList() : super(canCreateConto: true);
+  StudentContosList() : super(canCreateConto: true, withFab: true);
 
   @override
   Widget buildBody(BuildContext context) {

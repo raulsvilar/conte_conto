@@ -12,10 +12,11 @@ abstract class ContosListBase<T extends ContosListBlocBase> extends StatelessWid
 
   final bloc = BlocProvider.getBloc<T>();
   final bool canCreateConto;
-  final turmaID;
+  final String turmaID;
+  final bool withFab;
   final user = GetIt.I.get<User>();
 
-  ContosListBase({this.canCreateConto, this.turmaID});
+  ContosListBase({this.canCreateConto = false, this.turmaID, this.withFab = false});
 
 
   @override
@@ -25,14 +26,14 @@ abstract class ContosListBase<T extends ContosListBlocBase> extends StatelessWid
         title: Text("Contos"),
         actions: appBarActions(context),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: withFab ? FloatingActionButton(
         heroTag: "FloatContos",
         onPressed: () => onPressedFloatingActionButton(context),
         child: Icon(
           Icons.edit,
           color: Colors.white,
         ),
-      ),
+      ) : null,
       body: buildBody(context),
     );
   }
@@ -66,7 +67,6 @@ abstract class ContosListBase<T extends ContosListBlocBase> extends StatelessWid
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Conto.fromSnapshot(data);
-    print(record.toString());
     return configItem(record);
   }
 

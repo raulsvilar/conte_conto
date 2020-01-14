@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class FavoritesPage extends ContosListBase<FavoritesBloc> {
 
-  FavoritesPage() : super(canCreateConto: false);
+  FavoritesPage() : super();
 
   @override
   List<Widget> appBarActions(BuildContext context) {

@@ -81,7 +81,6 @@ class FirestoreProvider {
       DocumentReference turmaRef = _firestore.document("turmas/$code");
       DocumentSnapshot userDS = await tx.get(userRef);
       DocumentSnapshot turmaDS = await tx.get(turmaRef);
-      print("${turmaRef.documentID} Existe: ${turmaDS.exists}");
       if (userDS.exists && turmaDS.exists) {
         List<String> newMembers = List.from(turmaDS.data["members"]);
         newMembers.add(userID);
