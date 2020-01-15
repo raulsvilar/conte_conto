@@ -129,4 +129,11 @@ class FirestoreProvider {
         .get()
         .then((ds) => Conto.fromSnapshot(ds));
   }
+
+  void setSendContoForCorrection(contoID) {
+    _firestore
+        .collection("contos")
+        .document(contoID)
+        .updateData({"sendedForCorrection":true});
+  }
 }

@@ -4,9 +4,7 @@ import 'package:conte_conto/src/resources/firestore_provider.dart';
 import 'package:get_it/get_it.dart';
 
 class TeacherContosListBloc extends ContosListBlocBase {
-
   final _firestore = GetIt.I.get<FirestoreProvider>();
-
 
   setFavorite(String contoId, bool data) {
     _firestore.setFavorite(contoId, data);
@@ -16,5 +14,4 @@ class TeacherContosListBloc extends ContosListBlocBase {
   Stream<QuerySnapshot> contosList(_, turmaId) {
     return _firestore.contosListForTurma(turmaId);
   }
-
 }

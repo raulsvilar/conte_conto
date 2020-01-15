@@ -11,21 +11,25 @@ import 'package:rxdart/rxdart.dart';
 import 'contos_list_bloc.dart';
 
 class StudentContosListBloc extends ContosListBlocBase {
-
-  final _firestore =  GetIt.I.get<FirestoreProvider>();
+  final _firestore = GetIt.I.get<FirestoreProvider>();
   final _authentication = GetIt.I.get<Authentication>();
 
   final _contoNameController = BehaviorSubject<String>();
+
   Stream<String> get contoName =>
       _contoNameController.stream.transform(validateField);
+
   Function(String) get changeContoName => _contoNameController.sink.add;
 
   final _codeTurmaController = BehaviorSubject<String>();
+
   Stream<String> get codeTurma =>
       _codeTurmaController.stream.transform(validateField);
+
   Function(String) get changeCode => _codeTurmaController.sink.add;
 
   final _controllerLoading = BehaviorSubject<bool>.seeded(false);
+
   Stream<bool> get outLoading => _controllerLoading.stream;
 
   @override
@@ -38,8 +42,12 @@ class StudentContosListBloc extends ContosListBlocBase {
   }
 
   void addConto(turmaID, userID) async {
-    String userName = await _firestore.getUser(userID).then((user) => user.name);
-    Conto conto = Conto.newConto(_contoNameController.value, userName, userID,
+    String userName =
+        await _firestore.getUser(userID).then((user) => user.name);
+    Conto conto = Conto.newConto(
+      _contoNameController.value,
+      userName,
+      userID,
       turmaID: turmaID,
       teacherID: await _firestore.getTeacherIDFromTurma(turmaID),
     );
@@ -48,15 +56,15 @@ class StudentContosListBloc extends ContosListBlocBase {
 
   void enterTurma(userID, BuildContext context) async {
     _controllerLoading.add(true);
-    await _firestore.enterStudentOnTurma(_codeTurmaController.value, userID)
+    await _firestore
+        .enterStudentOnTurma(_codeTurmaController.value, userID)
         .then((_) {
-          Navigator.of(context).pop();
-          user.turmaID = _codeTurmaController.value;
-          changeTurma(_codeTurmaController.value);
-        })
-        .catchError((e) {
-          _controllerLoading.add(false);
-          _codeTurmaController.sink.addError(DESCRIPTION_ENTER_TURMA_ERROR);
+      Navigator.of(context).pop();
+      user.turmaID = _codeTurmaController.value;
+      changeTurma(_codeTurmaController.value);
+    }).catchError((e) {
+      _controllerLoading.add(false);
+      _codeTurmaController.sink.addError(DESCRIPTION_ENTER_TURMA_ERROR);
     });
   }
 
@@ -67,7 +75,7 @@ class StudentContosListBloc extends ContosListBlocBase {
     super.dispose();
   }
 
-  Future<void> logout() async{
+  Future<void> logout() async {
     GetIt.I.unregister<User>();
     return await _authentication.singOut();
   }

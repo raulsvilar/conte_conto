@@ -6,12 +6,12 @@ import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 
 abstract class ContosListBlocBase extends BlocBase with Validator {
-
   final user = GetIt.I.get<User>();
 
   final _turmaController = BehaviorSubject<String>();
-  Stream<String> get turma =>
-      _turmaController.stream.transform(validateField);
+
+  Stream<String> get turma => _turmaController.stream.transform(validateField);
+
   Function(String) get changeTurma => _turmaController.sink.add;
 
   Stream<QuerySnapshot> contosList(userID, turmaId);
@@ -21,5 +21,4 @@ abstract class ContosListBlocBase extends BlocBase with Validator {
     _turmaController.close();
     super.dispose();
   }
-
 }

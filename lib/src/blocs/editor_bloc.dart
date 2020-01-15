@@ -49,18 +49,21 @@ class EditorBloc extends BlocBase {
       );
   }
 
-  Future<NotusDocument> setContoFinished(contoID) async {
+  Future<NotusDocument> setContoFinished(contoID, canCreate) async {
     if(_conto != null && !_conto.finished) {
-      _firestore.setContoFinished(contoID);
+      if (!canCreate)
+        _firestore.setContoFinished(contoID);
+      else _firestore.setSendContoForCorrection(contoID);
       return await loadDocument(contoID);
     }
   }
 
   Future<NotusDocument> loadDocument(contoID) async {
     _conto = await _firestore.getConto(contoID);
-    if (_conto != null && _conto.content != null && _conto.content.isNotEmpty) {
+    if(_conto != null) {
       _controllerFinished.sink.add(_conto.finished);
-      return NotusDocument.fromJson(jsonDecode(_conto.content));
+      if (_conto.content != null && _conto.content.isNotEmpty)
+        return NotusDocument.fromJson(jsonDecode(_conto.content));
     }
     final Delta delta = Delta()..insert(DESCRIPTION_EMPTY_CONTO);
     return NotusDocument.fromDelta(delta);

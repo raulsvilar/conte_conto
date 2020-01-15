@@ -46,7 +46,7 @@ class EditorPageState extends State<EditorPage> {
       builder: (context) => IconButton(
         icon: Icon(Icons.check),
         onPressed: () => widget._bloc
-            .setContoFinished(widget._contoID)
+            .setContoFinished(widget._contoID, widget._canCreate)
             .then((document) => _controller = ZefyrController(document)),
       ),
     );
@@ -61,8 +61,8 @@ class EditorPageState extends State<EditorPage> {
       ),
       body: StreamBuilder(
         stream: widget._bloc.isContoLoaded,
-        builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data) {
+        builder: (context, isLoaded) {
+          if (isLoaded.hasData && isLoaded.data) {
             return ZefyrScaffold(
               child: StreamBuilder(
                 stream: widget._bloc.isContoFinished,
