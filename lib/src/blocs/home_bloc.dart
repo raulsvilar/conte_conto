@@ -4,24 +4,19 @@ import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 
-enum bottomItems {
-  favorites,
-  classes,
-  contos,
-  messages,
-  help
-}
+enum bottomItems { favorites, classes, contos, messages, help }
 
 class HomeBloc extends BlocBase {
-
   final _controllerTab = BehaviorSubject<int>.seeded(0);
+
   Stream<int> get tab => _controllerTab.stream;
+
   Function(int) get setTab => _controllerTab.sink.add;
 
   List<bottomItems> items;
 
   initialRoute(userTypes type) {
-    switch(type) {
+    switch (type) {
       case userTypes.student:
         return DESCRIPTION_STUDENT_CONTOS_LIST_PAGE;
       case userTypes.teacher:
@@ -30,13 +25,9 @@ class HomeBloc extends BlocBase {
   }
 
   List<bottomItems> getNavitationItemsByUserType(userTypes userType) {
-    switch(userType) {
+    switch (userType) {
       case userTypes.student:
-        return [
-          bottomItems.contos,
-          bottomItems.messages,
-          bottomItems.help
-        ];
+        return [bottomItems.contos, bottomItems.messages, bottomItems.help];
       case userTypes.teacher:
         return [
           bottomItems.classes,
@@ -46,8 +37,9 @@ class HomeBloc extends BlocBase {
     }
   }
 
-  List<Widget> getNavigatorsOffstageByUser(userTypes userType, Function(bottomItems) offstage) {
-    switch(userType) {
+  List<Widget> getNavigatorsOffstageByUser(
+      userTypes userType, Function(bottomItems) offstage) {
+    switch (userType) {
       case userTypes.student:
         return [
           offstage(bottomItems.contos),

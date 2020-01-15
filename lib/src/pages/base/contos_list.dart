@@ -8,8 +8,8 @@ import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-abstract class ContosListBase<T extends ContosListBlocBase> extends StatelessWidget {
-
+abstract class ContosListBase<T extends ContosListBlocBase>
+    extends StatelessWidget {
   final bloc = BlocProvider.getBloc<T>();
   final bool canCreateConto;
   final String title;
@@ -17,8 +17,11 @@ abstract class ContosListBase<T extends ContosListBlocBase> extends StatelessWid
   final bool withFab;
   final user = GetIt.I.get<User>();
 
-  ContosListBase({this.title, this.canCreateConto = false, this.turmaID, this.withFab = false});
-
+  ContosListBase(
+      {this.title,
+      this.canCreateConto = false,
+      this.turmaID,
+      this.withFab = false});
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +30,17 @@ abstract class ContosListBase<T extends ContosListBlocBase> extends StatelessWid
         title: Text(title ?? "Contos"),
         actions: appBarActions(context),
       ),
-      floatingActionButton: withFab ? FloatingActionButton(
-        heroTag: "FloatContos",
-        onPressed: () => onPressedFloatingActionButton(context),
-        child: Icon(
-          Icons.edit,
-          color: Colors.white,
-        ),
-      ) : null,
+      floatingActionButton: withFab &&
+              (turmaID?.isNotEmpty ?? false || user.turmaID?.isNotEmpty ?? false)
+          ? FloatingActionButton(
+              heroTag: "FloatContos",
+              onPressed: () => onPressedFloatingActionButton(context),
+              child: Icon(
+                Icons.edit,
+                color: Colors.white,
+              ),
+            )
+          : null,
       body: buildBody(context),
     );
   }
@@ -49,7 +55,8 @@ abstract class ContosListBase<T extends ContosListBlocBase> extends StatelessWid
 
   Widget buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: bloc.contosList(user.reference.documentID, turmaID),
+      stream:
+          bloc.contosList(user.reference.documentID, user.turmaID ?? turmaID),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
         return _buildList(context, snapshot.data.documents);
@@ -74,7 +81,7 @@ abstract class ContosListBase<T extends ContosListBlocBase> extends StatelessWid
   ItemWithImageTitleSub configItem(Conto conto);
 
   onTapConto(List args) {
-    Navigator.of(args[0]).pushNamed(DESCRIPTION_EDITOR_PAGE, arguments: [args[1], canCreateConto]);
+    Navigator.of(args[0]).pushNamed(DESCRIPTION_EDITOR_PAGE,
+        arguments: [args[1], canCreateConto]);
   }
-
 }

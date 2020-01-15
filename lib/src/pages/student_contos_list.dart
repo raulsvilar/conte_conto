@@ -8,7 +8,11 @@ import 'base/contos_list.dart';
 
 class StudentContosList extends ContosListBase<StudentContosListBloc> {
 
-  StudentContosList() : super(canCreateConto: true, withFab: true);
+  StudentContosList()
+      : super(canCreateConto: true, withFab: true) {
+    bloc.changeTurma(user.turmaID);
+    print(user.turmaID);
+  }
 
   @override
   Widget buildBody(BuildContext context) {
@@ -18,10 +22,9 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
           if (snapshot.hasData && snapshot.data.isNotEmpty) {
             return super.buildBody(context);
           } else {
-            return  _buildBodyNoClass(context);
+            return _buildBodyNoClass(context);
           }
-        }
-    );
+        });
   }
 
   _buildBodyNoClass(BuildContext context) {
@@ -79,6 +82,7 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
   _showDialogEnterTurma(BuildContext ctx) {
     return showDialog(
       context: ctx,
+      useRootNavigator: false,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(DIALOG_ENTER_CLASS),
@@ -96,7 +100,8 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
           actions: <Widget>[
             FlatButton(
               child: Text(DIALOG_BUTTON_CANCEL),
-              onPressed: () => Navigator.pop(ctx),),
+              onPressed: () => Navigator.pop(ctx),
+            ),
             StreamBuilder<Object>(
                 stream: bloc.outLoading,
                 builder: (_, snapshot) {
@@ -107,8 +112,7 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
                       alignment: Alignment.center,
                       child: CircularProgressIndicator(),
                     );
-                  }
-                  else{
+                  } else {
                     return FlatButton(
                       child: Text(DIALOG_BUTTON_ENTER),
                       onPressed: () {
@@ -116,8 +120,7 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
                       },
                     );
                   }
-                }
-            )
+                })
           ],
         );
       },
@@ -167,19 +170,17 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
   List<Widget> appBarActions(BuildContext context) {
     return <Widget>[
       PopupMenuButton(
-        itemBuilder: (context) =>
-        [
+        itemBuilder: (context) => [
           PopupMenuItem(
             value: 1,
             child: Text("Sair"),
           )
         ],
         onSelected: (value) {
-          switch(value) {
+          switch (value) {
             case 1:
-              bloc.logout()
-                  .then((_) => Navigator.of(context, rootNavigator: true)
-                  .pushNamed("home"));
+              bloc.logout().then((_) =>
+                  Navigator.of(context, rootNavigator: true).pushNamed("home"));
           }
         },
       )
