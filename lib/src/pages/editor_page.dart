@@ -16,45 +16,38 @@ class EditorPage extends StatefulWidget {
 }
 
 class EditorPageState extends State<EditorPage> {
-
   /// Allows to control the editor and the document.
   ZefyrController _controller;
 
   /// Zefyr editor like any other input field requires a focus node.
   FocusNode _focusNode;
 
-
   @override
   void initState() {
     super.initState();
     _focusNode = FocusNode();
     widget._bloc.loadDocument(widget._contoID).then((document) {
-      setState(() {
-        _controller = ZefyrController(document);
-      });
+      _controller = ZefyrController(document);
+      widget._bloc.contoLoaded(true);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // If _controller is null we show Material Design loader, otherwise
-    // display Zefyr editor.
-    final Widget body = (_controller == null)
-        ? Center(child: CircularProgressIndicator())
-        : ZefyrScaffold(
-          child: ZefyrEditor(
-            toolbarDelegate: _ToolBarDelegate(widget._canCreate),
-            padding: EdgeInsets.all(16),
-            controller: _controller,
-            focusNode: _focusNode,
-          ),
-    );
-
     final Widget saveBtn = Builder(
       builder: (context) => IconButton(
         icon: Icon(Icons.save),
-        onPressed: () =>widget. _bloc.saveDocument(widget._contoID, _controller.document,
-            saveCallback, widget._canCreate),
+        onPressed: () => widget._bloc.saveDocument(widget._contoID,
+            _controller.document, saveCallback, widget._canCreate),
+      ),
+    );
+
+    final Widget finishBtn = Builder(
+      builder: (context) => IconButton(
+        icon: Icon(Icons.check),
+        onPressed: () => widget._bloc
+            .setContoFinished(widget._contoID)
+            .then((document) => _controller = ZefyrController(document)),
       ),
     );
 
@@ -62,26 +55,46 @@ class EditorPageState extends State<EditorPage> {
       appBar: AppBar(
         title: Text("Editor page"),
         actions: <Widget>[
+          finishBtn,
           saveBtn,
         ],
       ),
-      body: body,
+      body: StreamBuilder(
+        stream: widget._bloc.isContoLoaded,
+        builder: (context, snapshot) {
+          if (snapshot.hasData && snapshot.data) {
+            return ZefyrScaffold(
+              child: StreamBuilder(
+                stream: widget._bloc.isContoFinished,
+                builder: (_, snapshot) {
+                  if (snapshot.hasData) {
+                    return ZefyrEditor(
+                      toolbarDelegate: _ToolBarDelegate(widget._canCreate),
+                      padding: EdgeInsets.all(16),
+                      controller: _controller,
+                      focusNode: _focusNode,
+                      mode: snapshot.data ? ZefyrMode.view : ZefyrMode.edit,
+                    );
+                  } else
+                    return Center(child: CircularProgressIndicator());
+                },
+              ),
+            );
+          } else
+            return Center(child: CircularProgressIndicator());
+        },
+      ),
     );
   }
 
-  void test() {
-
-  }
-
   void saveCallback() {
-    Scaffold.of(context).showSnackBar(SnackBar(content: Text(DESCRIPTION_SAVED)));
+    Scaffold.of(context)
+        .showSnackBar(SnackBar(content: Text(DESCRIPTION_SAVED)));
   }
 }
 
 class _ToolBarDelegate extends ZefyrToolbarDelegate {
-
   bool _mode;
-
 
   _ToolBarDelegate(this._mode);
 
@@ -104,8 +117,10 @@ class _ToolBarDelegate extends ZefyrToolbarDelegate {
     ZefyrToolbarAction.confirm: Icons.check,
   };
 
-  final kDefaultButtonIconsMode = {ZefyrToolbarAction.code : Icons.code,
-  ZefyrToolbarAction.horizontalRule : Icons.remove};
+  final kDefaultButtonIconsMode = {
+    ZefyrToolbarAction.code: Icons.code,
+    ZefyrToolbarAction.horizontalRule: Icons.remove
+  };
 
   final kSpecialIconSizes = {
     ZefyrToolbarAction.unlink: 20.0,
@@ -136,7 +151,7 @@ class _ToolBarDelegate extends ZefyrToolbarDelegate {
           onPressed: onPressed,
         );
       } else
-          return Container();
+        return Container();
     } else {
       if (kDefaultButtonIcons.containsKey(action)) {
         final icon = kDefaultButtonIcons[action];

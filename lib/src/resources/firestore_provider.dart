@@ -7,9 +7,7 @@ class FirestoreProvider {
   final _firestore = Firestore.instance;
 
   Future<DocumentReference> addTurma(Turma turma) {
-    return  _firestore
-        .collection("turmas")
-        .add(turma.toJson());
+    return _firestore.collection("turmas").add(turma.toJson());
   }
 
   Stream<QuerySnapshot> turmasList(userID) {
@@ -17,13 +15,13 @@ class FirestoreProvider {
         .collection("turmas")
         .where("owner", isEqualTo: userID)
         .snapshots();
-
   }
 
   Stream<QuerySnapshot> contosListForTurma(turmaId) {
     return _firestore
         .collection("contos")
         .where("turmaID", isEqualTo: turmaId)
+        .where("sendedForCorrection", isEqualTo: true)
         .snapshots();
   }
 
@@ -36,12 +34,13 @@ class FirestoreProvider {
   }
 
   Stream<QuerySnapshot> getFavorites(String userId) {
-    return _firestore.collection("contos")
+    return _firestore
+        .collection("contos")
         .where("teacherID", isEqualTo: userId)
         .where("favorited", isEqualTo: true)
         .snapshots();
   }
-  
+
   setFavorite(String contoId, bool data) {
     _firestore
         .collection("contos")
@@ -49,7 +48,7 @@ class FirestoreProvider {
         .updateData({"favorited": data});
   }
 
-  Future<User> createUser(User user, reference) async{
+  Future<User> createUser(User user, reference) async {
     await _firestore.runTransaction((Transaction tx) async {
       await tx.set(_firestore.document("users/$reference"), user.toJson());
     });
@@ -57,14 +56,17 @@ class FirestoreProvider {
   }
 
   Future<User> getUser(String uid) async {
-    return await _firestore.collection("users")
+    return await _firestore
+        .collection("users")
         .document(uid)
         .get()
         .then((ds) => User.fromSnapshot(ds));
   }
 
   Future<String> getTeacherIDFromTurma(String turmaID) {
-    return _firestore.collection("turmas").document(turmaID)
+    return _firestore
+        .collection("turmas")
+        .document(turmaID)
         .get()
         .then((ds) => Turma.fromSnapshot(ds).owner);
   }
@@ -75,7 +77,7 @@ class FirestoreProvider {
     _firestore.collection("contos").add(data);
   }
 
-  Future<dynamic> enterStudentOnTurma(code, userID) async{
+  Future<dynamic> enterStudentOnTurma(code, userID) async {
     return _firestore.runTransaction((Transaction tx) async {
       DocumentReference userRef = _firestore.document("users/$userID");
       DocumentReference turmaRef = _firestore.document("turmas/$code");
@@ -91,15 +93,40 @@ class FirestoreProvider {
   }
 
   saveConto(String contoID, String data) {
-    _firestore.collection("contos").document(contoID).updateData({"content": data});
+    _firestore
+        .collection("contos")
+        .document(contoID)
+        .updateData({"content": data});
   }
 
-  Future<String> getContoContent(contoID) async{
-    return await _firestore.collection("contos").document(contoID).get()
+  Future<String> getContoContent(contoID) async {
+    return await _firestore
+        .collection("contos")
+        .document(contoID)
+        .get()
         .then((ds) => ds.data["content"]);
   }
 
   saveContoCorrection(String contoID, String contents) {
-    _firestore.collection("contos").document(contoID).collection("corrections").add({"content": contents});
+    _firestore
+        .collection("contos")
+        .document(contoID)
+        .collection("corrections")
+        .add({"content": contents});
+  }
+
+  void setContoFinished(contoID) {
+    _firestore
+        .collection("contos")
+        .document(contoID)
+        .updateData({"finished": true});
+  }
+
+  Future<Conto> getConto(contoID) async {
+    return await _firestore
+        .collection("contos")
+        .document(contoID)
+        .get()
+        .then((ds) => Conto.fromSnapshot(ds));
   }
 }
