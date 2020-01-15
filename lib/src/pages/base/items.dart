@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 
 class ItemWithImageTitleSub extends StatelessWidget {
-  final String _itemID;
-  final String _title;
+  final String itemID;
+  final String title;
   final String subTitle;
-  final _onTapCallback;
-  final setFavoriteCallback;
-  final callbackArg;
-  final bool _withFavorites;
+  final Function(List) onTapCallback;
+  final Function(List) favoriteCallback;
+  final List favoriteCallbackArgs;
+  final List onTapCallbackArgs;
+  final bool withFavorites;
   final bool isFavorited;
 
-  ItemWithImageTitleSub(this._itemID, this._title,
-      this._withFavorites, this._onTapCallback, {this.callbackArg,
-        this.setFavoriteCallback, this.isFavorited, this.subTitle});
+  ItemWithImageTitleSub(
+      {@required this.itemID,
+      @required this.title,
+      this.onTapCallbackArgs,
+      @required this.withFavorites,
+      @required this.onTapCallback,
+      this.favoriteCallbackArgs,
+      this.favoriteCallback,
+      this.isFavorited,
+      this.subTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -20,18 +28,27 @@ class ItemWithImageTitleSub extends StatelessWidget {
       color: Colors.white,
       height: 72,
       child: ListTile(
-        onTap: () => _onTapCallback(_itemID, context),
+        onTap: () => onTapCallback(onTapCallbackArgs ?? [context, itemID]),
         leading: CircleAvatar(
           backgroundColor: Colors.grey,
         ),
-        trailing: !_withFavorites ? null : IconButton(
-            icon: isFavorited ? Icon(Icons.favorite, color: Colors.red,) : Icon(Icons.favorite_border),
-            onPressed: () => setFavoriteCallback(callbackArg[0], callbackArg[1])),
+        trailing: !withFavorites
+            ? null
+            : IconButton(
+                icon: isFavorited
+                    ? Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                      )
+                    : Icon(Icons.favorite_border),
+                onPressed: () => favoriteCallback(favoriteCallbackArgs)),
         title: Text(
-          _title,
+          title,
           style: TextStyle(fontSize: 16),
         ),
-        subtitle: subTitle != null ? Text(subTitle, style: TextStyle(fontSize: 14)) : null,
+        subtitle: subTitle != null
+            ? Text(subTitle, style: TextStyle(fontSize: 14))
+            : null,
       ),
     );
   }

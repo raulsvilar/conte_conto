@@ -5,7 +5,6 @@ import 'package:conte_conto/src/pages/base/items.dart';
 import 'package:flutter/material.dart';
 
 class FavoritesPage extends ContosListBase<FavoritesBloc> {
-
   FavoritesPage() : super();
 
   @override
@@ -15,19 +14,19 @@ class FavoritesPage extends ContosListBase<FavoritesBloc> {
 
   @override
   ItemWithImageTitleSub configItem(Conto conto) {
-    return ItemWithImageTitleSub(conto.reference.documentID,
-      conto.title,
-      true,
-      onTapConto,
-      subTitle: conto.author,
-      isFavorited: conto.isFavorited,
-      setFavoriteCallback: bloc.setFavorite,
-      callbackArg: [conto.reference.documentID, !conto.isFavorited]);
+    return ItemWithImageTitleSub(
+        itemID: conto.reference.documentID,
+        title: conto.title,
+        withFavorites: true,
+        onTapCallback: onTapConto,
+        subTitle: conto.author,
+        isFavorited: conto.isFavorited,
+        favoriteCallback: bloc.setFavorite,
+        favoriteCallbackArgs: [conto.reference.documentID, !conto.isFavorited]);
   }
 
   @override
   onPressedFloatingActionButton(BuildContext context) {
     return null;
   }
-
 }

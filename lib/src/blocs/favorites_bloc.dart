@@ -7,8 +7,8 @@ class FavoritesBloc extends ContosListBlocBase {
 
   final _firestore = GetIt.I.get<FirestoreProvider>();
 
-  setFavorite(String contoId, bool data) {
-    _firestore.setFavorite(contoId, data);
+  setFavorite(List args) {
+    _firestore.setFavorite(args[0], args[1]);
   }
 
   @override

@@ -76,8 +76,10 @@ class TurmasPage extends StatelessWidget {
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Turma.fromSnapshot(data);
     return ItemWithImageTitleSub(
-      record.reference.documentID,
-        record.name, false, _onTapTurma,
+      itemID: record.reference.documentID,
+      title: record.name,
+      withFavorites: false,
+      onTapCallback: _onTapTurma,
       subTitle: record.school,
     );
   }
@@ -148,7 +150,7 @@ class TurmasPage extends StatelessWidget {
     );
   }
 
-  _onTapTurma(String turmaId, BuildContext context) {
-    Navigator.of(context).pushNamed(DESCRIPTION_TEACHER_CONTOS_LIST_PAGE, arguments: [turmaId]);
+  _onTapTurma(List args) {
+    Navigator.of(args[0]).pushNamed(DESCRIPTION_TEACHER_CONTOS_LIST_PAGE, arguments: [args[1]]);
   }
 }

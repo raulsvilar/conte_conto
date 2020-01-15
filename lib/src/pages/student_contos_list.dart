@@ -157,10 +157,10 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
   @override
   ItemWithImageTitleSub configItem(Conto conto) {
     return ItemWithImageTitleSub(
-        conto.reference.documentID,
-        conto.title,
-        false,
-        onTapConto);
+        itemID: conto.reference.documentID,
+        title: conto.title,
+        withFavorites: false,
+        onTapCallback: onTapConto);
   }
 
   @override

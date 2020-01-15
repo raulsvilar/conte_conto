@@ -8,21 +8,21 @@ class TeacherContosList extends ContosListBase<TeacherContosListBloc> {
 
   TeacherContosList(turmaID) : super(turmaID:turmaID);
 
-  _setFavorite(contoId, data) {
-    bloc.setFavorite(contoId, data);
+  _setFavorite(List args) {
+    bloc.setFavorite(args[0], args[1]);
   }
 
   @override
   ItemWithImageTitleSub configItem(Conto conto) {
     return ItemWithImageTitleSub(
-        conto.reference.documentID,
-        conto.title,
-        true,
-        onTapConto,
-        setFavoriteCallback: _setFavorite,
+        itemID: conto.reference.documentID,
+        title: conto.title,
+        withFavorites: true,
+        onTapCallback: onTapConto,
+        favoriteCallback: _setFavorite,
         subTitle: conto.author,
         isFavorited: conto.isFavorited,
-        callbackArg: [conto.reference.documentID, !conto.isFavorited]);
+        favoriteCallbackArgs: [conto.reference.documentID, !conto.isFavorited]);
   }
 
   @override

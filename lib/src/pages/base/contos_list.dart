@@ -72,8 +72,8 @@ abstract class ContosListBase<T extends ContosListBlocBase> extends StatelessWid
 
   ItemWithImageTitleSub configItem(Conto conto);
 
-  onTapConto(String contoID, BuildContext context) {
-    Navigator.of(context).pushNamed(DESCRIPTION_EDITOR_PAGE, arguments: [contoID, canCreateConto]);
+  onTapConto(List args) {
+    Navigator.of(args[0]).pushNamed(DESCRIPTION_EDITOR_PAGE, arguments: [args[1], canCreateConto]);
   }
 
 }
