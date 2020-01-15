@@ -26,21 +26,32 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Stack(
-            children: _bloc.getNavigatorsOffstageByUser(
-                user.type, _buildOffstageNavigator)),
-        bottomNavigationBar: StreamBuilder(
-            stream: _bloc.tab,
-            builder: (context, snapshot) {
-              return BottomNavigationBar(
-                items:
-                    _createItems(_bloc.getNavitationItemsByUserType(user.type)),
-                type: BottomNavigationBarType.fixed,
-                onTap: (index) => _bloc.setTab(index),
-                currentIndex: snapshot.hasData ? snapshot.data : 0,
-              );
-            }));
+    return StreamBuilder(
+      stream: _bloc.tab,
+      builder: (context, snapshot) {
+        return WillPopScope(
+          onWillPop: () async => !await navigatorKeys[
+                  _bloc.getNavitationItemsByUserType(
+                      user.type)[snapshot.hasData ? snapshot.data : 0]]
+              .currentState
+              .maybePop(),
+          child: Scaffold(
+            body: Stack(
+              children: _bloc.getNavigatorsOffstageByUser(
+                  user.type, _buildOffstageNavigator),
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              items: _createItems(
+                _bloc.getNavitationItemsByUserType(user.type),
+              ),
+              type: BottomNavigationBarType.fixed,
+              onTap: (index) => _bloc.setTab(index),
+              currentIndex: snapshot.hasData ? snapshot.data : 0,
+            ),
+          ),
+        );
+      },
+    );
   }
 
   List<BottomNavigationBarItem> _createItems(List<bottomItems> items) {
@@ -48,34 +59,44 @@ class HomePage extends StatelessWidget {
     for (bottomItems item in items) {
       switch (item) {
         case bottomItems.favorites:
-          listItems.add(BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            title: Text('Favoritos'),
-          ));
+          listItems.add(
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite),
+              title: Text('Favoritos'),
+            ),
+          );
           break;
         case bottomItems.messages:
-          listItems.add(BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            title: Text('Mensagens'),
-          ));
+          listItems.add(
+            BottomNavigationBarItem(
+              icon: Icon(Icons.message),
+              title: Text('Mensagens'),
+            ),
+          );
           break;
         case bottomItems.classes:
-          listItems.add(BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            title: Text('Turmas'),
-          ));
+          listItems.add(
+            BottomNavigationBarItem(
+              icon: Icon(Icons.book),
+              title: Text('Turmas'),
+            ),
+          );
           break;
         case bottomItems.help:
-          listItems.add(BottomNavigationBarItem(
-            icon: Icon(Icons.help),
-            title: Text('Ajuda'),
-          ));
+          listItems.add(
+            BottomNavigationBarItem(
+              icon: Icon(Icons.help),
+              title: Text('Ajuda'),
+            ),
+          );
           break;
         case bottomItems.contos:
-          listItems.add(BottomNavigationBarItem(
-            icon: Icon(Icons.note),
-            title: Text('Contos'),
-          ));
+          listItems.add(
+            BottomNavigationBarItem(
+              icon: Icon(Icons.note),
+              title: Text('Contos'),
+            ),
+          );
           break;
       }
     }
