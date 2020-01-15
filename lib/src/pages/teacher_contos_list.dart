@@ -5,8 +5,8 @@ import 'package:conte_conto/src/pages/base/items.dart';
 import 'package:flutter/material.dart';
 
 class TeacherContosList extends ContosListBase<TeacherContosListBloc> {
-
-  TeacherContosList(turmaID) : super(turmaID:turmaID);
+  TeacherContosList(turmaID, turmaName)
+      : super(title: turmaName, turmaID: turmaID);
 
   _setFavorite(List args) {
     bloc.setFavorite(args[0], args[1]);
@@ -35,5 +35,4 @@ class TeacherContosList extends ContosListBase<TeacherContosListBloc> {
     // TODO: implement onPressedFloatingActionButton
     return null;
   }
-
 }

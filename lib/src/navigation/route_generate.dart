@@ -33,7 +33,7 @@ class RouteGenerator {
         } return _errorRoute("Tipo inválido no argumento de EditorPage");
       case DESCRIPTION_TEACHER_CONTOS_LIST_PAGE:
         if (args is List) {
-          return MaterialPageRoute(builder: (_) => TeacherContosList(args[0]));
+          return MaterialPageRoute(builder: (_) => TeacherContosList(args[0], args[1]));
         } return _errorRoute("Tipo inválido no argumento de ContosList");
       default:
           return _errorRoute("Rota não encontrada");

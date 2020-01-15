@@ -12,18 +12,19 @@ abstract class ContosListBase<T extends ContosListBlocBase> extends StatelessWid
 
   final bloc = BlocProvider.getBloc<T>();
   final bool canCreateConto;
+  final String title;
   final String turmaID;
   final bool withFab;
   final user = GetIt.I.get<User>();
 
-  ContosListBase({this.canCreateConto = false, this.turmaID, this.withFab = false});
+  ContosListBase({this.title, this.canCreateConto = false, this.turmaID, this.withFab = false});
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Contos"),
+        title: Text(title ?? "Contos"),
         actions: appBarActions(context),
       ),
       floatingActionButton: withFab ? FloatingActionButton(

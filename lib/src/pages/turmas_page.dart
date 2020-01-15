@@ -80,6 +80,7 @@ class TurmasPage extends StatelessWidget {
       title: record.name,
       withFavorites: false,
       onTapCallback: _onTapTurma,
+      onTapCallbackArgs: [context, record.reference.documentID, record.name],
       subTitle: record.school,
     );
   }
@@ -151,6 +152,6 @@ class TurmasPage extends StatelessWidget {
   }
 
   _onTapTurma(List args) {
-    Navigator.of(args[0]).pushNamed(DESCRIPTION_TEACHER_CONTOS_LIST_PAGE, arguments: [args[1]]);
+    Navigator.of(args[0]).pushNamed(DESCRIPTION_TEACHER_CONTOS_LIST_PAGE, arguments: [args[1], args[2]]);
   }
 }
