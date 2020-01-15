@@ -1,8 +1,11 @@
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:conte_conto/src/blocs/student_contos_list_bloc.dart';
 import 'package:conte_conto/src/models/conto.dart';
 import 'package:conte_conto/src/pages/base/items.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'base/contos_list.dart';
 
@@ -10,8 +13,8 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
 
   StudentContosList()
       : super(canCreateConto: true, withFab: true) {
-    bloc.changeTurma(user.turmaID);
-    print(user.turmaID);
+    bloc.changeTurma(bloc.user.turmaID);
+    print(bloc.user.turmaID);
   }
 
   @override
@@ -25,6 +28,24 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
             return _buildBodyNoClass(context);
           }
         });
+  }
+
+  Future scan(BuildContext ctx) async {
+    try {
+      String barcode = await BarcodeScanner.scan();
+      bloc.changeCode(barcode);
+      bloc.enterTurma(bloc.user.reference.documentID, ctx);
+    } on PlatformException catch (e) {
+      if (e.code == BarcodeScanner.CameraAccessDenied) {
+        bloc.changeCode('The user did not grant the camera permission!');
+      } else {
+        bloc.changeCode('Unknown error: $e');
+      }
+    } on FormatException{
+      bloc.changeCode('null (User returned using the "back"-button before scanning anything. Result)');
+    } catch (e) {
+      bloc.changeCode('Unknown error: $e');
+    }
   }
 
   _buildBodyNoClass(BuildContext context) {
@@ -43,18 +64,8 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
   }
 
   _showDialogNewConto(BuildContext ctx) {
-    var _saveBtn = FlatButton(
-      child: Text(DIALOG_BUTTON_SAVE),
-      onPressed: () {
-        bloc.addConto(user.turmaID, user.reference.documentID);
-        Navigator.pop(ctx);
-      },
-    );
-    var _cancelBtn = FlatButton(
-      child: Text(DIALOG_BUTTON_CANCEL),
-      onPressed: () => Navigator.pop(ctx),
-    );
     return showDialog(
+      useRootNavigator: false,
       context: ctx,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -71,8 +82,17 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
             ),
           ),
           actions: <Widget>[
-            _cancelBtn,
-            _saveBtn,
+            FlatButton(
+              child: Text(DIALOG_BUTTON_CANCEL),
+              onPressed: () => Navigator.pop(ctx),
+            ),
+            FlatButton(
+              child: Text(DIALOG_BUTTON_SAVE),
+              onPressed: () {
+                bloc.addConto(bloc.user.turmaID, bloc.user.reference.documentID);
+                Navigator.pop(ctx);
+              },
+            )
           ],
         );
       },
@@ -116,7 +136,7 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
                     return FlatButton(
                       child: Text(DIALOG_BUTTON_ENTER),
                       onPressed: () {
-                        bloc.enterTurma(user.reference.documentID, ctx);
+                        bloc.enterTurma(bloc.user.reference.documentID, ctx);
                       },
                     );
                   }
@@ -147,8 +167,13 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
       stream: bloc.codeTurma,
       builder: (context, snapshot) {
         return TextField(
+          //controller: TextEditingController(text: snapshot.data),
           onChanged: bloc.changeCode,
           decoration: InputDecoration(
+            suffixIcon: IconButton(
+              onPressed: () => scan(context),
+              icon: Icon(FontAwesomeIcons.qrcode),
+            ),
             labelText: DESCRIPTION_CODE,
             errorText: snapshot.error,
           ),

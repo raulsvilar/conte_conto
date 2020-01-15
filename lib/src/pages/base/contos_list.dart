@@ -2,11 +2,9 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conte_conto/src/blocs/contos_list_bloc.dart';
 import 'package:conte_conto/src/models/conto.dart';
-import 'package:conte_conto/src/models/user.dart';
 import 'package:conte_conto/src/pages/base/items.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 
 abstract class ContosListBase<T extends ContosListBlocBase>
     extends StatelessWidget {
@@ -15,7 +13,6 @@ abstract class ContosListBase<T extends ContosListBlocBase>
   final String title;
   final String turmaID;
   final bool withFab;
-  final user = GetIt.I.get<User>();
 
   ContosListBase(
       {this.title,
@@ -30,17 +27,26 @@ abstract class ContosListBase<T extends ContosListBlocBase>
         title: Text(title ?? "Contos"),
         actions: appBarActions(context),
       ),
-      floatingActionButton: withFab &&
-              (turmaID?.isNotEmpty ?? false || user.turmaID?.isNotEmpty ?? false)
-          ? FloatingActionButton(
+      floatingActionButton: StreamBuilder(
+        stream: bloc.turma,
+        builder: (_, snapshot) {
+          if (withFab &&
+              snapshot.hasData &&
+              (turmaID?.isNotEmpty ??
+                  false || bloc.user.turmaID?.isNotEmpty ??
+                  false)) {
+            return FloatingActionButton(
               heroTag: "FloatContos",
               onPressed: () => onPressedFloatingActionButton(context),
               child: Icon(
                 Icons.edit,
                 color: Colors.white,
               ),
-            )
-          : null,
+            );
+          } else
+            return Container();
+        },
+      ),
       body: buildBody(context),
     );
   }
@@ -55,8 +61,8 @@ abstract class ContosListBase<T extends ContosListBlocBase>
 
   Widget buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream:
-          bloc.contosList(user.reference.documentID, user.turmaID ?? turmaID),
+      stream: bloc.contosList(
+          bloc.user.reference.documentID, bloc.user.turmaID ?? turmaID),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
         return _buildList(context, snapshot.data.documents);

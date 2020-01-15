@@ -53,6 +53,7 @@ class Conto {
     data['turmaID'] = turmaID;
     data['creationDate'] = creationDate;
     data['finished'] = finished;
+    data['sendedForCorrection'] = sendedForCorrection;
     data['favorited'] = isFavorited;
     data['teacherID'] = teacherID;
     data['content'] = content;

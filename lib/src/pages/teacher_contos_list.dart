@@ -4,6 +4,7 @@ import 'package:conte_conto/src/pages/base/contos_list.dart';
 import 'package:conte_conto/src/pages/base/items.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class TeacherContosList extends ContosListBase<TeacherContosListBloc> {
@@ -33,7 +34,7 @@ class TeacherContosList extends ContosListBase<TeacherContosListBloc> {
     return [
       Builder(
         builder: (_) => IconButton(
-          icon: Icon(Icons.settings_overscan),
+          icon: Icon(FontAwesomeIcons.qrcode),
           onPressed: () => showQRDialog(context),
         ),
       ),
