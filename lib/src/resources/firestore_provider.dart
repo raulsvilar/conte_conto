@@ -108,11 +108,11 @@ class FirestoreProvider {
   }
 
   saveContoCorrection(String contoID, String contents) {
-    _firestore
-        .collection("contos")
-        .document(contoID)
-        .collection("corrections")
-        .add({"content": contents});
+    _firestore.runTransaction((Transaction tx) async {
+      DocumentReference contoRef = _firestore.collection("contos").document(contoID);
+      await tx.update(contoRef, {"sendedForCorrection":false});
+      await tx.update(contoRef, {"corrections": contents});
+    });
   }
 
   void setContoFinished(contoID) {

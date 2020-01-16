@@ -14,16 +14,27 @@ class EditorBloc extends BlocBase {
   Conto _conto;
 
   final _controllerFinished = BehaviorSubject<bool>.seeded(false);
+
   Stream<bool> get isContoFinished => _controllerFinished.stream;
 
+  final _controllerCorrection = BehaviorSubject<bool>.seeded(false);
+
+  Stream<bool> get isContoInCorrection => _controllerCorrection.stream;
+
+  Stream<bool> get inEdition => Rx.combineLatest2(
+      isContoInCorrection, isContoFinished, (e, p) => (e || p));
+
   final _controllerLoaded = BehaviorSubject<bool>.seeded(false);
+
   Function(bool) get contoLoaded => _controllerLoaded.sink.add;
+
   Stream<bool> get isContoLoaded => _controllerLoaded.stream;
 
   @override
   void dispose() {
     _controllerFinished.close();
     _controllerLoaded.close();
+    _controllerCorrection.close();
     super.dispose();
   }
 
@@ -49,11 +60,14 @@ class EditorBloc extends BlocBase {
       );
   }
 
-  Future<NotusDocument> setContoFinished(contoID, canCreate) async {
-    if(_conto != null && !_conto.finished) {
+  Future<NotusDocument> setContoFinished(
+      contoID, saveCallback, canCreate) async {
+    if (_conto != null && !_conto.finished) {
       if (!canCreate)
         _firestore.setContoFinished(contoID);
-      else _firestore.setSendContoForCorrection(contoID);
+      else
+        _firestore.setSendContoForCorrection(contoID);
+      saveCallback();
       return await loadDocument(contoID);
     }
   }
@@ -61,8 +75,9 @@ class EditorBloc extends BlocBase {
   Future<NotusDocument> loadDocument(contoID) async {
     contoLoaded(false);
     _conto = await _firestore.getConto(contoID);
-    if(_conto != null) {
+    if (_conto != null) {
       _controllerFinished.sink.add(_conto.finished);
+      _controllerCorrection.sink.add(_conto.sendedForCorrection);
       if (_conto.content != null && _conto.content.isNotEmpty)
         return NotusDocument.fromJson(jsonDecode(_conto.content));
     }
