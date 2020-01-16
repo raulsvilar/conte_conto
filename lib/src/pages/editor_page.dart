@@ -68,7 +68,7 @@ class EditorPageState extends State<EditorPage> {
               child: StreamBuilder(
                 stream: widget._bloc.isContoFinished,
                 builder: (_, snapshot) {
-                  if (snapshot.hasData) {
+                  if (snapshot.hasData && isLoaded.data) {
                     return ZefyrEditor(
                       toolbarDelegate: _ToolBarDelegate(widget._canCreate),
                       padding: EdgeInsets.all(16),

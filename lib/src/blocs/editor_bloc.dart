@@ -59,6 +59,7 @@ class EditorBloc extends BlocBase {
   }
 
   Future<NotusDocument> loadDocument(contoID) async {
+    contoLoaded(false);
     _conto = await _firestore.getConto(contoID);
     if(_conto != null) {
       _controllerFinished.sink.add(_conto.finished);
