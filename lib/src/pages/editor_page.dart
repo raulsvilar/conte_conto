@@ -25,6 +25,7 @@ class EditorPageState extends State<EditorPage> {
   @override
   void initState() {
     super.initState();
+    print("Entrou no init do Editor");
     _focusNode = FocusNode();
     widget._bloc.loadDocument(widget._contoID).then((document) {
       _controller = ZefyrController(document);

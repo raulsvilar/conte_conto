@@ -30,12 +30,16 @@ class TurmasPage extends StatelessWidget {
               )
             ],
             onSelected: (value) {
-              switch(value) {
+              switch (value) {
                 case 1:
-                  _bloc.logout().then((_) {
-                    Navigator.of(context, rootNavigator: true)
-                        .pushAndRemoveUntil(MaterialPageRoute(builder: (_) => LoginPage()), (Route<dynamic> route) => false);
-                  });
+                  _bloc.logout().then(
+                    (_) {
+                      Navigator.of(context, rootNavigator: true)
+                          .pushAndRemoveUntil(
+                              MaterialPageRoute(builder: (_) => LoginPage()),
+                              (Route<dynamic> route) => false);
+                    },
+                  );
               }
             },
           )
@@ -152,6 +156,7 @@ class TurmasPage extends StatelessWidget {
   }
 
   _onTapTurma(List args) {
-    Navigator.of(args[0]).pushNamed(DESCRIPTION_TEACHER_CONTOS_LIST_PAGE, arguments: [args[1], args[2]]);
+    Navigator.of(args[0]).pushNamed(DESCRIPTION_TEACHER_CONTOS_LIST_PAGE,
+        arguments: [args[1], args[2]]);
   }
 }

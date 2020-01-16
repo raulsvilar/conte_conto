@@ -2,6 +2,7 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:conte_conto/src/blocs/student_contos_list_bloc.dart';
 import 'package:conte_conto/src/models/conto.dart';
 import 'package:conte_conto/src/pages/base/items.dart';
+import 'package:conte_conto/src/pages/login_page.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,9 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'base/contos_list.dart';
 
 class StudentContosList extends ContosListBase<StudentContosListBloc> {
-
-  StudentContosList()
-      : super(canCreateConto: true, withFab: true) {
+  StudentContosList() : super(canCreateConto: true, withFab: true) {
     bloc.changeTurma(bloc.user.turmaID);
     print(bloc.user.turmaID);
   }
@@ -41,8 +40,9 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
       } else {
         bloc.changeCode('Unknown error: $e');
       }
-    } on FormatException{
-      bloc.changeCode('null (User returned using the "back"-button before scanning anything. Result)');
+    } on FormatException {
+      bloc.changeCode(
+          'null (User returned using the "back"-button before scanning anything. Result)');
     } catch (e) {
       bloc.changeCode('Unknown error: $e');
     }
@@ -89,7 +89,8 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
             FlatButton(
               child: Text(DIALOG_BUTTON_SAVE),
               onPressed: () {
-                bloc.addConto(bloc.user.turmaID, bloc.user.reference.documentID);
+                bloc.addConto(
+                    bloc.user.turmaID, bloc.user.reference.documentID);
                 Navigator.pop(ctx);
               },
             )
@@ -205,7 +206,9 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
           switch (value) {
             case 1:
               bloc.logout().then((_) =>
-                  Navigator.of(context, rootNavigator: true).pushNamed("home"));
+                  Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (_) => LoginPage()),
+                      (Route<dynamic> route) => false));
           }
         },
       )

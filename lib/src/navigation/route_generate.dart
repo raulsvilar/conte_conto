@@ -12,7 +12,7 @@ class RouteGenerator {
 
     switch (settings.name) {
       case DESCRIPTION_CLASSES_PAGE:
-          return MaterialPageRoute(builder: (_) => TurmasPage());
+        return MaterialPageRoute(builder: (_) => TurmasPage());
       case DESCRIPTION_LOGIN_PAGE:
         return MaterialPageRoute(builder: (_) => LoginPage());
       case DESCRIPTION_HOME_PAGE:
@@ -27,14 +27,18 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => StudentContosList());
       case DESCRIPTION_EDITOR_PAGE:
         if (args is List) {
-          return MaterialPageRoute(builder: (_) => EditorPage(args[0], args[1]));
-        } return _errorRoute("Tipo inválido no argumento de EditorPage");
+          return MaterialPageRoute(
+              builder: (_) => EditorPage(args[0], args[1]));
+        }
+        return _errorRoute("Tipo inválido no argumento de EditorPage");
       case DESCRIPTION_TEACHER_CONTOS_LIST_PAGE:
         if (args is List) {
-          return MaterialPageRoute(builder: (_) => TeacherContosList(args[0], args[1]));
-        } return _errorRoute("Tipo inválido no argumento de ContosList");
+          return MaterialPageRoute(
+              builder: (_) => TeacherContosList(args[0], args[1]));
+        }
+        return _errorRoute("Tipo inválido no argumento de ContosList");
       default:
-          return _errorRoute("Rota não encontrada");
+        return _errorRoute("Rota não encontrada");
     }
   }
 
