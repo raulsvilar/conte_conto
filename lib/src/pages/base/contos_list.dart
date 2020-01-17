@@ -62,7 +62,7 @@ abstract class ContosListBase<T extends ContosListBlocBase>
   Widget buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: bloc.contosList(
-          bloc.user.reference.documentID, bloc.user.turmaID ?? turmaID),
+          bloc.user.reference.documentID, turmaID ?? bloc.user.turmaID),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
         return _buildList(context, snapshot.data.documents);
