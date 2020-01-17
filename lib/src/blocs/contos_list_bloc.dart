@@ -1,11 +1,13 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conte_conto/src/models/user.dart';
+import 'package:conte_conto/src/resources/firestore_provider.dart';
 import 'package:conte_conto/src/utils/validator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 
 abstract class ContosListBlocBase extends BlocBase with Validator {
+  final firestore = GetIt.I.get<FirestoreProvider>();
   final user = GetIt.I.get<User>();
 
   final _turmaController = BehaviorSubject<String>();
@@ -14,7 +16,9 @@ abstract class ContosListBlocBase extends BlocBase with Validator {
 
   Function(String) get changeTurma => _turmaController.sink.add;
 
-  Stream<QuerySnapshot> contosList(userID, turmaId);
+  Stream<QuerySnapshot> contosList(userID, turmaId) {
+    return firestore.finishedContosListForTurma(turmaId);
+  }
 
   @override
   void dispose() {

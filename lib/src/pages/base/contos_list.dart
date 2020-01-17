@@ -65,21 +65,21 @@ abstract class ContosListBase<T extends ContosListBlocBase>
           bloc.user.reference.documentID, turmaID ?? bloc.user.turmaID),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
-        return _buildList(context, snapshot.data.documents);
+        return buildList(context, snapshot.data.documents);
       },
     );
   }
 
-  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
+  Widget buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
     return ListView.builder(
       itemCount: snapshot.length,
       itemBuilder: (BuildContext context, int index) {
-        return _buildListItem(context, snapshot[index]);
+        return buildListItem(context, snapshot[index]);
       },
     );
   }
 
-  Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
+  Widget buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Conto.fromSnapshot(data);
     return configItem(record);
   }

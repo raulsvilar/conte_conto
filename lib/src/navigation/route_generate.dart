@@ -1,6 +1,6 @@
 import 'package:conte_conto/src/pages/editor_page.dart';
 import 'package:conte_conto/src/pages/teacher_contos_list.dart';
-import 'package:conte_conto/src/pages/correction_page.dart';
+import 'package:conte_conto/src/pages/students_class_contos_page.dart';
 import 'package:flutter/material.dart';
 
 import 'routes.dart';
@@ -19,8 +19,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => HomePage());
       case DESCRIPTION_REGISTER_PAGE:
         return MaterialPageRoute(builder: (_) => RegisterPage());
-      case DESCRIPTION_CORRECTION_PAGE:
-        return MaterialPageRoute(builder: (_) => CorrectionPage());
+      case DESCRIPTION_STUDENTS_CLASS_CONTOS_PAGE:
+        return MaterialPageRoute(builder: (_) => StudentsClassContosPage());
       case DESCRIPTION_FAVORITES_PAGE:
         return MaterialPageRoute(builder: (_) => FavoritesPage());
       case DESCRIPTION_STUDENT_CONTOS_LIST_PAGE:

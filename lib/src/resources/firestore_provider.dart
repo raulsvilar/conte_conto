@@ -136,4 +136,12 @@ class FirestoreProvider {
         .document(contoID)
         .updateData({"sendedForCorrection":true});
   }
+
+  Stream<QuerySnapshot> finishedContosListForTurma(turmaId) {
+    return _firestore
+        .collection("contos")
+        .where("turmaID", isEqualTo: turmaId)
+        .where("finished", isEqualTo: true)
+        .snapshots();
+  }
 }

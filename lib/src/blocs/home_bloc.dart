@@ -4,7 +4,7 @@ import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 
-enum bottomItems { favorites, classes, contos, messages, help }
+enum bottomItems { favorites, classes, contos, messages, help, finished_contos}
 
 class HomeBloc extends BlocBase {
   final _controllerTab = BehaviorSubject<int>.seeded(0);
@@ -27,7 +27,7 @@ class HomeBloc extends BlocBase {
   List<bottomItems> getNavitationItemsByUserType(userTypes userType) {
     switch (userType) {
       case userTypes.student:
-        return [bottomItems.contos, bottomItems.messages, bottomItems.help];
+        return [bottomItems.contos, bottomItems.finished_contos, bottomItems.help];
       case userTypes.teacher:
         return [
           bottomItems.classes,
@@ -43,7 +43,7 @@ class HomeBloc extends BlocBase {
       case userTypes.student:
         return [
           offstage(bottomItems.contos),
-          offstage(bottomItems.messages),
+          offstage(bottomItems.finished_contos),
           offstage(bottomItems.help)
         ];
       case userTypes.teacher:

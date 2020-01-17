@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conte_conto/src/models/conto.dart';
 import 'package:conte_conto/src/models/user.dart';
 import 'package:conte_conto/src/resources/fireauth_provider.dart';
-import 'package:conte_conto/src/resources/firestore_provider.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -11,7 +10,6 @@ import 'package:rxdart/rxdart.dart';
 import 'contos_list_bloc.dart';
 
 class StudentContosListBloc extends ContosListBlocBase {
-  final _firestore = GetIt.I.get<FirestoreProvider>();
   final _authentication = GetIt.I.get<Authentication>();
 
   final _contoNameController = BehaviorSubject<String>();
@@ -34,29 +32,28 @@ class StudentContosListBloc extends ContosListBlocBase {
 
   @override
   Stream<QuerySnapshot> contosList(userID, turmaId) {
-    return _firestore.contosListForStudent(userID, turmaId);
+    return firestore.contosListForStudent(userID, turmaId);
   }
 
   setFavorite(String contoId, bool data) {
-    _firestore.setFavorite(contoId, data);
+    firestore.setFavorite(contoId, data);
   }
 
   void addConto(turmaID, userID) async {
-    String userName =
-        await _firestore.getUser(userID).then((user) => user.name);
+    String userName = await firestore.getUser(userID).then((user) => user.name);
     Conto conto = Conto.newConto(
       _contoNameController.value,
       userName,
       userID,
       turmaID: turmaID,
-      teacherID: await _firestore.getTeacherIDFromTurma(turmaID),
+      teacherID: await firestore.getTeacherIDFromTurma(turmaID),
     );
-    _firestore.addConto(conto);
+    firestore.addConto(conto);
   }
 
   void enterTurma(userID, BuildContext context) async {
     _controllerLoading.add(true);
-    await _firestore
+    await firestore
         .enterStudentOnTurma(_codeTurmaController.value, userID)
         .then((_) {
       Navigator.of(context).pop();

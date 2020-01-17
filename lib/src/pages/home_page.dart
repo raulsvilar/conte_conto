@@ -4,6 +4,7 @@ import 'package:conte_conto/src/models/user.dart';
 import 'package:conte_conto/src/navigation/navigator.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 
 class HomePage extends StatelessWidget {
@@ -15,12 +16,14 @@ class HomePage extends StatelessWidget {
     bottomItems.help: GlobalKey<NavigatorState>(),
     bottomItems.classes: GlobalKey<NavigatorState>(),
     bottomItems.messages: GlobalKey<NavigatorState>(),
-    bottomItems.contos: GlobalKey<NavigatorState>()
+    bottomItems.contos: GlobalKey<NavigatorState>(),
+    bottomItems.finished_contos: GlobalKey<NavigatorState>(),
   };
 
   final Map<bottomItems, String> initialRoutes = {
     bottomItems.favorites: DESCRIPTION_FAVORITES_PAGE,
     bottomItems.contos: DESCRIPTION_STUDENT_CONTOS_LIST_PAGE,
+    bottomItems.finished_contos: DESCRIPTION_STUDENTS_CLASS_CONTOS_PAGE,
     bottomItems.classes: DESCRIPTION_CLASSES_PAGE,
   };
 
@@ -93,8 +96,16 @@ class HomePage extends StatelessWidget {
         case bottomItems.contos:
           listItems.add(
             BottomNavigationBarItem(
-              icon: Icon(Icons.note),
+              icon: Icon(FontAwesomeIcons.solidEdit),
               title: Text('Contos'),
+            ),
+          );
+          break;
+        case bottomItems.finished_contos:
+          listItems.add(
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.bookReader),
+              title: Text('Turma'),
             ),
           );
           break;
