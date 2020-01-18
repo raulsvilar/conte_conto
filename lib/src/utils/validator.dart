@@ -17,7 +17,7 @@ mixin Validator {
 
   final validatePassword =
       StreamTransformer<String, String>.fromHandlers(handleData: (password, sink) {
-    if (password.length > 3) {
+    if (password.length > 5) {
       sink.add(password);
     } else if (password.isEmpty)
       sink.addError(DESCRIPTION_MISSING_FIELD);
