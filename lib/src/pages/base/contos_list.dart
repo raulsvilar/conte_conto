@@ -65,7 +65,12 @@ abstract class ContosListBase<T extends ContosListBlocBase>
           bloc.user.reference.documentID, turmaID ?? bloc.user.turmaID),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
-        return buildList(context, snapshot.data.documents);
+        if (snapshot.data.documents.length > 0)
+          return buildList(context, snapshot.data.documents);
+        else
+          return Center(
+            child: Text(DESCRIPTION_NO_CONTOS_IN_CLASS),
+          );
       },
     );
   }

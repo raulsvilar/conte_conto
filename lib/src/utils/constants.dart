@@ -63,6 +63,7 @@ const DESCRIPTION_CODE = "Código";
 const DESCRIPTION_EMPTY_CONTO = "\n";
 const DESCRIPTION_SAVED = "Salvo!";
 const DESCRIPTION_CLASS_CODE = "Código da Turma";
+const DESCRIPTION_NO_CONTOS_IN_CLASS = "Ainda não há contos nesta turma";
 
 /// ###################################################
 /// PAGES
