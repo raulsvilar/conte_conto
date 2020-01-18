@@ -9,7 +9,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 class TeacherContosList extends ContosListBase<TeacherContosListBloc> {
   TeacherContosList(turmaID, turmaName)
-      : super(title: turmaName, turmaID: turmaID);
+      : super(withFab: true, title: turmaName, turmaID: turmaID);
 
   _setFavorite(List args) {
     bloc.setFavorite(args[0], args[1]);
@@ -75,6 +75,58 @@ class TeacherContosList extends ContosListBase<TeacherContosListBloc> {
 
   @override
   onPressedFloatingActionButton(BuildContext context) {
-    return null;
+    return _showDialogNewMaterial(context);
+  }
+
+  _showDialogNewMaterial(BuildContext ctx) {
+    return showDialog(
+      useRootNavigator: false,
+      context: ctx,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(DIALOG_NEW_CONTO),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(top: 8, bottom: 8),
+                  child: _materialNameField(),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text(DIALOG_BUTTON_CANCEL),
+              onPressed: () => Navigator.pop(ctx),
+            ),
+            FlatButton(
+              child: Text(DIALOG_BUTTON_SAVE),
+              onPressed: () {
+                Navigator.pop(ctx);
+                Navigator.of(context)
+                    .pushNamed(DESCRIPTION_EDITOR_PAGE, arguments: []);
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  _materialNameField() {
+    return StreamBuilder(
+      stream: bloc.materialName,
+      builder: (context, snapshot) {
+        return TextField(
+          onChanged: bloc.changeMaterialName,
+          decoration: InputDecoration(
+            labelText: DESCRIPTION_CONTO_NAME,
+            errorText: snapshot.error,
+          ),
+        );
+      },
+    );
   }
 }

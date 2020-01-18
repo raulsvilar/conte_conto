@@ -27,8 +27,13 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => StudentContosList());
       case DESCRIPTION_EDITOR_PAGE:
         if (args is List) {
-          return MaterialPageRoute(
-              builder: (_) => EditorPage(args[0], args[1]));
+          if( args.length > 2)
+            return MaterialPageRoute(
+                builder: (_) => EditorPage(args[0], args[1],
+                    isMaterial: args[2] ?? false, materialName: args[3] ?? null));
+          else
+            return MaterialPageRoute(
+                builder: (_) => EditorPage(args[0], args[1]));
         }
         return _errorRoute("Tipo inválido no argumento de EditorPage");
       case DESCRIPTION_TEACHER_CONTOS_LIST_PAGE:

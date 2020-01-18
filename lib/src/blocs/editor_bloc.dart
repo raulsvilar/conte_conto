@@ -21,8 +21,10 @@ class EditorBloc extends BlocBase {
 
   Stream<bool> get isContoInCorrection => _controllerCorrection.stream;
 
-  Stream<bool> get inEdition => Rx.combineLatest2(
+  Stream<bool> get inEditionForStudent => Rx.combineLatest2(
       isContoInCorrection, isContoFinished, (e, p) => (e || p));
+
+  Stream<bool> get inEditionForTeacher => isContoFinished;
 
   final _controllerLoaded = BehaviorSubject<bool>.seeded(false);
 

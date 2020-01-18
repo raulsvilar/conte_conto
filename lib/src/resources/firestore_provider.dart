@@ -109,8 +109,9 @@ class FirestoreProvider {
 
   saveContoCorrection(String contoID, String contents) {
     _firestore.runTransaction((Transaction tx) async {
-      DocumentReference contoRef = _firestore.collection("contos").document(contoID);
-      await tx.update(contoRef, {"sendedForCorrection":false});
+      DocumentReference contoRef =
+          _firestore.collection("contos").document(contoID);
+      await tx.update(contoRef, {"sendedForCorrection": false});
       await tx.update(contoRef, {"corrections": contents});
     });
   }
@@ -134,7 +135,7 @@ class FirestoreProvider {
     _firestore
         .collection("contos")
         .document(contoID)
-        .updateData({"sendedForCorrection":true});
+        .updateData({"sendedForCorrection": true});
   }
 
   Stream<QuerySnapshot> finishedContosListForTurma(turmaId) {
@@ -142,6 +143,22 @@ class FirestoreProvider {
         .collection("contos")
         .where("turmaID", isEqualTo: turmaId)
         .where("finished", isEqualTo: true)
+        .snapshots();
+  }
+
+  Future<void> addMaterialForTurma(
+      String turmaID, String userID, Map<String, dynamic> materialContent) {
+    return _firestore
+        .collection("turmas")
+        .document(turmaID)
+        .updateData({"materials": materialContent});
+  }
+
+  Stream<QuerySnapshot> getMaterials(turmaID) {
+    return _firestore
+        .collection("turmas")
+        .document(turmaID)
+        .collection("materials")
         .snapshots();
   }
 }

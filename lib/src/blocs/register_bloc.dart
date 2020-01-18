@@ -78,14 +78,6 @@ class RegisterBloc extends BlocBase with Validator {
     if (user != null) {
       GetIt.I.registerSingleton<User>(user);
       navigateCallback(context);
-      /*switch (user?.type) {
-        case userTypes.student:
-          Navigator.of(context).pushNamedAndRemoveUntil(DESCRIPTION_STUDENT_CONTOS_LIST_PAGE, ModalRoute.withName(DESCRIPTION_TEACHER_CONTOS_LIST_PAGE), arguments: [user.reference.documentID, user.turmaID]);
-          break;
-        case userTypes.teacher:
-          Navigator.of(context).pushReplacementNamed(DESCRIPTION_CLASS_NAME, arguments: [user.reference.documentID]);
-          break;
-      }*/
     }
   }
 

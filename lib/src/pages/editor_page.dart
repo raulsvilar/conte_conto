@@ -8,24 +8,24 @@ class EditorPage extends StatefulWidget {
   final String _contoID;
   final bool _canCreate;
   final _bloc = BlocProvider.getBloc<EditorBloc>();
+  final bool isMaterial;
+  final String materialName;
 
-  EditorPage(this._contoID, this._canCreate);
+  EditorPage(this._contoID, this._canCreate,
+      {this.isMaterial, this.materialName});
 
   @override
   EditorPageState createState() => EditorPageState();
 }
 
 class EditorPageState extends State<EditorPage> {
-  /// Allows to control the editor and the document.
   ZefyrController _controller;
 
-  /// Zefyr editor like any other input field requires a focus node.
   FocusNode _focusNode;
 
   @override
   void initState() {
     super.initState();
-    print("Entrou no init do Editor");
     _focusNode = FocusNode();
     widget._bloc.loadDocument(widget._contoID).then((document) {
       _controller = ZefyrController(document);
@@ -49,18 +49,38 @@ class EditorPageState extends State<EditorPage> {
         onPressed: () => widget._bloc
             .setContoFinished(widget._contoID, saveCallback, widget._canCreate)
             .then((document) {
-              _controller = ZefyrController(document);
-              widget._bloc.contoLoaded(true);
-            }),
+          _controller = ZefyrController(document);
+          widget._bloc.contoLoaded(true);
+        }),
       ),
     );
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Editor page"),
+        title: Text("Editor"),
         actions: <Widget>[
-          finishBtn,
-          saveBtn,
+          StreamBuilder(
+            stream: widget._canCreate
+                ? widget._bloc.inEditionForStudent
+                : widget._bloc.inEditionForTeacher,
+            builder: (_, snapshot) {
+              if (snapshot.hasData && snapshot.data) {
+                return finishBtn;
+              } else
+                return Container();
+            },
+          ),
+          StreamBuilder(
+            stream:  widget._canCreate
+                ? widget._bloc.inEditionForStudent
+                : widget._bloc.inEditionForTeacher,
+            builder: (_, snapshot) {
+              if (snapshot.hasData && snapshot.data) {
+                return saveBtn;
+              } else
+                return Container();
+            },
+          ),
         ],
       ),
       body: StreamBuilder(
@@ -69,7 +89,9 @@ class EditorPageState extends State<EditorPage> {
           if (isLoaded.hasData && isLoaded.data) {
             return ZefyrScaffold(
               child: StreamBuilder(
-                stream: widget._bloc.inEdition,
+                stream: widget._canCreate
+                    ? widget._bloc.inEditionForStudent
+                    : widget._bloc.inEditionForTeacher,
                 builder: (_, snapshot) {
                   if (snapshot.hasData && isLoaded.data) {
                     return ZefyrEditor(
