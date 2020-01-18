@@ -7,3 +7,6 @@ export 'package:conte_conto/src/pages/student_contos_list.dart';
 export 'package:conte_conto/src/pages/editor_page.dart';
 export 'package:conte_conto/src/pages/favorites_page.dart';
 export 'package:conte_conto/src/pages/home_page.dart';
+export 'package:conte_conto/src/pages/corrections_list_page.dart';
+export 'package:conte_conto/src/pages/corrections_page.dart';
+export 'package:conte_conto/src/pages/correction_editor_page.dart';

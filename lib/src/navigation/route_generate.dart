@@ -1,6 +1,3 @@
-import 'package:conte_conto/src/pages/editor_page.dart';
-import 'package:conte_conto/src/pages/teacher_contos_list.dart';
-import 'package:conte_conto/src/pages/students_class_contos_page.dart';
 import 'package:flutter/material.dart';
 
 import 'routes.dart';
@@ -17,6 +14,20 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => LoginPage());
       case DESCRIPTION_HOME_PAGE:
         return MaterialPageRoute(builder: (_) => HomePage());
+      case DESCRIPTION_CORRECTIONS_LIST_PAGE:
+        if (args is List) {
+          return MaterialPageRoute(
+              builder: (_) => CorrectionsListPage(args[0]));
+        }
+        return _errorRoute("Tipo inválido no argumento de CorrectionsListPage");
+      case DESCRIPTION_EDITOR_CORRECTIONS:
+        if (args is List) {
+          return MaterialPageRoute(
+              builder: (_) => CorrectionEditorPage(args[0], args[1]));
+        }
+        return _errorRoute("Tipo inválido no argumento de CorrectionsListPage");
+      case DESCRIPTION_CORRECTION_PAGE:
+        return MaterialPageRoute(builder: (_) => CorrectionsPage());
       case DESCRIPTION_REGISTER_PAGE:
         return MaterialPageRoute(builder: (_) => RegisterPage());
       case DESCRIPTION_STUDENTS_CLASS_CONTOS_PAGE:
@@ -27,10 +38,11 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => StudentContosList());
       case DESCRIPTION_EDITOR_PAGE:
         if (args is List) {
-          if( args.length > 2)
+          if (args.length > 2)
             return MaterialPageRoute(
                 builder: (_) => EditorPage(args[0], args[1],
-                    isMaterial: args[2] ?? false, materialName: args[3] ?? null));
+                    isMaterial: args[2] ?? false,
+                    materialName: args[3] ?? null));
           else
             return MaterialPageRoute(
                 builder: (_) => EditorPage(args[0], args[1]));

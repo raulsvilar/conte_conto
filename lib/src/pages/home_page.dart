@@ -18,6 +18,7 @@ class HomePage extends StatelessWidget {
     bottomItems.messages: GlobalKey<NavigatorState>(),
     bottomItems.contos: GlobalKey<NavigatorState>(),
     bottomItems.finished_contos: GlobalKey<NavigatorState>(),
+    bottomItems.corrections: GlobalKey<NavigatorState>(),
   };
 
   final Map<bottomItems, String> initialRoutes = {
@@ -25,6 +26,7 @@ class HomePage extends StatelessWidget {
     bottomItems.contos: DESCRIPTION_STUDENT_CONTOS_LIST_PAGE,
     bottomItems.finished_contos: DESCRIPTION_STUDENTS_CLASS_CONTOS_PAGE,
     bottomItems.classes: DESCRIPTION_CLASSES_PAGE,
+    bottomItems.corrections: DESCRIPTION_CORRECTION_PAGE
   };
 
   @override
@@ -106,6 +108,14 @@ class HomePage extends StatelessWidget {
             BottomNavigationBarItem(
               icon: Icon(FontAwesomeIcons.bookReader),
               title: Text('Turma'),
+            ),
+          );
+          break;
+        case bottomItems.corrections:
+          listItems.add(
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.check),
+              title: Text('Correções'),
             ),
           );
           break;

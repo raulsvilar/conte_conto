@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conte_conto/src/models/conto.dart';
+import 'package:conte_conto/src/models/correction.dart';
 import 'package:conte_conto/src/models/turma.dart';
 import 'package:conte_conto/src/models/user.dart';
 
@@ -107,12 +108,14 @@ class FirestoreProvider {
         .then((ds) => ds.data["content"]);
   }
 
-  saveContoCorrection(String contoID, String contents) {
+  saveContoCorrection(String contoID, Map<String, dynamic> contents) {
+    contents["datetime"] = FieldValue.serverTimestamp();
     _firestore.runTransaction((Transaction tx) async {
       DocumentReference contoRef =
           _firestore.collection("contos").document(contoID);
       await tx.update(contoRef, {"sendedForCorrection": false});
-      await tx.update(contoRef, {"corrections": contents});
+      //await tx.(contoRef, {"corrections": contents});
+      contoRef.collection("corrections").add(contents);
     });
   }
 
@@ -160,5 +163,23 @@ class FirestoreProvider {
         .document(turmaID)
         .collection("materials")
         .snapshots();
+  }
+
+  Stream<QuerySnapshot> getCorrectionsForConto(String contoID) {
+    return _firestore
+        .collection("contos")
+        .document(contoID)
+        .collection("corrections")
+        .snapshots();
+  }
+
+  Future<Correction> getCorrection(String contoID, String correctionID) async {
+    return _firestore
+        .collection("contos")
+        .document(contoID)
+        .collection("corrections")
+        .document(correctionID)
+        .get()
+        .then((ds) => Correction.fromSnapshot(ds));
   }
 }

@@ -1,9 +1,13 @@
+import 'package:conte_conto/src/blocs/corrections_bloc.dart';
 import 'package:conte_conto/src/models/conto.dart';
 import 'package:conte_conto/src/pages/base/contos_list.dart';
 import 'package:conte_conto/src/pages/base/items.dart';
+import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 
-class CorrectionsPage extends ContosListBase{
+class CorrectionsPage extends ContosListBase<CorrectionsBloc>{
+
+  CorrectionsPage():super(title: "Correções");
 
   @override
   List<Widget> appBarActions(BuildContext context) {
@@ -12,9 +16,12 @@ class CorrectionsPage extends ContosListBase{
 
   @override
   ItemWithImageTitleSub configItem(Conto conto) {
-    return null;
+    return ItemWithImageTitleSub(
+        itemID: conto.reference.documentID,
+        title: conto.title,
+        withFavorites: false,
+        onTapCallback: onTapConto);
   }
-
   @override
   onPressedFloatingActionButton(BuildContext context) {
     return null;
@@ -22,7 +29,8 @@ class CorrectionsPage extends ContosListBase{
 
   @override
   onTapConto(List args) {
-    return super.onTapConto(args);
+    Navigator.of(args[0]).pushNamed(DESCRIPTION_CORRECTIONS_LIST_PAGE,
+        arguments: [args[1]]);
   }
 
 }

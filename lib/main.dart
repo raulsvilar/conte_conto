@@ -1,4 +1,7 @@
 import 'package:conte_conto/src/blocs/bottom_navigation_bloc.dart';
+import 'package:conte_conto/src/blocs/correction_editor_bloc.dart';
+import 'package:conte_conto/src/blocs/corrections_bloc.dart';
+import 'package:conte_conto/src/blocs/corrections_list_bloc.dart';
 import 'package:conte_conto/src/blocs/editor_bloc.dart';
 import 'package:conte_conto/src/blocs/favorites_bloc.dart';
 import 'package:conte_conto/src/blocs/home_bloc.dart';
@@ -48,7 +51,10 @@ class MyApp extends StatelessWidget {
         Bloc((i) => StudentContosListBloc()),
         Bloc((i) => FavoritesBloc()),
         Bloc((i) => EditorBloc()),
-        Bloc((i) => HomeBloc())
+        Bloc((i) => HomeBloc()),
+        Bloc((i) => CorrectionsBloc()),
+        Bloc((i) => CorrectionsListBloc()),
+        Bloc((i) => EditorCorrectionsBloc())
       ],
     );
   }

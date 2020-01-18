@@ -63,7 +63,10 @@ const DESCRIPTION_CODE = "Código";
 const DESCRIPTION_EMPTY_CONTO = "\n";
 const DESCRIPTION_SAVED = "Salvo!";
 const DESCRIPTION_CLASS_CODE = "Código da Turma";
-const DESCRIPTION_NO_CONTOS_IN_CLASS = "Ainda não há contos nesta turma";
+const DESCRIPTION_NO_CONTOS_IN_CLASS = "Ainda não há contos aqui!";
+const DESCRIPTION_CORRECTIONS = "Correções";
+const DESCRIPTION_EDITOR_CORRECTIONS = "CorrectionEditorPage";
+const DESCRIPTION_APPBAR_TITLE_CONTOS_STUDENT = "Meus Contos";
 
 /// ###################################################
 /// PAGES
@@ -77,7 +80,9 @@ const DESCRIPTION_STUDENTS_CLASS_CONTOS_PAGE = 'StudentsClassContosPage';
 const DESCRIPTION_TEACHER_CONTOS_LIST_PAGE = 'TeacherContosList';
 const DESCRIPTION_EDITOR_PAGE = 'EditorPage';
 const DESCRIPTION_STUDENT_CONTOS_LIST_PAGE = 'StudentContosList';
-const DESCRIPTION_APPBAR_TITLE_CONTOS_STUDENT = "Meus Contos";
+const DESCRIPTION_CORRECTION_PAGE = "CorrectionsPage";
+const DESCRIPTION_CORRECTIONS_LIST_PAGE = "CorrectionsListPage";
+
 
 /// ###################################################
 /// ASSETS
