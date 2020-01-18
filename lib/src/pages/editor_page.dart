@@ -64,7 +64,7 @@ class EditorPageState extends State<EditorPage> {
                 ? widget._bloc.inEditionForStudent
                 : widget._bloc.inEditionForTeacher,
             builder: (_, snapshot) {
-              if (snapshot.hasData && snapshot.data) {
+              if (snapshot.hasData && !snapshot.data) {
                 return finishBtn;
               } else
                 return Container();
@@ -75,7 +75,7 @@ class EditorPageState extends State<EditorPage> {
                 ? widget._bloc.inEditionForStudent
                 : widget._bloc.inEditionForTeacher,
             builder: (_, snapshot) {
-              if (snapshot.hasData && snapshot.data) {
+              if (snapshot.hasData && !snapshot.data) {
                 return saveBtn;
               } else
                 return Container();
