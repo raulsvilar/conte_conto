@@ -69,7 +69,7 @@ class RegisterBloc extends BlocBase with Validator {
     }
   }
 
-  submit(BuildContext context, Function navigateCallback) async {
+  submit(BuildContext context, Function navigateCallback, Function failCallback) async {
     final validEmail = _emailController.value.trim();
     final validName = _nameController.value.trim();
     final validPassword = _passwordController.value.trim();
@@ -78,7 +78,7 @@ class RegisterBloc extends BlocBase with Validator {
     if (user != null) {
       GetIt.I.registerSingleton<User>(user);
       navigateCallback(context);
-    }
+    } else failCallback(context);
   }
 
   @override

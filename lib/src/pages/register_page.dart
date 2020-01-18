@@ -193,7 +193,7 @@ class RegisterPage extends StatelessWidget {
                 ),
                 textColor: Colors.white,
                 onPressed: snapshot.hasData && snapshot.data ? () =>
-                    bloc.submit(context, navigationAfterRegister)
+                    bloc.submit(context, navigationAfterRegister, errorRegisterDialog)
                  : null,
               );
             },
@@ -205,5 +205,31 @@ class RegisterPage extends StatelessWidget {
 
   navigationAfterRegister(BuildContext context) {
     Navigator.of(context).pushReplacementNamed(DESCRIPTION_HOME_PAGE);
+  }
+
+  errorRegisterDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(DESCRIPTION_DIALOG_ERROR),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(DESCRIPTION_INVALID_USER_PASSWORD)
+              ],
+            ),
+          ),
+          actions: <Widget>[
+
+            FlatButton(
+              child: Text(DIALOG_BUTTON_CANCEL),
+              onPressed: () => Navigator.pop(context),
+            )
+          ],
+        );
+      },
+    );
   }
 }
