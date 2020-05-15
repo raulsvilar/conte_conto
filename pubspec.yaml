@@ -24,13 +24,13 @@ dependencies:
   bloc_pattern: ^2.5.1
   firebase_core: ^0.4.3+1  # add dependency for Firebase Core
   cloud_firestore: ^0.13.0+1
-  zefyr: ^0.9.1
+  zefyr: ^0.11.0
   qr_flutter: ^3.2.0
   barcode_scan: ^1.0.0
   font_awesome_flutter: ^8.5.0
   quill_delta: ^1.0.0
   firebase_auth: ^0.15.3
-  flutter_svg: ^0.15.0
+  flutter_svg: ^0.17.4
   material_segmented_control: ^2.0.9
   fluttertoast: ^3.1.3
 
