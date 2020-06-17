@@ -31,6 +31,7 @@ class StudentsClassContosPage extends ContosListBase<StudentsClassContosBloc> {
     return ItemWithImageTitleSub(
         itemID: conto.reference.documentID,
         title: conto.title,
+        subTitle: conto.author,
         withFavorites: false,
         onTapCallback: onTapConto);
   }

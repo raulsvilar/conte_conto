@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ItemWithImageTitleSub extends StatelessWidget {
   final String itemID;
@@ -26,14 +27,12 @@ class ItemWithImageTitleSub extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      height: 72,
+      //height: 72,
       child: ListTile(
         onTap: () => onTapCallback(onTapCallbackArgs ?? [context, itemID]),
-        leading: CircleAvatar(
-          backgroundColor: Colors.grey,
-        ),
+        leading: FaIcon(FontAwesomeIcons.book),
         trailing: !withFavorites
-            ? null
+            ? null //FaIcon(FontAwesomeIcons.solidCircle, color: Colors.red.shade700)
             : IconButton(
                 icon: isFavorited
                     ? Icon(

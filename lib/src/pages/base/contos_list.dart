@@ -33,8 +33,8 @@ abstract class ContosListBase<T extends ContosListBlocBase>
           if (withFab &&
               snapshot.hasData &&
               (turmaID?.isNotEmpty ??
-                  false || bloc.user.turmaID?.isNotEmpty ??
-                  false)) {
+                  false || (bloc.user.turmaID?.isNotEmpty ??
+                  false))) {
             return FloatingActionButton(
               heroTag: "FloatContos",
               onPressed: () => onPressedFloatingActionButton(context),
@@ -76,12 +76,14 @@ abstract class ContosListBase<T extends ContosListBlocBase>
   }
 
   Widget buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
-    return ListView.builder(
-      itemCount: snapshot.length,
-      itemBuilder: (BuildContext context, int index) {
-        return buildListItem(context, snapshot[index]);
-      },
-    );
+    return ListView.separated(
+        itemCount: snapshot.length,
+        itemBuilder: (BuildContext context, int index) {
+          return buildListItem(context, snapshot[index]);
+        },
+        separatorBuilder: (context, index) {
+          return Divider(height: 4.0,);
+        });
   }
 
   Widget buildListItem(BuildContext context, DocumentSnapshot data) {

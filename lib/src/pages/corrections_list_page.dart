@@ -6,7 +6,6 @@ import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class CorrectionsListPage extends StatelessWidget {
-
   final String _contoID;
 
   CorrectionsListPage(this._contoID);
@@ -39,18 +38,21 @@ class CorrectionsListPage extends StatelessWidget {
   }
 
   Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
-    return ListView.builder(
-      itemCount: snapshot.length,
-      itemBuilder: (BuildContext context, int index) {
-        return _buildListItem(context, snapshot[index]);
-      },
-    );
+    return ListView.separated(
+        itemCount: snapshot.length,
+        itemBuilder: (BuildContext context, int index) {
+          return _buildListItem(context, snapshot[index]);
+        },
+        separatorBuilder: (context, index) {
+          return Divider();
+        });
   }
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
+    final text = "Sem data";
     final record = Correction.fromSnapshot(data);
     return ListTile(
-      title: Text("${record.datetime.toDate()}"),
+      title: Text("${record.datetime ?? text}"),
       onTap: () => onTapCorrection(context, record.reference.documentID),
     );
   }
