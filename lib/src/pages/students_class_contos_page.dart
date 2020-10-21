@@ -16,7 +16,7 @@ class StudentsClassContosPage extends ContosListBase<StudentsClassContosBloc> {
   @override
   Widget buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
     List<DocumentSnapshot> items = snapshot
-        .where((item) => item.data["owner"] != bloc.user.reference.documentID)
+        .where((item) => item.data()["owner"] != bloc.user.reference.id)
         .toList();
     return ListView.builder(
       itemCount: items.length,
@@ -29,7 +29,7 @@ class StudentsClassContosPage extends ContosListBase<StudentsClassContosBloc> {
   @override
   ItemWithImageTitleSub configItem(Conto conto) {
     return ItemWithImageTitleSub(
-        itemID: conto.reference.documentID,
+        itemID: conto.reference.id,
         title: conto.title,
         subTitle: conto.author,
         withFavorites: false,

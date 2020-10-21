@@ -31,11 +31,12 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
 
   Future scan(BuildContext ctx) async {
     try {
-      String barcode = await BarcodeScanner.scan();
+      ScanResult scanResult = await BarcodeScanner.scan();
+      String barcode = scanResult.rawContent;
       bloc.changeCode(barcode);
-      bloc.enterTurma(bloc.user.reference.documentID, ctx);
+      bloc.enterTurma(bloc.user.reference.id, ctx);
     } on PlatformException catch (e) {
-      if (e.code == BarcodeScanner.CameraAccessDenied) {
+      if (e.code == BarcodeScanner.cameraAccessDenied) {
         bloc.changeCode('The user did not grant the camera permission!');
       } else {
         bloc.changeCode('Unknown error: $e');
@@ -90,7 +91,7 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
               child: Text(DIALOG_BUTTON_SAVE),
               onPressed: () {
                 bloc.addConto(
-                    bloc.user.turmaID, bloc.user.reference.documentID);
+                    bloc.user.turmaID, bloc.user.reference.id);
                 Navigator.pop(ctx);
               },
             )
@@ -137,7 +138,7 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
                     return FlatButton(
                       child: Text(DIALOG_BUTTON_ENTER),
                       onPressed: () {
-                        bloc.enterTurma(bloc.user.reference.documentID, ctx);
+                        bloc.enterTurma(bloc.user.reference.id, ctx);
                       },
                     );
                   }
@@ -186,9 +187,11 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
   @override
   ItemWithImageTitleSub configItem(Conto conto) {
     return ItemWithImageTitleSub(
-        itemID: conto.reference.documentID,
+        itemID: conto.reference.id,
         title: conto.title,
         withFavorites: false,
+        isContoFinished: conto.finished,
+        isContoInCorrection: conto.sendedForCorrection,
         onTapCallback: onTapConto);
   }
 

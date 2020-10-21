@@ -24,7 +24,7 @@ class Conto {
       this.creationDate});
 
   Conto.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data, reference: snapshot.reference);
+      : this.fromMap(snapshot.data(), reference: snapshot.reference);
 
   Conto.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['title'] != null),

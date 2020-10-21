@@ -5,7 +5,7 @@ import 'package:conte_conto/src/models/turma.dart';
 import 'package:conte_conto/src/models/user.dart';
 
 class FirestoreProvider {
-  final _firestore = Firestore.instance;
+  final _firestore = FirebaseFirestore.instance;
 
   Future<DocumentReference> addTurma(Turma turma) {
     return _firestore.collection("turmas").add(turma.toJson());
@@ -45,13 +45,13 @@ class FirestoreProvider {
   setFavorite(String contoId, bool data) {
     _firestore
         .collection("contos")
-        .document(contoId)
-        .updateData({"favorited": data});
+        .doc(contoId)
+        .update({"favorited": data});
   }
 
   Future<User> createUser(User user, reference) async {
     await _firestore.runTransaction((Transaction tx) async {
-      await tx.set(_firestore.document("users/$reference"), user.toJson());
+      await tx.set(_firestore.doc("users/$reference"), user.toJson());
     });
     return await getUser(reference);
   }
@@ -59,7 +59,7 @@ class FirestoreProvider {
   Future<User> getUser(String uid) async {
     return await _firestore
         .collection("users")
-        .document(uid)
+        .doc(uid)
         .get()
         .then((ds) => User.fromSnapshot(ds));
   }
@@ -67,7 +67,7 @@ class FirestoreProvider {
   Future<String> getTeacherIDFromTurma(String turmaID) {
     return _firestore
         .collection("turmas")
-        .document(turmaID)
+        .doc(turmaID)
         .get()
         .then((ds) => Turma.fromSnapshot(ds).owner);
   }
@@ -80,15 +80,15 @@ class FirestoreProvider {
 
   Future<dynamic> enterStudentOnTurma(code, userID) async {
     return _firestore.runTransaction((Transaction tx) async {
-      DocumentReference userRef = _firestore.document("users/$userID");
-      DocumentReference turmaRef = _firestore.document("turmas/$code");
+      DocumentReference userRef = _firestore.doc("users/$userID");
+      DocumentReference turmaRef = _firestore.doc("turmas/$code");
       DocumentSnapshot userDS = await tx.get(userRef);
       DocumentSnapshot turmaDS = await tx.get(turmaRef);
       if (userDS.exists && turmaDS.exists) {
-        List<String> newMembers = List.from(turmaDS.data["members"]);
+        List<String> newMembers = List.from(turmaDS.data()["members"]);
         newMembers.add(userID);
-        await tx.update(userRef, {"turmaID": code});
-        await tx.update(turmaRef, {"members": newMembers});
+        tx.update(userRef, {"turmaID": code});
+        tx.update(turmaRef, {"members": newMembers});
       }
     });
   }
@@ -96,23 +96,23 @@ class FirestoreProvider {
   saveConto(String contoID, String data) {
     _firestore
         .collection("contos")
-        .document(contoID)
-        .updateData({"content": data});
+        .doc(contoID)
+        .update({"content": data});
   }
 
   Future<String> getContoContent(contoID) async {
     return await _firestore
         .collection("contos")
-        .document(contoID)
+        .doc(contoID)
         .get()
-        .then((ds) => ds.data["content"]);
+        .then((ds) => ds.data()["content"]);
   }
 
   saveContoCorrection(String contoID, Map<String, dynamic> contents) {
     contents["datetime"] = FieldValue.serverTimestamp();
     _firestore.runTransaction((Transaction tx) async {
       DocumentReference contoRef =
-          _firestore.collection("contos").document(contoID);
+          _firestore.collection("contos").doc(contoID);
       await tx.update(contoRef, {"sendedForCorrection": false});
       //await tx.(contoRef, {"corrections": contents});
       contoRef.collection("corrections").add(contents);
@@ -122,14 +122,14 @@ class FirestoreProvider {
   void setContoFinished(contoID) {
     _firestore
         .collection("contos")
-        .document(contoID)
-        .updateData({"finished": true});
+        .doc(contoID)
+        .update({"finished": true});
   }
 
   Future<Conto> getConto(contoID) async {
     return await _firestore
         .collection("contos")
-        .document(contoID)
+        .doc(contoID)
         .get()
         .then((ds) => Conto.fromSnapshot(ds));
   }
@@ -137,8 +137,8 @@ class FirestoreProvider {
   void setSendContoForCorrection(contoID) {
     _firestore
         .collection("contos")
-        .document(contoID)
-        .updateData({"sendedForCorrection": true});
+        .doc(contoID)
+        .update({"sendedForCorrection": true});
   }
 
   Stream<QuerySnapshot> finishedContosListForTurma(turmaId) {
@@ -153,14 +153,14 @@ class FirestoreProvider {
       String turmaID, String userID, Map<String, dynamic> materialContent) {
     return _firestore
         .collection("turmas")
-        .document(turmaID)
-        .updateData({"materials": materialContent});
+        .doc(turmaID)
+        .update({"materials": materialContent});
   }
 
   Stream<QuerySnapshot> getMaterials(turmaID) {
     return _firestore
         .collection("turmas")
-        .document(turmaID)
+        .doc(turmaID)
         .collection("materials")
         .snapshots();
   }
@@ -168,7 +168,7 @@ class FirestoreProvider {
   Stream<QuerySnapshot> getCorrectionsForConto(String contoID) {
     return _firestore
         .collection("contos")
-        .document(contoID)
+        .doc(contoID)
         .collection("corrections")
         .snapshots();
   }
@@ -176,9 +176,9 @@ class FirestoreProvider {
   Future<Correction> getCorrection(String contoID, String correctionID) async {
     return _firestore
         .collection("contos")
-        .document(contoID)
+        .doc(contoID)
         .collection("corrections")
-        .document(correctionID)
+        .doc(correctionID)
         .get()
         .then((ds) => Correction.fromSnapshot(ds));
   }
