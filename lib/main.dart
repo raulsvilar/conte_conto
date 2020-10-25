@@ -48,8 +48,13 @@ class MyApp extends StatelessWidget {
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
           GetIt getIt = GetIt.I;
-          getIt.registerLazySingleton<FirestoreProvider>(() => FirestoreProvider());
-          getIt.registerLazySingleton<Authentication>(() => Authentication());
+          if (!getIt.isRegistered<FirestoreProvider>()) {
+            getIt.registerLazySingleton<FirestoreProvider>(() =>
+                FirestoreProvider());
+          }
+          if (!getIt.isRegistered<Authentication>()) {
+            getIt.registerLazySingleton<Authentication>(() => Authentication());
+          }
           return BlocProvider(
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
