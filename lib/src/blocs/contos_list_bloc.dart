@@ -8,9 +8,10 @@ import 'package:rxdart/rxdart.dart';
 
 abstract class ContosListBlocBase extends BlocBase with Validator {
   final firestore = GetIt.I.get<FirestoreProvider>();
-  final user = GetIt.I.get<User>();
 
   final _turmaController = BehaviorSubject<String>();
+
+  User get user => GetIt.I.get<User>();
 
   Stream<String> get turma => _turmaController.stream.transform(validateField);
 
