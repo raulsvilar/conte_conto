@@ -16,6 +16,7 @@ class FirestoreProvider {
     return _firestore
         .collection("turmas")
         .where("owner", isEqualTo: userID)
+        .orderBy("school")
         .snapshots();
   }
 
