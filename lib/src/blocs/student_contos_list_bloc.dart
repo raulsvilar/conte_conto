@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conte_conto/src/models/conto.dart';
 import 'package:conte_conto/src/models/user.dart';
 import 'package:conte_conto/src/resources/fireauth_provider.dart';
-import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
@@ -61,7 +60,7 @@ class StudentContosListBloc extends ContosListBlocBase {
       changeTurma(_codeTurmaController.value);
     }).catchError((e) {
       _controllerLoading.add(false);
-      _codeTurmaController.sink.addError(DESCRIPTION_ENTER_TURMA_ERROR);
+      _codeTurmaController.sink.addError(e.toString());
     });
   }
 

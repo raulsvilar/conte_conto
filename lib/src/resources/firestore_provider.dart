@@ -3,6 +3,7 @@ import 'package:conte_conto/src/models/conto.dart';
 import 'package:conte_conto/src/models/correction.dart';
 import 'package:conte_conto/src/models/turma.dart';
 import 'package:conte_conto/src/models/user.dart';
+import 'package:conte_conto/src/utils/constants.dart';
 
 class FirestoreProvider {
   final _firestore = FirebaseFirestore.instance;
@@ -90,6 +91,7 @@ class FirestoreProvider {
         tx.update(userRef, {"turmaID": code});
         tx.update(turmaRef, {"members": newMembers});
       }
+      else throw(DESCRIPTION_ENTER_TURMA_ERROR);
     });
   }
 
