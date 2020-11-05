@@ -82,7 +82,6 @@ class TurmasPage extends StatelessWidget {
     return ItemWithImageTitleSub(
       itemID: record.reference.id,
       title: record.name,
-      withFavorites: false,
       onTapCallback: _onTapTurma,
       onTapCallbackArgs: [context, record.reference.id, record.name],
       subTitle: record.school,

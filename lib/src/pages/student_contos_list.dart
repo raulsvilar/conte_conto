@@ -189,7 +189,6 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
     return ItemWithImageTitleSub(
         itemID: conto.reference.id,
         title: conto.title,
-        withFavorites: false,
         withStatusTrailing: true,
         isContoFinished: conto.finished,
         isContoInCorrection: conto.sendedForCorrection,

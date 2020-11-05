@@ -32,7 +32,6 @@ class StudentsClassContosPage extends ContosListBase<StudentsClassContosBloc> {
         itemID: conto.reference.id,
         title: conto.title,
         subTitle: conto.author,
-        withFavorites: false,
         onTapCallback: onTapConto);
   }
 

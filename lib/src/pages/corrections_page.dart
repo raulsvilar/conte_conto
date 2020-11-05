@@ -17,9 +17,8 @@ class CorrectionsPage extends ContosListBase<CorrectionsBloc>{
   @override
   ItemWithImageTitleSub configItem(Conto conto) {
     return ItemWithImageTitleSub(
-        itemID: conto.reference.documentID,
+        itemID: conto.reference.id,
         title: conto.title,
-        withFavorites: false,
         onTapCallback: onTapConto);
   }
   @override
