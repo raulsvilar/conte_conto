@@ -22,7 +22,8 @@ dependencies:
     sdk: flutter
   rxdart: 0.24.1
   bloc_pattern: 2.5.1
-  firebase_core: ^0.5.0+1  # add dependency for Firebase Core
+  double_back_to_close_app: ^1.2.0
+  firebase_core: 0.5.0+1 # add dependency for Firebase Core
   cloud_firestore: 0.14.1+3
   zefyr: 0.12.0
   qr_flutter: 3.2.0

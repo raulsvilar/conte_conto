@@ -15,14 +15,14 @@ class FavoritesPage extends ContosListBase<FavoritesBloc> {
   @override
   ItemWithImageTitleSub configItem(Conto conto) {
     return ItemWithImageTitleSub(
-        itemID: conto.reference.documentID,
+        itemID: conto.reference.id,
         title: conto.title,
         withFavorites: true,
         onTapCallback: onTapConto,
         subTitle: conto.author,
         isFavorited: conto.isFavorited,
         favoriteCallback: bloc.setFavorite,
-        favoriteCallbackArgs: [conto.reference.documentID, !conto.isFavorited]);
+        favoriteCallbackArgs: [conto.reference.id, !conto.isFavorited]);
   }
 
   @override

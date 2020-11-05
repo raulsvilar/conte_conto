@@ -13,7 +13,7 @@ class TurmasPage extends StatelessWidget {
   final _bloc = BlocProvider.getBloc<TurmasBloc>();
 
   TurmasPage() {
-    _bloc.user = GetIt.I.get<User>().reference.documentID;
+    _bloc.user = GetIt.I.get<User>().reference.id;
   }
 
   @override
@@ -63,7 +63,7 @@ class TurmasPage extends StatelessWidget {
       stream: _bloc.turmasList(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
-        return _buildList(context, snapshot.data.documents);
+        return _buildList(context, snapshot.data.docs);
       },
     );
   }
@@ -80,11 +80,11 @@ class TurmasPage extends StatelessWidget {
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Turma.fromSnapshot(data);
     return ItemWithImageTitleSub(
-      itemID: record.reference.documentID,
+      itemID: record.reference.id,
       title: record.name,
       withFavorites: false,
       onTapCallback: _onTapTurma,
-      onTapCallbackArgs: [context, record.reference.documentID, record.name],
+      onTapCallbackArgs: [context, record.reference.id, record.name],
       subTitle: record.school,
     );
   }

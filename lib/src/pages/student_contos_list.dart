@@ -190,6 +190,7 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
         itemID: conto.reference.id,
         title: conto.title,
         withFavorites: false,
+        withStatusTrailing: true,
         isContoFinished: conto.finished,
         isContoInCorrection: conto.sendedForCorrection,
         onTapCallback: onTapConto);

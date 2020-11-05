@@ -13,6 +13,7 @@ class ItemWithImageTitleSub extends StatelessWidget {
   final bool isFavorited;
   final bool isContoFinished;
   final bool isContoInCorrection;
+  final bool withStatusTrailing;
 
   ItemWithImageTitleSub(
       {@required this.itemID,
@@ -20,6 +21,7 @@ class ItemWithImageTitleSub extends StatelessWidget {
       this.onTapCallbackArgs,
       @required this.withFavorites,
       @required this.onTapCallback,
+      this.withStatusTrailing,
       this.favoriteCallbackArgs,
       this.isContoFinished = false,
       this.isContoInCorrection = false,
@@ -30,44 +32,46 @@ class ItemWithImageTitleSub extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
-      //height: 72,
-      child: ListTile(
-        onTap: () => onTapCallback(onTapCallbackArgs ?? [context, itemID]),
-        leading: FaIcon(FontAwesomeIcons.book),
-        trailing: !withFavorites
-            ? null//trailingStatus(context, isContoFinished, isContoInCorrection) //FaIcon(FontAwesomeIcons.solidCircle, color: Colors.red.shade700)
-            : trailingFavorite(),
-        title: Text(
-          title,
-          style: TextStyle(fontSize: 16),
-        ),
-//        subtitle: subTitle ?? Text(subTitle, style: TextStyle(fontSize: 14))
-//            : null,
-      ),
-    );
+        color: Colors.white,
+        //height: 72,
+        child: ListTile(
+          onTap: () => onTapCallback(onTapCallbackArgs ?? [context, itemID]),
+          leading: FaIcon(FontAwesomeIcons.book),
+          trailing: setTrailing(context),
+          title: Text(
+            title,
+            style: TextStyle(fontSize: 16),
+          ),
+          subtitle: (subTitle != null)
+              ? Text(subTitle, style: TextStyle(fontSize: 14))
+              : null,
+        ));
   }
 
-
-
-  Widget trailingStatus(BuildContext context, bool isFinished, bool inCorrection) {
-    /*if (isFinished)
-      return ColorFiltered(
-          colorFilter: ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.modulate),
-          child: FaIcon(FontAwesomeIcons.solidCircle, color: Colors.green));
-    else if (inCorrection)
-      return ColorFiltered(
-          colorFilter: ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.modulate),
-          child: FaIcon(FontAwesomeIcons.solidCircle, color: Colors.yellow));
-    else
-      return ColorFiltered(
-          colorFilter: ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.modulate),
-          child: FaIcon(FontAwesomeIcons.solidCircle, color: Colors.red));*/
-    if (isFinished)
+  Widget setTrailing(BuildContext context) {
+    if (withFavorites) {
+      return trailingFavorite();
+    } else if (withStatusTrailing) {
+      if (isContoFinished)
+        return buildCircle(context, Colors.green);
+      else if (isContoInCorrection)
+        return buildCircle(context, Colors.amber);
+      else
+        return buildCircle(context, Colors.red);
+    }
+    /*
+    if (isContoFinished)
       return Text("Finalizado");
-    else if (inCorrection)
-        return Text("Em correção");
-    else return Text("Em edição");
+    else if (isContoInCorrection)
+      return Text("Em correção");
+    else
+      return Text("Em edição");*/
+  }
+
+  Widget buildCircle(context, color) {
+    return ColorFiltered(
+        colorFilter: ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.modulate),
+        child: FaIcon(FontAwesomeIcons.solidCircle, color: color, size: 12.0));
   }
 
   Widget trailingFavorite() {
