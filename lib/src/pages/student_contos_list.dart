@@ -1,4 +1,5 @@
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conte_conto/src/blocs/student_contos_list_bloc.dart';
 import 'package:conte_conto/src/models/conto.dart';
 import 'package:conte_conto/src/pages/base/items.dart';
@@ -27,6 +28,16 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
             return _buildBodyNoClass(context);
           }
         });
+  }
+
+  @override
+  Widget buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
+    snapshot.sort((a, b) {
+      if (b.data()['finished']) return -1;
+      else if (b.data()['sendedForCorrection']) return -1;
+      else return 1;
+    });
+    return super.buildList(context, snapshot.toList());
   }
 
   Future scan(BuildContext ctx) async {
