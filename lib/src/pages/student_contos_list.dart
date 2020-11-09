@@ -33,9 +33,12 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
   @override
   Widget buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
     snapshot.sort((a, b) {
-      if (b.data()['finished']) return -1;
-      else if (b.data()['sendedForCorrection']) return -1;
-      else return 1;
+      if (b.data()['finished'])
+        return -1;
+      else if (b.data()['sendedForCorrection'])
+        return -1;
+      else
+        return 1;
     });
     return super.buildList(context, snapshot.toList());
   }
@@ -101,8 +104,7 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
             FlatButton(
               child: Text(DIALOG_BUTTON_SAVE),
               onPressed: () {
-                bloc.addConto(
-                    bloc.user.turmaID, bloc.user.reference.id);
+                bloc.addConto(bloc.user.turmaID, bloc.user.reference.id);
                 Navigator.pop(ctx);
               },
             )
