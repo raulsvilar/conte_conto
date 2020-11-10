@@ -145,7 +145,10 @@ class _ToolBarDelegate extends ZefyrToolbarDelegate {
 
   final kDefaultButtonIconsMode = {
     ZefyrToolbarAction.code: Icons.code,
-    ZefyrToolbarAction.horizontalRule: Icons.remove
+    ZefyrToolbarAction.horizontalRule: Icons.remove,
+    ZefyrToolbarAction.highlight: Icons.highlight,
+    ZefyrToolbarAction.link: Icons.link,
+    ZefyrToolbarAction.unlink: Icons.link_off,
   };
 
   final kSpecialIconSizes = {
