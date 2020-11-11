@@ -13,7 +13,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity"/>
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="barcode" />
         <activity
             android:name="io.flutter.embedding.android.FlutterActivity"
             android:launchMode="singleTop"

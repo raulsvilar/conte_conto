@@ -1,13 +1,16 @@
-import 'package:barcode_scan/barcode_scan.dart';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conte_conto/src/blocs/student_contos_list_bloc.dart';
 import 'package:conte_conto/src/models/conto.dart';
 import 'package:conte_conto/src/pages/base/items.dart';
 import 'package:conte_conto/src/pages/login_page.dart';
 import 'package:conte_conto/src/utils/constants.dart';
+import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'base/contos_list.dart';
 
@@ -45,21 +48,23 @@ class StudentContosList extends ContosListBase<StudentContosListBloc> {
 
   Future scan(BuildContext ctx) async {
     try {
-      ScanResult scanResult = await BarcodeScanner.scan();
-      String barcode = scanResult.rawContent;
-      bloc.changeCode(barcode);
-      bloc.enterTurma(bloc.user.reference.id, ctx);
-    } on PlatformException catch (e) {
-      if (e.code == BarcodeScanner.cameraAccessDenied) {
-        bloc.changeCode('The user did not grant the camera permission!');
-      } else {
-        bloc.changeCode('Unknown error: $e');
+      final imageFile =
+          await ImagePicker().getImage(source: ImageSource.camera);
+      print(imageFile.path);
+      final FirebaseVisionImage visionImage =
+          FirebaseVisionImage.fromFilePath(imageFile.path);
+      final BarcodeDetector barcodeDetector = FirebaseVision.instance
+          .barcodeDetector(
+              BarcodeDetectorOptions(barcodeFormats: BarcodeFormat.qrCode));
+      final List<Barcode> barcodes =
+          await barcodeDetector.detectInImage(visionImage);
+      for (Barcode barcode in barcodes) {
+        final String rawValue = barcode.rawValue;
+        bloc.changeCode(rawValue);
+        bloc.enterTurma(bloc.user.reference.id, ctx);
       }
-    } on FormatException {
-      bloc.changeCode(
-          'null (User returned using the "back"-button before scanning anything. Result)');
-    } catch (e) {
-      bloc.changeCode('Unknown error: $e');
+    } on PlatformException catch (e) {
+      bloc.changeCode('The user did not grant the camera permission!');
     }
   }
 

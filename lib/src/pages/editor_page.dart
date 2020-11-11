@@ -1,7 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:conte_conto/src/blocs/editor_bloc.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:zefyr/zefyr.dart';
 
 class EditorPage extends StatefulWidget {
@@ -71,7 +76,7 @@ class EditorPageState extends State<EditorPage> {
             },
           ),
           StreamBuilder(
-            stream:  widget._canCreate
+            stream: widget._canCreate
                 ? widget._bloc.inEditionForStudent
                 : widget._bloc.inEditionForTeacher,
             builder: (_, snapshot) {
@@ -95,6 +100,7 @@ class EditorPageState extends State<EditorPage> {
                 builder: (_, snapshot) {
                   if (snapshot.hasData && isLoaded.data) {
                     return ZefyrEditor(
+                      imageDelegate: _ImageDelegate(),
                       toolbarDelegate: _ToolBarDelegate(widget._canCreate),
                       padding: EdgeInsets.all(16),
                       controller: _controller,
@@ -119,6 +125,36 @@ class EditorPageState extends State<EditorPage> {
   }
 }
 
+class _ImageDelegate implements ZefyrImageDelegate<ImageSource> {
+  final _picker = ImagePicker();
+  @override
+  Future<String> pickImage(ImageSource source) async {
+    final file = await _picker.getImage(source: source);
+    if (file == null) return null;
+    String base64Image = base64Encode(await file.readAsBytes());
+    return base64Image;
+  }
+
+  @override
+  Widget buildImage(BuildContext context, String key) {
+    final image = base64Decode(key);
+    return FutureBuilder(
+        future: getTemporaryDirectory().then((value) => value.path),
+        builder: (context, snapshot) {
+          final String path = snapshot.data;
+          final file = File(path + "image");
+          file.writeAsBytesSync(image);
+          return Image(image: FileImage(file));
+        });
+  }
+
+  @override
+  ImageSource get cameraSource => ImageSource.camera;
+
+  @override
+  ImageSource get gallerySource => ImageSource.gallery;
+}
+
 class _ToolBarDelegate extends ZefyrToolbarDelegate {
   bool _mode;
 
@@ -136,7 +172,6 @@ class _ToolBarDelegate extends ZefyrToolbarDelegate {
     ZefyrToolbarAction.numberList: Icons.format_list_numbered,
     ZefyrToolbarAction.quote: Icons.format_quote,
     ZefyrToolbarAction.image: Icons.photo,
-    ZefyrToolbarAction.cameraImage: Icons.photo_camera,
     ZefyrToolbarAction.galleryImage: Icons.photo_library,
     ZefyrToolbarAction.hideKeyboard: Icons.keyboard_hide,
     ZefyrToolbarAction.close: Icons.close,
