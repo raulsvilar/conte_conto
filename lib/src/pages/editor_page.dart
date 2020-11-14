@@ -7,6 +7,7 @@ import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
 import 'package:zefyr/zefyr.dart';
 
 class EditorPage extends StatefulWidget {
@@ -132,19 +133,22 @@ class _ImageDelegate implements ZefyrImageDelegate<ImageSource> {
     final file = await _picker.getImage(source: source);
     if (file == null) return null;
     String base64Image = base64Encode(await file.readAsBytes());
-    return base64Image;
+    return Uuid().v1()+"@"+base64Image;
   }
 
   @override
   Widget buildImage(BuildContext context, String key) {
-    final image = base64Decode(key);
+    List<String> code = key.split("@");
+    final image = base64Decode(code[1]);
     return FutureBuilder(
         future: getTemporaryDirectory().then((value) => value.path),
         builder: (context, snapshot) {
-          final String path = snapshot.data;
-          final file = File(path + "image");
-          file.writeAsBytesSync(image);
-          return Image(image: FileImage(file));
+          if (snapshot.hasData) {
+            final String path = snapshot.data;
+            final file = File(path + code[0]);
+            file.writeAsBytesSync(image);
+            return Image(image: FileImage(file));
+          } else return Container();
         });
   }
 
