@@ -2,6 +2,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:conte_conto/src/blocs/editor_bloc.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zefyr/zefyr.dart';
 
 class EditorPage extends StatefulWidget {
@@ -37,7 +38,7 @@ class EditorPageState extends State<EditorPage> {
   Widget build(BuildContext context) {
     final Widget saveBtn = Builder(
       builder: (context) => IconButton(
-        icon: Icon(Icons.save),
+        icon: Icon(FontAwesomeIcons.save),
         onPressed: () => widget._bloc.saveDocument(widget._contoID,
             _controller.document, saveCallback, widget._canCreate),
       ),
@@ -45,7 +46,7 @@ class EditorPageState extends State<EditorPage> {
 
     final Widget finishBtn = Builder(
       builder: (context) => IconButton(
-        icon: Icon(Icons.check),
+        icon: Icon(FontAwesomeIcons.check),
         onPressed: () => widget._bloc
             .setContoFinished(widget._contoID, saveCallback, widget._canCreate)
             .then((document) {
@@ -71,7 +72,7 @@ class EditorPageState extends State<EditorPage> {
             },
           ),
           StreamBuilder(
-            stream:  widget._canCreate
+            stream: widget._canCreate
                 ? widget._bloc.inEditionForStudent
                 : widget._bloc.inEditionForTeacher,
             builder: (_, snapshot) {
@@ -95,7 +96,8 @@ class EditorPageState extends State<EditorPage> {
                 builder: (_, snapshot) {
                   if (snapshot.hasData && isLoaded.data) {
                     return ZefyrEditor(
-                      toolbarDelegate: _ToolBarDelegate(widget._canCreate),
+                      toolbarDelegate:
+                          _ToolBarDelegate(widget._canCreate),
                       padding: EdgeInsets.all(16),
                       controller: _controller,
                       focusNode: _focusNode,
@@ -144,14 +146,13 @@ class _ToolBarDelegate extends ZefyrToolbarDelegate {
   };
 
   final kDefaultButtonIconsMode = {
-    ZefyrToolbarAction.code: Icons.code,
-    ZefyrToolbarAction.horizontalRule: Icons.remove,
-    ZefyrToolbarAction.highlight: Icons.highlight,
-    ZefyrToolbarAction.link: Icons.link,
-    ZefyrToolbarAction.unlink: Icons.link_off,
+    ZefyrToolbarAction.code: FontAwesomeIcons.code,
+    ZefyrToolbarAction.horizontalRule: FontAwesomeIcons.minus,
+    ZefyrToolbarAction.highlight: FontAwesomeIcons.highlighter,
   };
 
   final kSpecialIconSizes = {
+    ZefyrToolbarAction.highlight: 20.0,
     ZefyrToolbarAction.unlink: 20.0,
     ZefyrToolbarAction.clipboardCopy: 20.0,
     ZefyrToolbarAction.openInBrowser: 20.0,

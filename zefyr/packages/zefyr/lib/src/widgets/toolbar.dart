@@ -41,7 +41,7 @@ final kZefyrToolbarAttributeActions = <ZefyrToolbarAction, NotusAttributeKey>{
   ZefyrToolbarAction.bold: NotusAttribute.bold,
   ZefyrToolbarAction.italic: NotusAttribute.italic,
   ZefyrToolbarAction.link: NotusAttribute.link,
-  ZefyrToolbarAction.highlight: NotusAttribute.highlight,
+  ZefyrToolbarAction.highlight: NotusAttribute.highlight.fromString('#FFFF00'),
   ZefyrToolbarAction.heading: NotusAttribute.heading,
   ZefyrToolbarAction.headingLevel1: NotusAttribute.heading.level1,
   ZefyrToolbarAction.headingLevel2: NotusAttribute.heading.level2,
