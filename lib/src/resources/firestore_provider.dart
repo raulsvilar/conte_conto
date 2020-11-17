@@ -6,26 +6,37 @@ import 'package:conte_conto/src/models/correction.dart';
 import 'package:conte_conto/src/models/turma.dart';
 import 'package:conte_conto/src/models/user.dart';
 import 'package:conte_conto/src/utils/constants.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:uuid/uuid.dart';
 import 'package:path/path.dart' as path;
 
 class FirestoreProvider {
   final _firestore = FirebaseFirestore.instance;
-  final _storage = firebase_storage.FirebaseStorage.instance;
-
+  final _storage = FirebaseStorage.instance;
+  User get loggedUser => GetIt.I.get<User>();
   Future<String> uploadFile(String filePath, String contoID) async {
     File file = File(filePath);
     String extension = path.extension(file.path);
     try {
       var ref = _storage.ref(
-          'uploads/${GetIt.I.get<User>().reference.id}/$contoID/${Uuid().v4()}$extension');
+          'uploads/${loggedUser.reference.id}/$contoID/${Uuid().v4()}$extension');
       await ref.putFile(file);
       return ref.getDownloadURL();
-    } on firebase_storage.FirebaseException catch (e) {
+    } on FirebaseException catch (e) {
       return e.code;
     }
+  }
+
+  Future<Map<String, Reference>> listFiles(String contoID) async {
+    Map<String, Reference> lista = Map<String, Reference>();
+    ListResult result = await _storage
+        .ref('uploads/${loggedUser.reference.id}/$contoID')
+        .listAll();
+    result.items.forEach((Reference ref) {
+      lista[ref.name] = ref;
+    });
+    return lista;
   }
 
   Future<DocumentReference> addTurma(Turma turma) {

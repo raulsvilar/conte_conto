@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conte_conto/src/blocs/editor_bloc.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:zefyr/zefyr.dart';
@@ -48,7 +49,7 @@ class EditorPageState extends State<EditorPage> {
           widget._bloc.saveDocument(widget._contoID, _controller.document,
               saveCallback, errorCallback, widget._canCreate);
           Scaffold.of(context)
-              .showSnackBar(SnackBar(content: Text(DESCRIPTION_SAVED)));
+              .showSnackBar(SnackBar(content: Text(DESCRIPTION_SAVING)));
         },
       ),
     );
@@ -130,8 +131,8 @@ class EditorPageState extends State<EditorPage> {
   }
 
   void errorCallback() {
-    Scaffold.of(context)
-        .showSnackBar(SnackBar(content: Text(DESCRIPTION_ERROR_DEFAULT)));
+    Fluttertoast.showToast(msg: DESCRIPTION_ERROR_DEFAULT,
+        toastLength: Toast.LENGTH_LONG,);
   }
 }
 

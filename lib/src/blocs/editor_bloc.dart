@@ -4,10 +4,12 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:conte_conto/src/models/conto.dart';
 import 'package:conte_conto/src/resources/firestore_provider.dart';
 import 'package:conte_conto/src/utils/constants.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:quill_delta/quill_delta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zefyr/zefyr.dart';
+import 'package:path/path.dart' as dart_path;
 
 class EditorBloc extends BlocBase {
   final _firestore = GetIt.I.get<FirestoreProvider>();
@@ -50,28 +52,42 @@ class EditorBloc extends BlocBase {
         .then((value) => value == null ? "" : value);
   }
 
-  void saveDocument(contoID, NotusDocument document, Function onSaved, Function onError, canCreate) async {
+  void saveDocument(contoID, NotusDocument document, Function onSaved,
+      Function onError, canCreate) async {
     try {
+      List<String> images = List<String>();
       for (LineNode node in document.root.children) {
         if (node.hasEmbed) {
           EmbedNode embedNode = node.children.single;
           EmbedAttribute attribute = embedNode.style.get(NotusAttribute.embed);
           String source = attribute.value['source'] as String;
           if (!source.contains("http")) {
-            String url = await GetIt.I.get<FirestoreProvider>().uploadFile(
-                source, contoID);
+            String url = await _firestore.uploadFile(source, contoID);
             attribute.value['source'] = url;
+          }
+          String newSource = attribute.value['source'];
+          images.add(dart_path.basename(
+              Uri.decodeFull(newSource.substring(0, newSource.indexOf('?')))));
+          // Uri uri = Uri.dataFromString(attribute.value['source']);
+          // images.add(uri.toFilePath());
+        }
+      }
+      Map<String, Reference> imagesServer = await _firestore.listFiles(contoID);
+      if (imagesServer != null) {
+        for (String key in imagesServer.keys) {
+          if (!images.contains(key)) {
+            imagesServer[key].delete();
           }
         }
       }
       final contents = jsonEncode(document);
       if (canCreate)
         saveConto(contoID, contents).then(
-              (_) => onSaved(),
+          (_) => onSaved(),
         );
       else
         saveCorrection(contoID, contents).then(
-              (_) => onSaved(),
+          (_) => onSaved(),
         );
     } catch (e) {
       onError();
