@@ -62,6 +62,7 @@ const NO_CLASS_TEXT = "Você ainda não está em uma turma,\nclique aqui para en
 const DESCRIPTION_CODE = "Código";
 const DESCRIPTION_EMPTY_CONTO = "\n";
 const DESCRIPTION_SAVED = "Salvo!";
+const DESCRIPTION_SAVING = "Gravando...";
 const DESCRIPTION_CLASS_CODE = "Código da Turma";
 const DESCRIPTION_NO_CONTOS_IN_CLASS = "Ainda não há contos aqui!";
 const DESCRIPTION_CORRECTIONS = "Correções";
@@ -83,6 +84,11 @@ const DESCRIPTION_STUDENT_CONTOS_LIST_PAGE = 'StudentContosList';
 const DESCRIPTION_CORRECTION_PAGE = "CorrectionsPage";
 const DESCRIPTION_CORRECTIONS_LIST_PAGE = "CorrectionsListPage";
 
+/// ###################################################
+/// ERRORS
+/// ###################################################
+const ERROR_DESCRIPTION_UPLOAD_IMAGE = "Não foi possível carregar a imagem";
+const ERROR_DESCRIPTION_SAVE_DOCUMENT = "Não foi possível salvar!";
 
 /// ###################################################
 /// ASSETS

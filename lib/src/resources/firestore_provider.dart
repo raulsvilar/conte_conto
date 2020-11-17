@@ -1,12 +1,32 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conte_conto/src/models/conto.dart';
 import 'package:conte_conto/src/models/correction.dart';
 import 'package:conte_conto/src/models/turma.dart';
 import 'package:conte_conto/src/models/user.dart';
 import 'package:conte_conto/src/utils/constants.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:get_it/get_it.dart';
+import 'package:uuid/uuid.dart';
+import 'package:path/path.dart' as path;
 
 class FirestoreProvider {
   final _firestore = FirebaseFirestore.instance;
+  final _storage = firebase_storage.FirebaseStorage.instance;
+
+  Future<String> uploadFile(String filePath, String contoID) async {
+    File file = File(filePath);
+    String extension = path.extension(file.path);
+    try {
+      var ref = _storage.ref(
+          'uploads/${GetIt.I.get<User>().reference.id}/$contoID/${Uuid().v4()}$extension');
+      await ref.putFile(file);
+      return ref.getDownloadURL();
+    } on firebase_storage.FirebaseException catch (e) {
+      return e.code;
+    }
+  }
 
   Future<DocumentReference> addTurma(Turma turma) {
     return _firestore.collection("turmas").add(turma.toJson());
@@ -45,10 +65,7 @@ class FirestoreProvider {
   }
 
   setFavorite(String contoId, bool data) {
-    _firestore
-        .collection("contos")
-        .doc(contoId)
-        .update({"favorited": data});
+    _firestore.collection("contos").doc(contoId).update({"favorited": data});
   }
 
   Future<User> createUser(User user, reference) async {
@@ -91,16 +108,13 @@ class FirestoreProvider {
         newMembers.add(userID);
         tx.update(userRef, {"turmaID": code});
         tx.update(turmaRef, {"members": newMembers});
-      }
-      else throw(DESCRIPTION_ENTER_TURMA_ERROR);
+      } else
+        throw (DESCRIPTION_ENTER_TURMA_ERROR);
     });
   }
 
   saveConto(String contoID, String data) {
-    _firestore
-        .collection("contos")
-        .doc(contoID)
-        .update({"content": data});
+    _firestore.collection("contos").doc(contoID).update({"content": data});
   }
 
   Future<String> getContoContent(contoID) async {
@@ -114,8 +128,7 @@ class FirestoreProvider {
   saveContoCorrection(String contoID, Map<String, dynamic> contents) {
     contents["datetime"] = FieldValue.serverTimestamp();
     _firestore.runTransaction((Transaction tx) async {
-      DocumentReference contoRef =
-          _firestore.collection("contos").doc(contoID);
+      DocumentReference contoRef = _firestore.collection("contos").doc(contoID);
       await tx.update(contoRef, {"sendedForCorrection": false});
       //await tx.(contoRef, {"corrections": contents});
       contoRef.collection("corrections").add(contents);
@@ -123,10 +136,7 @@ class FirestoreProvider {
   }
 
   void setContoFinished(contoID) {
-    _firestore
-        .collection("contos")
-        .doc(contoID)
-        .update({"finished": true});
+    _firestore.collection("contos").doc(contoID).update({"finished": true});
   }
 
   Future<Conto> getConto(contoID) async {

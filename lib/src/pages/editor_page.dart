@@ -1,14 +1,14 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conte_conto/src/blocs/editor_bloc.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:uuid/uuid.dart';
 import 'package:zefyr/zefyr.dart';
+import 'package:path/path.dart' as dart_path;
 
 class EditorPage extends StatefulWidget {
   final String _contoID;
@@ -44,8 +44,12 @@ class EditorPageState extends State<EditorPage> {
     final Widget saveBtn = Builder(
       builder: (context) => IconButton(
         icon: Icon(Icons.save),
-        onPressed: () => widget._bloc.saveDocument(widget._contoID,
-            _controller.document, saveCallback, widget._canCreate),
+        onPressed: () {
+          widget._bloc.saveDocument(widget._contoID, _controller.document,
+              saveCallback, errorCallback, widget._canCreate);
+          Scaffold.of(context)
+              .showSnackBar(SnackBar(content: Text(DESCRIPTION_SAVED)));
+        },
       ),
     );
 
@@ -124,6 +128,11 @@ class EditorPageState extends State<EditorPage> {
     Scaffold.of(context)
         .showSnackBar(SnackBar(content: Text(DESCRIPTION_SAVED)));
   }
+
+  void errorCallback() {
+    Scaffold.of(context)
+        .showSnackBar(SnackBar(content: Text(DESCRIPTION_ERROR_DEFAULT)));
+  }
 }
 
 class _ImageDelegate implements ZefyrImageDelegate<ImageSource> {
@@ -132,24 +141,21 @@ class _ImageDelegate implements ZefyrImageDelegate<ImageSource> {
   Future<String> pickImage(ImageSource source) async {
     final file = await _picker.getImage(source: source);
     if (file == null) return null;
-    String base64Image = base64Encode(await file.readAsBytes());
-    return Uuid().v1()+"@"+base64Image;
+    Directory dir = await getTemporaryDirectory();
+    File newFile = File(dir.path + dart_path.basename(file.path));
+    newFile.writeAsBytesSync(await file.readAsBytes());
+    return newFile.path;
   }
 
   @override
   Widget buildImage(BuildContext context, String key) {
-    List<String> code = key.split("@");
-    final image = base64Decode(code[1]);
-    return FutureBuilder(
-        future: getTemporaryDirectory().then((value) => value.path),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final String path = snapshot.data;
-            final file = File(path + code[0]);
-            file.writeAsBytesSync(image);
-            return Image(image: FileImage(file));
-          } else return Container();
-        });
+    if (key.contains('http'))
+      return CachedNetworkImage(
+        placeholder: (context, url) => CircularProgressIndicator(),
+        imageUrl: key,
+      );
+    else
+      return Image.file(File(key));
   }
 
   @override

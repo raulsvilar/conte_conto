@@ -50,16 +50,32 @@ class EditorBloc extends BlocBase {
         .then((value) => value == null ? "" : value);
   }
 
-  void saveDocument(contoID, document, Function onSaved, canCreate) {
-    final contents = jsonEncode(document);
-    if (canCreate)
-      saveConto(contoID, contents).then(
-        (_) => onSaved(),
-      );
-    else
-      saveCorrection(contoID, contents).then(
-        (_) => onSaved(),
-      );
+  void saveDocument(contoID, NotusDocument document, Function onSaved, Function onError, canCreate) async {
+    try {
+      for (LineNode node in document.root.children) {
+        if (node.hasEmbed) {
+          EmbedNode embedNode = node.children.single;
+          EmbedAttribute attribute = embedNode.style.get(NotusAttribute.embed);
+          String source = attribute.value['source'] as String;
+          if (!source.contains("http")) {
+            String url = await GetIt.I.get<FirestoreProvider>().uploadFile(
+                source, contoID);
+            attribute.value['source'] = url;
+          }
+        }
+      }
+      final contents = jsonEncode(document);
+      if (canCreate)
+        saveConto(contoID, contents).then(
+              (_) => onSaved(),
+        );
+      else
+        saveCorrection(contoID, contents).then(
+              (_) => onSaved(),
+        );
+    } catch (e) {
+      onError();
+    }
   }
 
   Future<NotusDocument> setContoFinished(
