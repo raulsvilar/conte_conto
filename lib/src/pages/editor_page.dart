@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conte_conto/src/blocs/editor_bloc.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -44,10 +45,9 @@ class EditorPageState extends State<EditorPage> {
   Widget build(BuildContext context) {
     final Widget saveBtn = Builder(
       builder: (context) => IconButton(
-        icon: Icon(Icons.save),
-        onPressed: () {
-          widget._bloc.saveDocument(widget._contoID, _controller.document,
-              saveCallback, errorCallback, widget._canCreate);
+        icon: Icon(FontAwesomeIcons.save),
+        onPressed: () => widget._bloc.saveDocument(widget._contoID,
+            _controller.document, saveCallback, widget._canCreate);
           Scaffold.of(context)
               .showSnackBar(SnackBar(content: Text(DESCRIPTION_SAVING)));
         },
@@ -56,7 +56,7 @@ class EditorPageState extends State<EditorPage> {
 
     final Widget finishBtn = Builder(
       builder: (context) => IconButton(
-        icon: Icon(Icons.check),
+        icon: Icon(FontAwesomeIcons.check),
         onPressed: () => widget._bloc
             .setContoFinished(widget._contoID, saveCallback, widget._canCreate)
             .then((document) {
@@ -183,6 +183,7 @@ class _ToolBarDelegate extends ZefyrToolbarDelegate {
     ZefyrToolbarAction.numberList: Icons.format_list_numbered,
     ZefyrToolbarAction.quote: Icons.format_quote,
     ZefyrToolbarAction.image: Icons.photo,
+    ZefyrToolbarAction.cameraImage: Icons.photo_camera,
     ZefyrToolbarAction.galleryImage: Icons.photo_library,
     ZefyrToolbarAction.hideKeyboard: Icons.keyboard_hide,
     ZefyrToolbarAction.close: Icons.close,
@@ -190,11 +191,13 @@ class _ToolBarDelegate extends ZefyrToolbarDelegate {
   };
 
   final kDefaultButtonIconsMode = {
-    ZefyrToolbarAction.code: Icons.code,
-    ZefyrToolbarAction.horizontalRule: Icons.remove
+    ZefyrToolbarAction.code: FontAwesomeIcons.code,
+    ZefyrToolbarAction.horizontalRule: FontAwesomeIcons.minus,
+    ZefyrToolbarAction.highlight: FontAwesomeIcons.highlighter,
   };
 
   final kSpecialIconSizes = {
+    ZefyrToolbarAction.highlight: 20.0,
     ZefyrToolbarAction.unlink: 20.0,
     ZefyrToolbarAction.clipboardCopy: 20.0,
     ZefyrToolbarAction.openInBrowser: 20.0,

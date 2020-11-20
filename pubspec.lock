@@ -327,9 +327,9 @@ packages:
   notus:
     dependency: transitive
     description:
-      name: notus
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "zefyr/packages/notus"
+      relative: true
+    source: path
     version: "0.1.5"
   octo_image:
     dependency: transitive
@@ -451,7 +451,7 @@ packages:
     source: hosted
     version: "3.2.0"
   quill_delta:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: quill_delta
       url: "https://pub.dartlang.org"
@@ -633,9 +633,9 @@ packages:
   zefyr:
     dependency: "direct main"
     description:
-      name: zefyr
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "zefyr/packages/zefyr"
+      relative: true
+    source: path
     version: "0.12.0"
 sdks:
   dart: ">=2.10.2 <2.11.0"
