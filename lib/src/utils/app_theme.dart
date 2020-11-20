@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-
-    static final ThemeData theme = ThemeData(
+  static final ThemeData theme = ThemeData(
       bottomAppBarColor: Colors.amber[700],
       brightness: Brightness.light,
       backgroundColor: Colors.grey[100],
@@ -12,24 +11,17 @@ class AppTheme {
       primaryColorLight: Color(0xFFeeffff),
       buttonTheme: buttonTheme,
       inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.amber[700]
-          )
-        )
-      )
-    );
+          border: OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.amber[700]))));
 
-    static final ButtonThemeData buttonTheme = ButtonThemeData(
-      buttonColor: Colors.amber[700],
-      textTheme: ButtonTextTheme.accent
-    );
+  static final ButtonThemeData buttonTheme = ButtonThemeData(
+      buttonColor: Colors.amber[700], textTheme: ButtonTextTheme.accent);
 
   static const appBarTheme = const AppBarTheme(
     brightness: Brightness.light,
     textTheme: TextTheme(
-      title: TextStyle(color: Colors.black, fontSize: 20),
+      headline6: TextStyle(color: Colors.black, fontSize: 20),
     ),
     color: Color(0xffb8d7f1),
     iconTheme: IconThemeData(color: Colors.black),

@@ -5,8 +5,7 @@ class Correction {
   final Timestamp datetime;
   final DocumentReference reference;
 
-  Correction.newCorrection(this.content,
-      {this.reference, this.datetime});
+  Correction.newCorrection(this.content, {this.reference, this.datetime});
 
   Correction.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['content'] != null),

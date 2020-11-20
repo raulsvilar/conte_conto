@@ -20,7 +20,8 @@ class EditorCorrectionsBloc extends BlocBase {
 
   loadDocument(String correctionID, String contoID) async {
     contoLoaded(false);
-    Correction correction = await _firestore.getCorrection(contoID, correctionID);
+    Correction correction =
+        await _firestore.getCorrection(contoID, correctionID);
     if (correction != null) {
       if (correction.content != null && correction.content.isNotEmpty)
         return NotusDocument.fromJson(jsonDecode(correction.content));

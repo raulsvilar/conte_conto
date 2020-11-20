@@ -70,7 +70,8 @@ class ItemWithImageTitleSub extends StatelessWidget {
 
   Widget buildCircle(context, color) {
     return ColorFiltered(
-        colorFilter: ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.modulate),
+        colorFilter: ColorFilter.mode(
+            Theme.of(context).primaryColor, BlendMode.modulate),
         child: FaIcon(FontAwesomeIcons.solidCircle, color: color, size: 12.0));
   }
 

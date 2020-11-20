@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'route_generate.dart';
 
 class BottomNavigator extends StatelessWidget {
-
   final GlobalKey<NavigatorState> navigatorKey;
   final String initialRoute;
 

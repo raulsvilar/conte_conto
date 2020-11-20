@@ -42,10 +42,7 @@ class HomeBloc extends BlocBase {
           bottomItems.help
         ];
       case userTypes.teacher:
-        return [
-          bottomItems.classes,
-          bottomItems.favorites
-        ];
+        return [bottomItems.classes, bottomItems.favorites];
     }
   }
 

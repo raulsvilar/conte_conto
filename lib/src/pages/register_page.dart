@@ -10,7 +10,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_segmented_control/material_segmented_control.dart';
 
 class RegisterPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.getBloc<RegisterBloc>();
@@ -79,7 +78,7 @@ class RegisterPage extends StatelessWidget {
       stream: bloc.name,
       builder: (context, snapshot) {
         return TextField(
-      //    cursorColor: primaryColor2,
+          //    cursorColor: primaryColor2,
           onChanged: bloc.changeName,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
@@ -96,7 +95,7 @@ class RegisterPage extends StatelessWidget {
       stream: bloc.email,
       builder: (context, snapshot) {
         return TextField(
-     //     cursorColor: primaryColor2,
+          //     cursorColor: primaryColor2,
           onChanged: bloc.changeEmail,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
@@ -153,20 +152,20 @@ class RegisterPage extends StatelessWidget {
       builder: (context, snapshot) {
         return Container(
           child: MaterialSegmentedControl(
-              horizontalPadding: EdgeInsets.only(bottom: 8),
-              children:{
-                userTypes.student: Text(USER_TYPE_STUDENT.toUpperCase()),
-                userTypes.teacher: Text("  $USER_TYPE_TEACHER  ".toUpperCase())
-              },
-              selectionIndex: snapshot.data,
-              borderColor: Colors.grey,
-              selectedColor: Theme.of(context).accentColor,
-              unselectedColor: Colors.white,
-              borderRadius: 32.0,
-              onSegmentChosen: (index) {
-                bloc.changeUserType(index);
-              },
-            ),
+            horizontalPadding: EdgeInsets.only(bottom: 8),
+            children: {
+              userTypes.student: Text(USER_TYPE_STUDENT.toUpperCase()),
+              userTypes.teacher: Text("  $USER_TYPE_TEACHER  ".toUpperCase())
+            },
+            selectionIndex: snapshot.data,
+            borderColor: Colors.grey,
+            selectedColor: Theme.of(context).accentColor,
+            unselectedColor: Colors.white,
+            borderRadius: 32.0,
+            onSegmentChosen: (index) {
+              bloc.changeUserType(index);
+            },
+          ),
         );
       },
     );
@@ -192,9 +191,10 @@ class RegisterPage extends StatelessWidget {
                   DESCRIPTION_REGISTER.toUpperCase(),
                 ),
                 textColor: Colors.white,
-                onPressed: snapshot.hasData && snapshot.data ? () =>
-                    bloc.submit(context, navigationAfterRegister, errorRegisterDialog)
-                 : null,
+                onPressed: snapshot.hasData && snapshot.data
+                    ? () => bloc.submit(
+                        context, navigationAfterRegister, errorRegisterDialog)
+                    : null,
               );
             },
           );
@@ -216,13 +216,10 @@ class RegisterPage extends StatelessWidget {
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(DESCRIPTION_INVALID_USER_PASSWORD)
-              ],
+              children: <Widget>[Text(DESCRIPTION_INVALID_USER_PASSWORD)],
             ),
           ),
           actions: <Widget>[
-
             FlatButton(
               child: Text(DIALOG_BUTTON_CANCEL),
               onPressed: () => Navigator.pop(context),

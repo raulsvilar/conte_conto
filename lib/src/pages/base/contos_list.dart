@@ -33,8 +33,7 @@ abstract class ContosListBase<T extends ContosListBlocBase>
           if (withFab &&
               snapshot.hasData &&
               (turmaID?.isNotEmpty ??
-                  false || (bloc.user.turmaID?.isNotEmpty ??
-                  false))) {
+                  false || (bloc.user.turmaID?.isNotEmpty ?? false))) {
             return FloatingActionButton(
               heroTag: "FloatContos",
               onPressed: () => onPressedFloatingActionButton(context),
@@ -61,8 +60,8 @@ abstract class ContosListBase<T extends ContosListBlocBase>
 
   Widget buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: bloc.contosList(
-          bloc.user.reference.id, turmaID ?? bloc.user.turmaID),
+      stream:
+          bloc.contosList(bloc.user.reference.id, turmaID ?? bloc.user.turmaID),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
         if (snapshot.data.docs.length > 0)
@@ -82,7 +81,9 @@ abstract class ContosListBase<T extends ContosListBlocBase>
           return buildListItem(context, snapshot[index]);
         },
         separatorBuilder: (context, index) {
-          return Divider(height: 4.0,);
+          return Divider(
+            height: 4.0,
+          );
         });
   }
 

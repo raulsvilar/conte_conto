@@ -7,7 +7,8 @@ class Turma {
   final List<String> members;
   final DocumentReference reference;
 
-  Turma.newTurma(this.name, this.school, this.owner, {this.reference, this.members = const []});
+  Turma.newTurma(this.name, this.school, this.owner,
+      {this.reference, this.members = const []});
 
   Turma.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['name'] != null),
@@ -18,7 +19,6 @@ class Turma {
         name = map['name'],
         school = map['school'],
         members = List.from(map['members']);
-
 
   Turma.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data(), reference: snapshot.reference);

@@ -15,8 +15,8 @@ mixin Validator {
     }
   });
 
-  final validatePassword =
-      StreamTransformer<String, String>.fromHandlers(handleData: (password, sink) {
+  final validatePassword = StreamTransformer<String, String>.fromHandlers(
+      handleData: (password, sink) {
     if (password.length > 5) {
       sink.add(password);
     } else if (password.isEmpty)

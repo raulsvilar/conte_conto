@@ -32,7 +32,8 @@ const DESCRIPTION_INVALID_PASSWORD =
     'Senha deve conter pelo menos 6 caracteres';
 const DESCRIPTION_DIALOG_ERROR = 'Ocorreu um erro';
 const DESCRIPTION_ENTER_TURMA_ERROR = "Código inválido";
-const DESCRIPTION_INVALID_USER_PASSWORD = 'Usuário ou senha informados são inválidos.';
+const DESCRIPTION_INVALID_USER_PASSWORD =
+    'Usuário ou senha informados são inválidos.';
 const DESCRIPTION_RESET_PASSWORD = "ESQUECI MINHA SENNHA";
 const DESCRIPTION_SEND_RESET_EMAIL = "Um email será enviado para";
 
@@ -58,7 +59,8 @@ const DESCRIPTION_SUN = "DOM";
 
 const USER_TYPE_TEACHER = "Professor";
 const USER_TYPE_STUDENT = "Aluno";
-const NO_CLASS_TEXT = "Você ainda não está em uma turma,\nclique aqui para entrar!";
+const NO_CLASS_TEXT =
+    "Você ainda não está em uma turma,\nclique aqui para entrar!";
 const DESCRIPTION_CODE = "Código";
 const DESCRIPTION_EMPTY_CONTO = "\n";
 const DESCRIPTION_SAVED = "Salvo!";

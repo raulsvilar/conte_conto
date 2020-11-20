@@ -7,8 +7,6 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:conte_conto/src/utils/validator.dart';
 
 class LoginBloc extends BlocBase with Validator {
-
-
   final _authentication = GetIt.I.get<Authentication>();
 
   final _hidePasswordController = BehaviorSubject<bool>.seeded(true);
@@ -33,8 +31,7 @@ class LoginBloc extends BlocBase with Validator {
   final _controllerLogged = BehaviorSubject<bool>();
   Stream<bool> get isLogged => _controllerLogged.stream;
 
-
-  Future<User> login(String email, String password) async{
+  Future<User> login(String email, String password) async {
     _controllerLoading.add(true);
     try {
       return await _authentication.signIn(email, password);
@@ -42,24 +39,21 @@ class LoginBloc extends BlocBase with Validator {
       _controllerLoading.add(false);
       print(e.toString());
       return null;
-    }
-    finally {
+    } finally {
       _controllerLoading.add(false);
     }
   }
 
-  getLoggedUser(Function(User)  navigationCallback) async{
-    await _authentication.getCurrentUser()
-        .then((user) {
-          _controllerLogged.add(true);
-          routeByUser(user, navigationCallback);
-        })
-        .catchError((e) {
-          _controllerLogged.add(false);
-        });
+  getLoggedUser(Function(User) navigationCallback) async {
+    await _authentication.getCurrentUser().then((user) {
+      _controllerLogged.add(true);
+      routeByUser(user, navigationCallback);
+    }).catchError((e) {
+      _controllerLogged.add(false);
+    });
   }
 
-  submit(Function failCallback, Function(User) navigationCallback) async{
+  submit(Function failCallback, Function(User) navigationCallback) async {
     final validEmail = _emailController.value.trim();
     final validPassword = _passwordController.value.trim();
     User user = await login(validEmail, validPassword);
@@ -83,5 +77,4 @@ class LoginBloc extends BlocBase with Validator {
   void resetPassword(String email) {
     _authentication.resetPassword(email);
   }
-
 }

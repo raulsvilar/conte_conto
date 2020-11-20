@@ -34,7 +34,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return FutureBuilder(
       // Initialize FlutterFire:
       future: _initialization,
@@ -49,8 +48,8 @@ class MyApp extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           GetIt getIt = GetIt.I;
           if (!getIt.isRegistered<FirestoreProvider>()) {
-            getIt.registerLazySingleton<FirestoreProvider>(() =>
-                FirestoreProvider());
+            getIt.registerLazySingleton<FirestoreProvider>(
+                () => FirestoreProvider());
           }
           if (!getIt.isRegistered<Authentication>()) {
             getIt.registerLazySingleton<Authentication>(() => Authentication());

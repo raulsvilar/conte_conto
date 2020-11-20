@@ -17,7 +17,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   final _bloc = BlocProvider.getBloc<LoginBloc>();
 
   @override
@@ -33,9 +32,8 @@ class _LoginPageState extends State<LoginPage> {
         stream: _bloc.isLogged,
         builder: (_, snapshot) {
           if (snapshot.hasData && !snapshot.data) {
-              return _buildBody();
-          }
-          else
+            return _buildBody();
+          } else
             return Center(
               child: CircularProgressIndicator(),
             );
@@ -125,7 +123,6 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget registerButton(BuildContext context) {
     return FlatButton(
-
       child: Text(
         DESCRIPTION_REGISTER.toUpperCase(),
       ),
@@ -151,12 +148,12 @@ class _LoginPageState extends State<LoginPage> {
             stream: _bloc.submitValid,
             builder: (_, snapshot) {
               return RaisedButton(
-                child: Text(
-                  DESCRIPTION_ENTER.toUpperCase(),
-                ),
-                textColor: Colors.white,
-                onPressed: () => _bloc.submit(lostPasswordDialog, navigationAfterLogin)
-              );
+                  child: Text(
+                    DESCRIPTION_ENTER.toUpperCase(),
+                  ),
+                  textColor: Colors.white,
+                  onPressed: () =>
+                      _bloc.submit(lostPasswordDialog, navigationAfterLogin));
             },
           );
         }
@@ -173,9 +170,7 @@ class _LoginPageState extends State<LoginPage> {
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(DESCRIPTION_INVALID_USER_PASSWORD)
-              ],
+              children: <Widget>[Text(DESCRIPTION_INVALID_USER_PASSWORD)],
             ),
           ),
           actions: <Widget>[
@@ -189,10 +184,9 @@ class _LoginPageState extends State<LoginPage> {
                     Fluttertoast.showToast(
                         msg: "$DESCRIPTION_SEND_RESET_EMAIL ${snapshot.data}",
                         toastLength: Toast.LENGTH_LONG,
-                        gravity: ToastGravity.BOTTOM
-                    );
+                        gravity: ToastGravity.BOTTOM);
                     Navigator.pop(context);
-                    },
+                  },
                 );
               },
             ),
@@ -227,5 +221,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
 }

@@ -46,8 +46,9 @@ class EditorPageState extends State<EditorPage> {
     final Widget saveBtn = Builder(
       builder: (context) => IconButton(
         icon: Icon(FontAwesomeIcons.save),
-        onPressed: () => widget._bloc.saveDocument(widget._contoID,
-            _controller.document, saveCallback, widget._canCreate);
+        onPressed: () {
+          widget._bloc.saveDocument(widget._contoID, _controller.document,
+              saveCallback, errorCallback, widget._canCreate);
           Scaffold.of(context)
               .showSnackBar(SnackBar(content: Text(DESCRIPTION_SAVING)));
         },
@@ -131,8 +132,10 @@ class EditorPageState extends State<EditorPage> {
   }
 
   void errorCallback() {
-    Fluttertoast.showToast(msg: DESCRIPTION_ERROR_DEFAULT,
-        toastLength: Toast.LENGTH_LONG,);
+    Fluttertoast.showToast(
+      msg: DESCRIPTION_ERROR_DEFAULT,
+      toastLength: Toast.LENGTH_LONG,
+    );
   }
 }
 

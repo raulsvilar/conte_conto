@@ -9,7 +9,7 @@ import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 
 class TurmasBloc extends BlocBase with Validator {
-  final _firestore =  GetIt.I.get<FirestoreProvider>();
+  final _firestore = GetIt.I.get<FirestoreProvider>();
   final _authentication = GetIt.I.get<Authentication>();
   String _userUid;
 
@@ -36,10 +36,7 @@ class TurmasBloc extends BlocBase with Validator {
     if (_schoolNameController?.value != null &&
         _turmaNameController?.value != null) {
       _firestore.addTurma(Turma.newTurma(
-          _turmaNameController?.value,
-          _schoolNameController?.value,
-          _userUid)
-      );
+          _turmaNameController?.value, _schoolNameController?.value, _userUid));
     }
   }
 
@@ -50,7 +47,7 @@ class TurmasBloc extends BlocBase with Validator {
     super.dispose();
   }
 
-  Future<void> logout() async{
+  Future<void> logout() async {
     GetIt.I.unregister<User>();
     return await _authentication.singOut();
   }
