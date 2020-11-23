@@ -22,6 +22,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 
 import 'package:conte_conto/src/utils/app_theme.dart';
 import 'package:conte_conto/src/utils/constants.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 
 void main() {
@@ -32,12 +33,21 @@ void main() {
 class MyApp extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
+  preloadSVG() async {
+    await precachePicture(
+      ExactAssetPicture(SvgPicture.svgStringDecoder, DESCRIPTION_APP_LOGO),
+      null,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       // Initialize FlutterFire:
       future: _initialization,
       builder: (context, snapshot) {
+
+        preloadSVG();
         // Check for errors
         if (snapshot.hasError) {
           print(snapshot.error);

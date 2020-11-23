@@ -35,6 +35,7 @@ const DESCRIPTION_ENTER_TURMA_ERROR = "Código inválido";
 const DESCRIPTION_INVALID_USER_PASSWORD =
     'Usuário ou senha informados são inválidos.';
 const DESCRIPTION_RESET_PASSWORD = "ESQUECI MINHA SENNHA";
+const DESCRIPTION_TERMS_SERVICE = "Ao se cadastrar você aceita nossos termos de serviço";
 const DESCRIPTION_SEND_RESET_EMAIL = "Um email será enviado para";
 
 const DESCRIPTION_MONDAY = "SEGUNDA";
