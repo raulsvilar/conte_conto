@@ -8,7 +8,7 @@
          FlutterApplication and put your custom class here. -->
     <uses-permission android:name="android.permission.CAMERA" />
     <application
-        android:label="conte_conto"
+        android:label="ConteConto"
         android:icon="@mipmap/ic_launcher">
         <meta-data
             android:name="flutterEmbedding"
