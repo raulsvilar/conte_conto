@@ -1,3 +1,4 @@
+import 'package:conte_conto/src/resources/firestore_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,6 +8,7 @@ import 'package:conte_conto/src/utils/constants.dart';
 import 'package:conte_conto/src/blocs/register_bloc.dart';
 import 'package:conte_conto/src/models/user.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_it/get_it.dart';
 import 'package:material_segmented_control/material_segmented_control.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -25,12 +27,47 @@ class RegisterPage extends StatelessWidget {
               children: <Widget>[
                 buildLogo(),
                 buildCard(bloc, context),
+                GestureDetector(
+                    onTap: () => termsDialog(context),
+                    child: Text(
+                      DESCRIPTION_TERMS_SERVICE,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.lightBlue,
+                          decoration: TextDecoration.underline),
+                    )),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  Future<void> termsDialog(BuildContext context) async {
+    print("Tela dos termos");
+    await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(DESCRIPTION_TERMS),
+        ),
+        body: FutureBuilder(
+          future: GetIt.I.get<FirestoreProvider>().getTerms,
+          builder: (context, snapshot) {
+            if (snapshot.hasData)
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(snapshot.data),
+                ),
+              );
+            else
+              return Center(child: CircularProgressIndicator());
+          },
+        ),
+      );
+    }));
   }
 
   Card buildCard(RegisterBloc bloc, BuildContext context) {

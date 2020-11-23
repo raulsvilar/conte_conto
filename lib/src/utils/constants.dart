@@ -17,6 +17,8 @@ const DESCRIPTION_CLASS_NAME = 'Nome da Turma';
 const DESCRIPTION_CONTO_NAME = 'Nome do Conto';
 const DESCRIPTION_SCHOOL_NAME = 'Nome da Escola';
 
+const DESCRIPTION_TERMS = "Termos";
+
 const DESCRIPTION_ERROR_DEFAULT = 'Favor verificar sua conexão com a internet';
 const DESCRIPTION_TRY_AGAIN = 'Tentar novamente';
 const DESCRIPTION_MISSING_FIELD = "Campo obrigatório";

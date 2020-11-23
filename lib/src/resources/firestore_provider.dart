@@ -28,6 +28,15 @@ class FirestoreProvider {
     }
   }
 
+  Future<String> get getTerms async {
+    final Directory systemTempDir = Directory.systemTemp;
+    final ref = _storage.ref('termos/termos.txt');
+    final File tempFile = File('${systemTempDir.path}/temp-${ref.name}');
+    if (tempFile.existsSync()) await tempFile.delete();
+    await ref.writeToFile(tempFile);
+    return tempFile.readAsString();
+  }
+
   Future<Map<String, Reference>> listFiles(String contoID) async {
     Map<String, Reference> lista = Map<String, Reference>();
     ListResult result = await _storage
