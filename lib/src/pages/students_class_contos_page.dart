@@ -1,33 +1,24 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:conte_conto/src/blocs/students_class_contos_bloc.dart';
 import 'package:conte_conto/src/models/conto.dart';
-import 'package:conte_conto/src/pages/base/contos_list.dart';
 import 'package:conte_conto/src/pages/base/items.dart';
+import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 
-class StudentsClassContosPage extends ContosListBase<StudentsClassContosBloc> {
-  StudentsClassContosPage() : super();
+class StudentsClassContosPage extends StatelessWidget {
 
-  @override
-  List<Widget> appBarActions(BuildContext context) {
-    return null;
-  }
+  StudentsClassContosBloc bloc = BlocProvider.getBloc<StudentsClassContosBloc>();
 
-  @override
-  Widget buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
-    List<DocumentSnapshot> items = snapshot
-        .where((item) => item.data()["owner"] != bloc.user.reference.id)
-        .toList();
+  Widget buildList(BuildContext context, List<Conto> snapshot) {
     return ListView.builder(
-      itemCount: items.length,
+      itemCount: snapshot.length,
       itemBuilder: (BuildContext context, int index) {
-        return super.buildListItem(context, items[index]);
+        return buildListItem(snapshot[index]);
       },
     );
   }
 
-  @override
-  ItemWithImageTitleSub configItem(Conto conto) {
+  ItemWithImageTitleSub buildListItem(Conto conto) {
     return ItemWithImageTitleSub(
         itemID: conto.reference.id,
         title: conto.title,
@@ -35,8 +26,28 @@ class StudentsClassContosPage extends ContosListBase<StudentsClassContosBloc> {
         onTapCallback: onTapConto);
   }
 
+  onTapConto(List args) {
+    Navigator.of(args[0]).pushNamed(DESCRIPTION_EDITOR_PAGE,
+        arguments: [args[1], true]);
+  }
   @override
-  onPressedFloatingActionButton(BuildContext context) {
-    return null;
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(DESCRIPTION_MATERIALS),
+      ),
+      body: FutureBuilder(
+        future: bloc.contosList(bloc.user.turmaID),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return LinearProgressIndicator();
+          if (snapshot.data.length > 0)
+            return buildList(context, snapshot.data);
+          else
+            return Center(
+              child: Text(DESCRIPTION_NO_CONTOS_IN_CLASS),
+            );
+        },
+      ),
+    );
   }
 }

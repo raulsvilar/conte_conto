@@ -122,4 +122,9 @@ class EditorBloc extends BlocBase {
   Future<void> saveCorrection(contoID, String contents) async {
     return await _firestore.saveContoCorrection(contoID, {"content": contents});
   }
+
+  void publishConto(String contoID, Function onCompleted) async{
+    await _firestore.publicarContoTurma(contoID);
+    onCompleted();
+  }
 }

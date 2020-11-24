@@ -43,6 +43,15 @@ class EditorPageState extends State<EditorPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Widget publishBtn = Builder(
+      builder: (context) => IconButton(
+        icon: Icon(FontAwesomeIcons.shareSquare),
+        onPressed: () {
+          widget._bloc.publishConto(widget._contoID, saveCallback);
+        },
+      ),
+    );
+
     final Widget saveBtn = Builder(
       builder: (context) => IconButton(
         icon: Icon(FontAwesomeIcons.save),
@@ -71,6 +80,15 @@ class EditorPageState extends State<EditorPage> {
       appBar: AppBar(
         title: Text("Editor"),
         actions: <Widget>[
+          if (!widget._canCreate)
+            StreamBuilder(
+              stream: widget._bloc.inEditionForTeacher,
+              builder: (_, snapshot) {
+                if (snapshot.hasData && snapshot.data)
+                  return publishBtn;
+                else return Container();
+              },
+            ),
           StreamBuilder(
             stream: widget._canCreate
                 ? widget._bloc.inEditionForStudent

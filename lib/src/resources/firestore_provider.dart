@@ -15,7 +15,9 @@ import 'package:path/path.dart' as path;
 class FirestoreProvider {
   final _firestore = FirebaseFirestore.instance;
   final _storage = FirebaseStorage.instance;
+
   User get loggedUser => GetIt.I.get<User>();
+
   Future<String> uploadFile(String filePath, String contoID) async {
     File file = File(filePath);
     String extension = path.extension(file.path);
@@ -134,6 +136,41 @@ class FirestoreProvider {
     });
   }
 
+  publicarContoTurma(String contoID) {
+    _firestore.runTransaction((Transaction tx) async {
+      var contoRef = _firestore.collection("contos").doc(contoID);
+      DocumentSnapshot contoDS = await tx.get(contoRef);
+      if (contoDS.exists) {
+        var turmaRef =
+            _firestore.collection("turmas").doc(contoDS.data()['turmaID']);
+        DocumentSnapshot ds = await tx.get(turmaRef);
+        if (ds.exists) {
+          List<String> contoIDs = List.from(ds.data()["contos_publicados"]);
+          contoIDs.add(contoID);
+          tx.update(turmaRef, {"contos_publicados": contoIDs});
+        } else
+          throw (ERROR_DESCRIPTION_ENTER_CONTO);
+      } else
+        throw (ERROR_DESCRIPTION_ENTER_CONTO);
+    });
+  }
+
+  Future<List<Conto>> getContoPublicados(String turmaID) async {
+    List<String> contoIDs = await _firestore
+        .collection("turmas")
+        .doc(turmaID)
+        .get()
+        .then((value) => List.from(value.data()['contos_publicados']));
+    List<Conto> contos = [];
+    for (String contoID in contoIDs) {
+      contos.add(Conto.fromSnapshot(await _firestore
+          .collection("contos")
+          .doc(contoID)
+          .get()));
+    }
+    return contos;
+  }
+
   saveConto(String contoID, String data) {
     _firestore.collection("contos").doc(contoID).update({"content": data});
   }
@@ -183,12 +220,12 @@ class FirestoreProvider {
         .snapshots();
   }
 
-  Future<void> addMaterialForTurma(
-      String turmaID, HelpMaterial material) {
+  Future<void> addMaterialForTurma(String turmaID, HelpMaterial material) {
     return _firestore
         .collection("turmas")
         .doc(turmaID)
-        .collection("materials").add(material.toJson());
+        .collection("materials")
+        .add(material.toJson());
   }
 
   Stream<QuerySnapshot> getMaterials(turmaID) {
@@ -214,7 +251,8 @@ class FirestoreProvider {
     return _firestore
         .collection("contos")
         .doc(contoID)
-        .collection("corrections").orderBy("datetime", descending: true)
+        .collection("corrections")
+        .orderBy("datetime", descending: true)
         .snapshots();
   }
 

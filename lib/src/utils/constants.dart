@@ -19,7 +19,7 @@ const DESCRIPTION_SCHOOL_NAME = 'Nome da Escola';
 
 const DESCRIPTION_TERMS = "Termos";
 
-const DESCRIPTION_ERROR_DEFAULT = 'Favor verificar sua conexão com a internet';
+
 const DESCRIPTION_TRY_AGAIN = 'Tentar novamente';
 const DESCRIPTION_MISSING_FIELD = "Campo obrigatório";
 const DESCRIPTION_ENTER = "Entrar";
@@ -33,8 +33,6 @@ const DESCRIPTION_PASSWORD = 'Senha';
 const DESCRIPTION_PASSWORD_HINT = 'Insira sua senha';
 const DESCRIPTION_INVALID_PASSWORD =
     'Senha deve conter pelo menos 6 caracteres';
-const DESCRIPTION_DIALOG_ERROR = 'Ocorreu um erro';
-const DESCRIPTION_ENTER_TURMA_ERROR = "Código inválido";
 const DESCRIPTION_INVALID_USER_PASSWORD =
     'Usuário ou senha informados são inválidos.';
 const DESCRIPTION_RESET_PASSWORD = "ESQUECI MINHA SENNHA";
@@ -99,6 +97,10 @@ const DESCRIPTION_HELP_LIST_PAGE = "HelpListPage";
 /// ###################################################
 const ERROR_DESCRIPTION_UPLOAD_IMAGE = "Não foi possível carregar a imagem";
 const ERROR_DESCRIPTION_SAVE_DOCUMENT = "Não foi possível salvar!";
+const DESCRIPTION_ERROR_DEFAULT = 'Favor verificar sua conexão com a internet';
+const DESCRIPTION_DIALOG_ERROR = 'Ocorreu um erro';
+const DESCRIPTION_ENTER_TURMA_ERROR = "Erro ao adicionar aluno.";
+const ERROR_DESCRIPTION_ENTER_CONTO = "Erro ao publicar conto.";
 
 /// ###################################################
 /// ASSETS
