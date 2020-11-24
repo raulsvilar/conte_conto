@@ -24,6 +24,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 
 import 'package:conte_conto/src/utils/app_theme.dart';
 import 'package:conte_conto/src/utils/constants.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 
@@ -44,6 +45,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return FutureBuilder(
       // Initialize FlutterFire:
       future: _initialization,
@@ -71,7 +75,7 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               title: DESCRIPTION_APP_TITLE,
               theme: AppTheme.theme,
-              home: LoginPage(),
+              home: SafeArea(child: LoginPage()),
               onGenerateRoute: RouteGenerator.generateRoute,
             ),
             blocs: [

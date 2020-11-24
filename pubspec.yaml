@@ -22,7 +22,6 @@ dependencies:
     sdk: flutter
   rxdart: 0.24.1
   bloc_pattern: 2.5.1
-  double_back_to_close_app: ^1.2.0
   uuid: 2.2.2
   firebase_storage: 5.0.0-dev.3
   firebase_core: 0.5.0+1 # add dependency for Firebase Core
