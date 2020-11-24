@@ -90,7 +90,7 @@ class FirestoreProvider {
 
   Future<User> createUser(User user, reference) async {
     await _firestore.runTransaction((Transaction tx) async {
-      await tx.set(_firestore.doc("users/$reference"), user.toJson());
+      tx.set(_firestore.doc("users/$reference"), user.toJson());
     });
     return await getUser(reference);
   }
@@ -149,7 +149,7 @@ class FirestoreProvider {
     contents["datetime"] = FieldValue.serverTimestamp();
     _firestore.runTransaction((Transaction tx) async {
       DocumentReference contoRef = _firestore.collection("contos").doc(contoID);
-      await tx.update(contoRef, {"sendedForCorrection": false});
+      tx.update(contoRef, {"sendedForCorrection": false});
       //await tx.(contoRef, {"corrections": contents});
       contoRef.collection("corrections").add(contents);
     });

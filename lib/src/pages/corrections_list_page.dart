@@ -27,8 +27,8 @@ class CorrectionsListPage extends StatelessWidget {
       stream: _bloc.correcionsList(_contoID),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
-        if (snapshot.data.documents.length > 0)
-          return _buildList(context, snapshot.data.documents);
+        if (snapshot.data.docs.length > 0)
+          return _buildList(context, snapshot.data.docs);
         else
           return Center(
             child: Text(DESCRIPTION_NO_CONTOS_IN_CLASS),
@@ -53,7 +53,7 @@ class CorrectionsListPage extends StatelessWidget {
     final record = Correction.fromSnapshot(data);
     return ListTile(
       title: Text("${record.datetime ?? text}"),
-      onTap: () => onTapCorrection(context, record.reference.documentID),
+      onTap: () => onTapCorrection(context, record.reference.id),
     );
   }
 

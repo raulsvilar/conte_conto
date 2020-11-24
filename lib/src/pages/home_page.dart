@@ -67,7 +67,7 @@ class HomePage extends StatelessWidget {
           listItems.add(
             BottomNavigationBarItem(
               icon: Icon(Icons.favorite),
-              title: Text('Favoritos'),
+              label: 'Favoritos',
             ),
           );
           break;
@@ -75,7 +75,7 @@ class HomePage extends StatelessWidget {
           listItems.add(
             BottomNavigationBarItem(
               icon: Icon(Icons.message),
-              title: Text('Mensagens'),
+              label: 'Mensagens',
             ),
           );
           break;
@@ -83,7 +83,7 @@ class HomePage extends StatelessWidget {
           listItems.add(
             BottomNavigationBarItem(
               icon: Icon(Icons.book),
-              title: Text('Turmas'),
+              label: 'Turmas',
             ),
           );
           break;
@@ -91,7 +91,7 @@ class HomePage extends StatelessWidget {
           listItems.add(
             BottomNavigationBarItem(
               icon: Icon(Icons.help),
-              title: Text('Ajuda'),
+              label: 'Ajuda',
             ),
           );
           break;
@@ -99,7 +99,7 @@ class HomePage extends StatelessWidget {
           listItems.add(
             BottomNavigationBarItem(
               icon: Icon(FontAwesomeIcons.solidEdit),
-              title: Text('Contos'),
+              label: 'Contos',
             ),
           );
           break;
@@ -107,7 +107,7 @@ class HomePage extends StatelessWidget {
           listItems.add(
             BottomNavigationBarItem(
               icon: Icon(FontAwesomeIcons.bookReader),
-              title: Text('Turma'),
+              label: 'Turma',
             ),
           );
           break;
@@ -115,7 +115,7 @@ class HomePage extends StatelessWidget {
           listItems.add(
             BottomNavigationBarItem(
               icon: Icon(FontAwesomeIcons.check),
-              title: Text('Correções'),
+              label: 'Correções',
             ),
           );
           break;

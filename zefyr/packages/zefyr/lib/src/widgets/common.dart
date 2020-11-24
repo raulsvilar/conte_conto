@@ -152,7 +152,7 @@ class _ZefyrLineState extends State<ZefyrLine> {
       final hexStringToColor = (String hex) {
         hex = hex.replaceFirst('#', '');
         hex = hex.length == 6 ? 'ff' + hex : hex;
-        int val = int.parse(hex, radix: 16);
+        var val = int.parse(hex, radix: 16);
         return Color(val);
       };
       final bgColor =

@@ -58,7 +58,7 @@ class ItemWithImageTitleSub extends StatelessWidget {
         return buildCircle(context, Colors.amber);
       else
         return buildCircle(context, Colors.red);
-    }
+    } else return null;
     /*
     if (isContoFinished)
       return Text("Finalizado");

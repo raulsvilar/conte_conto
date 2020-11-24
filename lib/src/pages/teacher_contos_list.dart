@@ -18,14 +18,14 @@ class TeacherContosList extends ContosListBase<TeacherContosListBloc> {
   @override
   ItemWithImageTitleSub configItem(Conto conto) {
     return ItemWithImageTitleSub(
-      itemID: conto.reference.documentID,
+      itemID: conto.reference.id,
       title: conto.title,
       withFavorites: true,
       onTapCallback: onTapConto,
       favoriteCallback: _setFavorite,
       subTitle: conto.author,
       isFavorited: conto.isFavorited,
-      favoriteCallbackArgs: [conto.reference.documentID, !conto.isFavorited],
+      favoriteCallbackArgs: [conto.reference.id, !conto.isFavorited],
     );
   }
 
