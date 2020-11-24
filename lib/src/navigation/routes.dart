@@ -10,3 +10,5 @@ export 'package:conte_conto/src/pages/home_page.dart';
 export 'package:conte_conto/src/pages/corrections_list_page.dart';
 export 'package:conte_conto/src/pages/corrections_page.dart';
 export 'package:conte_conto/src/pages/correction_editor_page.dart';
+export 'package:conte_conto/src/pages/help_editor_page.dart';
+export 'package:conte_conto/src/pages/help_materials_list_page.dart';

@@ -26,6 +26,7 @@ const DESCRIPTION_ENTER = "Entrar";
 const DESCRIPTION_REGISTER = "Cadastrar";
 const DESCRIPTION_EMAIL = 'Email';
 const DESCRIPTION_NAME = 'Nome';
+const DESCRIPTION_MATERIALS = 'Materiais';
 const DESCRIPTION_EMAIL_HINT = 'Insira seu email';
 const DESCRIPTION_INVALID_EMAIL = 'Formato de email inválido';
 const DESCRIPTION_PASSWORD = 'Senha';
@@ -69,6 +70,7 @@ const DESCRIPTION_CODE = "Código";
 const DESCRIPTION_EMPTY_CONTO = "\n";
 const DESCRIPTION_SAVED = "Salvo!";
 const DESCRIPTION_SAVING = "Gravando...";
+const DESCRIPTION_SENDING = "Enviando...";
 const DESCRIPTION_CLASS_CODE = "Código da Turma";
 const DESCRIPTION_NO_CONTOS_IN_CLASS = "Ainda não há contos aqui!";
 const DESCRIPTION_CORRECTIONS = "Correções";
@@ -89,6 +91,8 @@ const DESCRIPTION_EDITOR_PAGE = 'EditorPage';
 const DESCRIPTION_STUDENT_CONTOS_LIST_PAGE = 'StudentContosList';
 const DESCRIPTION_CORRECTION_PAGE = "CorrectionsPage";
 const DESCRIPTION_CORRECTIONS_LIST_PAGE = "CorrectionsListPage";
+const DESCRIPTION_HELP_EDITOR_PAGE = "HelpEditorPage";
+const DESCRIPTION_HELP_LIST_PAGE = "HelpListPage";
 
 /// ###################################################
 /// ERRORS

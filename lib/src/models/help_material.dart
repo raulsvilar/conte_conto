@@ -1,22 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Material {
+class HelpMaterial {
   final String name;
   final String content;
   final Timestamp datetime;
   final DocumentReference reference;
 
-  Material.newMaterial(this.name, this.content,
+  HelpMaterial.newHelpMaterial(this.name, this.content,
       {this.reference, this.datetime});
 
-  Material.fromMap(Map<String, dynamic> map, {this.reference})
+  HelpMaterial.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['name'] != null),
         assert(map['content'] != null),
         content = map['content'],
         name = map['name'],
         datetime = map['datetime'];
 
-  Material.fromSnapshot(DocumentSnapshot snapshot)
+  HelpMaterial.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data(), reference: snapshot.reference);
 
   Map<String, dynamic> toJson() {

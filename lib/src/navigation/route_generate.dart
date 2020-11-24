@@ -32,8 +32,16 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => RegisterPage());
       case DESCRIPTION_STUDENTS_CLASS_CONTOS_PAGE:
         return MaterialPageRoute(builder: (_) => StudentsClassContosPage());
+      case DESCRIPTION_HELP_LIST_PAGE:
+        return MaterialPageRoute(builder: (_) => HelpMaterialListPage());
       case DESCRIPTION_FAVORITES_PAGE:
         return MaterialPageRoute(builder: (_) => FavoritesPage());
+      case DESCRIPTION_HELP_EDITOR_PAGE:
+        if (args is List) {
+          return MaterialPageRoute(
+              builder: (_) => HelpEditorPage(args[0], args[1], args[2], args[3]));
+        }
+        return _errorRoute("Tipo inválido no argumento de HelpEditorPage");
       case DESCRIPTION_STUDENT_CONTOS_LIST_PAGE:
         return MaterialPageRoute(builder: (_) => StudentContosList());
       case DESCRIPTION_EDITOR_PAGE:

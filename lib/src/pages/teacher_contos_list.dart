@@ -9,7 +9,9 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 class TeacherContosList extends ContosListBase<TeacherContosListBloc> {
   TeacherContosList(turmaID, turmaName)
-      : super(withFab: true, title: turmaName, turmaID: turmaID);
+      : super(withFab: true, title: turmaName, turmaID: turmaID) {
+    bloc.changeTurma(turmaID);
+  }
 
   _setFavorite(List args) {
     bloc.setFavorite(args[0], args[1]);
@@ -106,7 +108,7 @@ class TeacherContosList extends ContosListBase<TeacherContosListBloc> {
               onPressed: () {
                 Navigator.pop(ctx);
                 Navigator.of(context)
-                    .pushNamed(DESCRIPTION_EDITOR_PAGE, arguments: []);
+                    .pushNamed(DESCRIPTION_HELP_EDITOR_PAGE, arguments: [bloc.helpName, turmaID, null, false]);
               },
             )
           ],
@@ -122,7 +124,7 @@ class TeacherContosList extends ContosListBase<TeacherContosListBloc> {
         return TextField(
           onChanged: bloc.changeMaterialName,
           decoration: InputDecoration(
-            labelText: DESCRIPTION_CONTO_NAME,
+            labelText: DESCRIPTION_NAME,
             errorText: snapshot.error,
           ),
         );

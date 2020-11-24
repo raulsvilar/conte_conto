@@ -14,7 +14,6 @@ import 'base/contos_list.dart';
 class StudentContosList extends ContosListBase<StudentContosListBloc> {
   StudentContosList() : super(canCreateConto: true, withFab: true) {
     bloc.changeTurma(bloc.user.turmaID);
-    print(bloc.user.turmaID);
   }
 
   @override

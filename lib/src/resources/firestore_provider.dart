@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conte_conto/src/models/conto.dart';
 import 'package:conte_conto/src/models/correction.dart';
+import 'package:conte_conto/src/models/help_material.dart';
 import 'package:conte_conto/src/models/turma.dart';
 import 'package:conte_conto/src/models/user.dart';
 import 'package:conte_conto/src/utils/constants.dart';
@@ -183,11 +184,11 @@ class FirestoreProvider {
   }
 
   Future<void> addMaterialForTurma(
-      String turmaID, String userID, Map<String, dynamic> materialContent) {
+      String turmaID, HelpMaterial material) {
     return _firestore
         .collection("turmas")
         .doc(turmaID)
-        .update({"materials": materialContent});
+        .collection("materials").add(material.toJson());
   }
 
   Stream<QuerySnapshot> getMaterials(turmaID) {
@@ -195,14 +196,25 @@ class FirestoreProvider {
         .collection("turmas")
         .doc(turmaID)
         .collection("materials")
+        .orderBy("datetime", descending: true)
         .snapshots();
+  }
+
+  Future<HelpMaterial> getMaterial(String turmaID, materialID) async {
+    return await _firestore
+        .collection("turmas")
+        .doc(turmaID)
+        .collection("materials")
+        .doc(materialID)
+        .get()
+        .then((value) => HelpMaterial.fromSnapshot(value));
   }
 
   Stream<QuerySnapshot> getCorrectionsForConto(String contoID) {
     return _firestore
         .collection("contos")
         .doc(contoID)
-        .collection("corrections")
+        .collection("corrections").orderBy("datetime", descending: true)
         .snapshots();
   }
 

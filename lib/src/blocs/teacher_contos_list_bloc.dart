@@ -8,6 +8,8 @@ class TeacherContosListBloc extends ContosListBlocBase {
   Stream<String> get materialName =>
       _materialController.stream.transform(validateField);
 
+  String get helpName => _materialController.value;
+
   Function(String) get changeMaterialName => _materialController.sink.add;
 
   setFavorite(String contoId, bool data) {

@@ -26,7 +26,8 @@ class HomePage extends StatelessWidget {
     bottomItems.contos: DESCRIPTION_STUDENT_CONTOS_LIST_PAGE,
     bottomItems.finished_contos: DESCRIPTION_STUDENTS_CLASS_CONTOS_PAGE,
     bottomItems.classes: DESCRIPTION_CLASSES_PAGE,
-    bottomItems.corrections: DESCRIPTION_CORRECTION_PAGE
+    bottomItems.corrections: DESCRIPTION_CORRECTION_PAGE,
+    bottomItems.help: DESCRIPTION_HELP_LIST_PAGE
   };
 
   @override
@@ -91,7 +92,7 @@ class HomePage extends StatelessWidget {
           listItems.add(
             BottomNavigationBarItem(
               icon: Icon(Icons.help),
-              label: 'Ajuda',
+              label: 'Materiais',
             ),
           );
           break;

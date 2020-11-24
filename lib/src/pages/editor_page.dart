@@ -194,9 +194,9 @@ class _ToolBarDelegate extends ZefyrToolbarDelegate {
   };
 
   final kDefaultButtonIconsMode = {
-    ZefyrToolbarAction.code: FontAwesomeIcons.code,
-    ZefyrToolbarAction.horizontalRule: FontAwesomeIcons.minus,
-    ZefyrToolbarAction.highlight: FontAwesomeIcons.highlighter,
+    ZefyrToolbarAction.code: Icons.code,
+    ZefyrToolbarAction.horizontalRule: Icons.remove,
+    ZefyrToolbarAction.highlight: Icons.text_format,
   };
 
   final kSpecialIconSizes = {
