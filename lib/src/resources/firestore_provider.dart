@@ -231,11 +231,13 @@ class FirestoreProvider {
   }
 
   Future<void> addMaterialForTurma(String turmaID, HelpMaterial material) {
+    Map<String, dynamic> data = material.toJson();
+    data["datetime"] = FieldValue.serverTimestamp();
     return _firestore
         .collection("turmas")
         .doc(turmaID)
         .collection("materials")
-        .add(material.toJson());
+        .add(data);
   }
 
   Stream<QuerySnapshot> getMaterials(turmaID) {

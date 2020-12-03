@@ -11,6 +11,7 @@ const DIALOG_BUTTON_ENTER = 'ENTRAR';
 
 const DIALOG_NEW_CLASS = 'Nova Turma';
 const DIALOG_NEW_CONTO = "Novo Conto";
+const DIALOG_NEW_MATERIAL = "Novo Material";
 const DIALOG_ENTER_CLASS = "Digite o código para entrar";
 
 const DESCRIPTION_CLASS_NAME = 'Nome da Turma';

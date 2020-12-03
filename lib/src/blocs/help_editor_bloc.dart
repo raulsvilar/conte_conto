@@ -25,13 +25,14 @@ class HelpEditorBloc extends BlocBase {
 
   loadDocument(String materialID, String turmaID) async {
     contoLoaded(false);
+    final Delta delta = Delta()..insert(DESCRIPTION_EMPTY_CONTO);
+    if(materialID == null) return NotusDocument.fromDelta(delta);
     HelpMaterial material =
     await _firestore.getMaterial(turmaID, materialID);
     if (material != null) {
       if (material.content != null && material.content.isNotEmpty)
         return NotusDocument.fromJson(jsonDecode(material.content));
     }
-    final Delta delta = Delta()..insert(DESCRIPTION_EMPTY_CONTO);
     return NotusDocument.fromDelta(delta);
   }
 

@@ -86,7 +86,7 @@ class TeacherContosList extends ContosListBase<TeacherContosListBloc> {
       context: ctx,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(DIALOG_NEW_CONTO),
+          title: Text(DIALOG_NEW_MATERIAL),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
