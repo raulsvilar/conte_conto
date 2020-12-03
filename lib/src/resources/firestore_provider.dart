@@ -122,17 +122,21 @@ class FirestoreProvider {
 
   Future<dynamic> enterStudentOnTurma(code, userID) async {
     return _firestore.runTransaction((Transaction tx) async {
-      DocumentReference userRef = _firestore.doc("users/$userID");
-      DocumentReference turmaRef = _firestore.doc("turmas/$code");
-      DocumentSnapshot userDS = await tx.get(userRef);
-      DocumentSnapshot turmaDS = await tx.get(turmaRef);
-      if (userDS.exists && turmaDS.exists) {
-        List<String> newMembers = List.from(turmaDS.data()["members"]);
-        newMembers.add(userID);
-        tx.update(userRef, {"turmaID": code});
-        tx.update(turmaRef, {"members": newMembers});
-      } else
-        throw (DESCRIPTION_ENTER_TURMA_ERROR);
+      try {
+        DocumentReference userRef = _firestore.doc("users/$userID");
+        DocumentReference turmaRef = _firestore.doc("turmas/$code");
+        DocumentSnapshot userDS = await tx.get(userRef);
+        DocumentSnapshot turmaDS = await tx.get(turmaRef);
+        if (userDS.exists && turmaDS.exists) {
+          List<String> newMembers = List.from(turmaDS.data()["members"]);
+          newMembers.add(userID);
+          tx.update(userRef, {"turmaID": code});
+          tx.update(turmaRef, {"members": newMembers});
+        } else
+          throw (DESCRIPTION_ENTER_TURMA_ERROR);
+      } catch (e) {
+        return throw (DESCRIPTION_ENTER_TURMA_ERROR);
+      }
     });
   }
 
