@@ -162,19 +162,23 @@ class FirestoreProvider {
   }
 
   Future<List<Conto>> getContoPublicados(String turmaID) async {
-    List<String> contoIDs = await _firestore
-        .collection("turmas")
-        .doc(turmaID)
-        .get()
-        .then((value) => List.from(value.data()['contos_publicados']));
-    List<Conto> contos = [];
-    for (String contoID in contoIDs) {
-      contos.add(Conto.fromSnapshot(await _firestore
-          .collection("contos")
-          .doc(contoID)
-          .get()));
+    try {
+      List<String> contoIDs = await _firestore
+          .collection("turmas")
+          .doc(turmaID)
+          .get()
+          .then((value) => List.from(value.data()['contos_publicados']));
+      List<Conto> contos = [];
+      for (String contoID in contoIDs) {
+        contos.add(Conto.fromSnapshot(await _firestore
+            .collection("contos")
+            .doc(contoID)
+            .get()));
+      }
+      return contos;
+    } catch (e) {
+      return e;
     }
-    return contos;
   }
 
   saveConto(String contoID, String data) {

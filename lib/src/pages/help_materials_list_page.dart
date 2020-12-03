@@ -23,12 +23,16 @@ class HelpMaterialListPage extends StatelessWidget {
       body: StreamBuilder<QuerySnapshot>(
         stream: bloc.getHelpMaterial(turmaID),
         builder: (context, snapshot) {
+          if (snapshot.hasError)
+            return Center(
+              child: Text(DESCRIPTION_NO_MATERIALS_IN_CLASS),
+            );
           if (!snapshot.hasData) return LinearProgressIndicator();
           if (snapshot.data.docs.length > 0)
             return _buildList(context, snapshot.data.docs);
           else
             return Center(
-              child: Text(DESCRIPTION_NO_CONTOS_IN_CLASS),
+              child: Text(DESCRIPTION_NO_MATERIALS_IN_CLASS),
             );
         },
       ),
