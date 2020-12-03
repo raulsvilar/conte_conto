@@ -146,8 +146,10 @@ class FirestoreProvider {
         DocumentSnapshot ds = await tx.get(turmaRef);
         if (ds.exists) {
           List<String> contoIDs = List.from(ds.data()["contos_publicados"]);
-          contoIDs.add(contoID);
-          tx.update(turmaRef, {"contos_publicados": contoIDs});
+          if (!contoIDs.contains(contoID)) {
+            contoIDs.add(contoID);
+            tx.update(turmaRef, {"contos_publicados": contoIDs});
+          }
         } else
           throw (ERROR_DESCRIPTION_ENTER_CONTO);
       } else
