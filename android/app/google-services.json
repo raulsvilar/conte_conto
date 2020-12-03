@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "167581814446",
-    "firebase_url": "https://conte-conto.firebaseio.com",
-    "project_id": "conte-conto",
-    "storage_bucket": "conte-conto.appspot.com"
+    "project_number": "201065158496",
+    "project_id": "conte-conto-6b6e4",
+    "storage_bucket": "conte-conto-6b6e4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:167581814446:android:4870a8634c6f6f9d6ae73f",
+        "mobilesdk_app_id": "1:201065158496:android:bcf29b81c457d53de7b005",
         "android_client_info": {
           "package_name": "dev.raulsvilar.conteconto"
         }
       },
       "oauth_client": [
         {
-          "client_id": "167581814446-j8s62e71o6srpp6htequkv34eu2bae03.apps.googleusercontent.com",
+          "client_id": "201065158496-ob7n82v7tmm3b7od15gff2cgu0dc17mt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDBV5r1Kj_mvvYFUM8_mTMwqKhbAQqKEMs"
+          "current_key": "AIzaSyCFfJ29vz-F9obeONS3MdL2LBkwEbrQbCQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "167581814446-j8s62e71o6srpp6htequkv34eu2bae03.apps.googleusercontent.com",
+              "client_id": "201065158496-ob7n82v7tmm3b7od15gff2cgu0dc17mt.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

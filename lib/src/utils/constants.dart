@@ -71,9 +71,11 @@ const DESCRIPTION_SAVING = "Gravando...";
 const DESCRIPTION_SENDING = "Enviando...";
 const DESCRIPTION_CLASS_CODE = "Código da Turma";
 const DESCRIPTION_NO_CONTOS_IN_CLASS = "Ainda não há contos aqui!";
+const DESCRIPTION_NO_MATERIALS_IN_CLASS = "Ainda não há materiais aqui!";
 const DESCRIPTION_CORRECTIONS = "Correções";
 const DESCRIPTION_EDITOR_CORRECTIONS = "CorrectionEditorPage";
 const DESCRIPTION_APPBAR_TITLE_CONTOS_STUDENT = "Meus Contos";
+const DESCRIPTION_PUBLISHED_CONTOS = "Biblioteca";
 
 /// ###################################################
 /// PAGES

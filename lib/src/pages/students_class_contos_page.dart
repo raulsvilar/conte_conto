@@ -6,8 +6,8 @@ import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class StudentsClassContosPage extends StatelessWidget {
-
-  StudentsClassContosBloc bloc = BlocProvider.getBloc<StudentsClassContosBloc>();
+  final StudentsClassContosBloc bloc =
+      BlocProvider.getBloc<StudentsClassContosBloc>();
 
   Widget buildList(BuildContext context, List<Conto> snapshot) {
     return ListView.builder(
@@ -27,18 +27,23 @@ class StudentsClassContosPage extends StatelessWidget {
   }
 
   onTapConto(List args) {
-    Navigator.of(args[0]).pushNamed(DESCRIPTION_EDITOR_PAGE,
-        arguments: [args[1], true]);
+    Navigator.of(args[0])
+        .pushNamed(DESCRIPTION_EDITOR_PAGE, arguments: [args[1], true]);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(DESCRIPTION_MATERIALS),
+        title: Text(DESCRIPTION_PUBLISHED_CONTOS),
       ),
       body: FutureBuilder(
         future: bloc.contosList(bloc.user.turmaID),
         builder: (context, snapshot) {
+          if (snapshot.hasError)
+            return Center(
+              child: Text(DESCRIPTION_NO_CONTOS_IN_CLASS),
+            );
           if (!snapshot.hasData) return LinearProgressIndicator();
           if (snapshot.data.length > 0)
             return buildList(context, snapshot.data);
