@@ -4,6 +4,7 @@ import 'package:conte_conto/src/blocs/corrections_list_bloc.dart';
 import 'package:conte_conto/src/models/correction.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CorrectionsListPage extends StatelessWidget {
   final String _contoID;
@@ -51,8 +52,11 @@ class CorrectionsListPage extends StatelessWidget {
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final text = "Sem data";
     final record = Correction.fromSnapshot(data);
+    final date = DateTime.fromMillisecondsSinceEpoch(
+        record.datetime.millisecondsSinceEpoch);
+    final DateFormat format = DateFormat('dd/mm/y HH:mm:ss');
     return ListTile(
-      title: Text("${record.datetime ?? text}"),
+      title: Text("${format.format(date) ?? text}"),
       onTap: () => onTapCorrection(context, record.reference.id),
     );
   }
