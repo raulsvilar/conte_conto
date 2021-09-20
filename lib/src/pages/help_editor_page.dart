@@ -4,6 +4,7 @@ import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:zefyr/zefyr.dart';
 
 class HelpEditorPage extends StatefulWidget {
@@ -30,7 +31,16 @@ class HelpEditorPageState extends State<HelpEditorPage> {
     widget.bloc
         .loadDocument(widget.materialID, widget.turmaID)
         .then((document) {
-      _controller = ZefyrController(document);
+      _controller = ZefyrController(document)
+        ..addListener(() {
+          if (widget.readonly) {
+            final _url =
+                _controller.getSelectionStyle().get(NotusAttribute.link)?.value;
+            if (_url != null) {
+              _launchURL(_url);
+            }
+          }
+        });
       widget.bloc.contoLoaded(true);
     });
   }
@@ -45,8 +55,13 @@ class HelpEditorPageState extends State<HelpEditorPage> {
               IconButton(
                 icon: Icon(Icons.send),
                 onPressed: () {
-                  widget.bloc.saveDocument(
-                      widget.turmaID, widget.name, _controller.document);
+                  if (widget.materialID != null) {
+                    widget.bloc.saveDocument(widget.materialID, widget.turmaID,
+                        _controller.document);
+                  } else {
+                    widget.bloc.addDocument(
+                        widget.turmaID, widget.name, _controller.document);
+                  }
                   Fluttertoast.showToast(
                       msg: DESCRIPTION_SENDING, toastLength: Toast.LENGTH_LONG);
                   Navigator.of(context).pop();
@@ -65,7 +80,11 @@ class HelpEditorPageState extends State<HelpEditorPage> {
                       focusNode: _focusNode),
                 );
               } else
-              return Center(child: CircularProgressIndicator());
+                return Center(child: CircularProgressIndicator());
             }));
   }
+
+  void _launchURL(String _url) async => await canLaunch(_url)
+      ? await launch(_url)
+      : throw 'Could not launch $_url';
 }

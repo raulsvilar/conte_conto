@@ -6,10 +6,10 @@ import 'package:conte_conto/src/resources/firestore_provider.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:path/path.dart' as dart_path;
 import 'package:quill_delta/quill_delta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zefyr/zefyr.dart';
-import 'package:path/path.dart' as dart_path;
 
 class EditorBloc extends BlocBase {
   final _firestore = GetIt.I.get<FirestoreProvider>();
@@ -55,7 +55,7 @@ class EditorBloc extends BlocBase {
   void saveDocument(contoID, NotusDocument document, Function onSaved,
       Function onError, canCreate) async {
     try {
-      List<String> images = List<String>();
+      List<String> images = [];
       for (LineNode node in document.root.children) {
         if (node.hasEmbed) {
           EmbedNode embedNode = node.children.single;
@@ -123,7 +123,7 @@ class EditorBloc extends BlocBase {
     return await _firestore.saveContoCorrection(contoID, {"content": contents});
   }
 
-  void publishConto(String contoID, Function onCompleted) async{
+  void publishConto(String contoID, Function onCompleted) async {
     await _firestore.publicarContoTurma(contoID);
     onCompleted();
   }

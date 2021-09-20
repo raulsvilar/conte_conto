@@ -9,8 +9,8 @@ import 'package:conte_conto/src/models/user.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
-import 'package:uuid/uuid.dart';
 import 'package:path/path.dart' as path;
+import 'package:uuid/uuid.dart';
 
 class FirestoreProvider {
   final _firestore = FirebaseFirestore.instance;
@@ -170,10 +170,8 @@ class FirestoreProvider {
           .then((value) => List.from(value.data()['contos_publicados']));
       List<Conto> contos = [];
       for (String contoID in contoIDs) {
-        contos.add(Conto.fromSnapshot(await _firestore
-            .collection("contos")
-            .doc(contoID)
-            .get()));
+        contos.add(Conto.fromSnapshot(
+            await _firestore.collection("contos").doc(contoID).get()));
       }
       return contos;
     } catch (e) {
@@ -238,6 +236,15 @@ class FirestoreProvider {
         .doc(turmaID)
         .collection("materials")
         .add(data);
+  }
+
+  saveMaterial(String materialID, String turmaID, String data) {
+    _firestore
+        .collection("turmas")
+        .doc(turmaID)
+        .collection("materials")
+        .doc(materialID)
+        .update({"content": data});
   }
 
   Stream<QuerySnapshot> getMaterials(turmaID) {

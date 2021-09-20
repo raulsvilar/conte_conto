@@ -10,9 +10,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 
 class HelpMaterialListPage extends StatelessWidget {
+  HelpMaterialListPage({String turmaProf})
+      : turmaID = turmaProf ?? GetIt.I.get<User>().turmaID,
+        readOnly = turmaProf == null;
 
-  final String turmaID = GetIt.I.get<User>().turmaID;
-  final HelpMaterialListBloc bloc = BlocProvider.getBloc<HelpMaterialListBloc>();
+  final bool readOnly;
+  final String turmaID;
+  final HelpMaterialListBloc bloc =
+      BlocProvider.getBloc<HelpMaterialListBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +66,6 @@ class HelpMaterialListPage extends StatelessWidget {
 
   void onTapMaterial(BuildContext context, String name, String materialID) {
     Navigator.of(context).pushNamed(DESCRIPTION_HELP_EDITOR_PAGE,
-        arguments: [name, turmaID, materialID, true]);
+        arguments: [name, turmaID, materialID, readOnly]);
   }
-
 }

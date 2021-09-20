@@ -1,5 +1,6 @@
 import 'package:conte_conto/src/blocs/teacher_contos_list_bloc.dart';
 import 'package:conte_conto/src/models/conto.dart';
+import 'package:conte_conto/src/navigation/routes.dart';
 import 'package:conte_conto/src/pages/base/contos_list.dart';
 import 'package:conte_conto/src/pages/base/items.dart';
 import 'package:conte_conto/src/utils/constants.dart';
@@ -38,6 +39,15 @@ class TeacherContosList extends ContosListBase<TeacherContosListBloc> {
         builder: (_) => IconButton(
           icon: Icon(FontAwesomeIcons.qrcode),
           onPressed: () => showQRDialog(context),
+        ),
+      ),
+      Builder(
+        builder: (_) => IconButton(
+          icon: Icon(FontAwesomeIcons.bookOpen),
+          onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => HelpMaterialListPage(
+                    turmaProf: turmaID,
+                  ))),
         ),
       ),
     ];
@@ -107,8 +117,8 @@ class TeacherContosList extends ContosListBase<TeacherContosListBloc> {
               child: Text(DIALOG_BUTTON_SAVE),
               onPressed: () {
                 Navigator.pop(ctx);
-                Navigator.of(context)
-                    .pushNamed(DESCRIPTION_HELP_EDITOR_PAGE, arguments: [bloc.helpName, turmaID, null, false]);
+                Navigator.of(context).pushNamed(DESCRIPTION_HELP_EDITOR_PAGE,
+                    arguments: [bloc.helpName, turmaID, null, false]);
               },
             )
           ],

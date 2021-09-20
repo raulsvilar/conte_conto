@@ -108,7 +108,7 @@ class HomePage extends StatelessWidget {
           listItems.add(
             BottomNavigationBarItem(
               icon: Icon(FontAwesomeIcons.bookReader),
-              label: 'Turma',
+              label: 'Biblioteca',
             ),
           );
           break;

@@ -5,12 +5,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conte_conto/src/blocs/editor_bloc.dart';
 import 'package:conte_conto/src/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as dart_path;
 import 'package:path_provider/path_provider.dart';
 import 'package:zefyr/zefyr.dart';
-import 'package:path/path.dart' as dart_path;
 
 class EditorPage extends StatefulWidget {
   final String _contoID;
@@ -86,7 +86,8 @@ class EditorPageState extends State<EditorPage> {
               builder: (_, snapshot) {
                 if (snapshot.hasData && snapshot.data)
                   return publishBtn;
-                else return Container();
+                else
+                  return Container();
               },
             ),
           StreamBuilder(
